@@ -1,0 +1,180 @@
+<?php
+namespace {{ namespace }};
+
+use Illuminate\Http\Request;
+use App\Helpers\AdminHelper;
+use App\Http\Controllers\AdminMainController;
+use App\Http\Traits\CrudTraits;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+
+class {{ class }} extends AdminMainController{
+    use CrudTraits;
+
+    function __construct(ThisModeName $model,ThisModeNamePhoto $modelPhoto){
+        parent::__construct();
+        $this->controllerName = "controllerName";
+        $this->PrefixRole = 'PrefixRole';
+        $this->selMenu = "selMenu.";
+        $this->PrefixCatRoute = "";
+        $this->PageTitle =  __('admin/menu.PageTitle');
+        $this->PrefixRoute = $this->selMenu.$this->controllerName ;
+        $this->model = $model ;
+        $this->modelPhoto = $modelPhoto ;
+        $this->modelPhotoColumn = 'modelPhotoColumn' ;
+        $this->UploadDirIs = 'UploadDirIs' ;
+
+        $sendArr = [
+            'TitlePage' =>  $this->PageTitle ,
+            'PrefixRoute'=>  $this->PrefixRoute,
+            'PrefixRole'=> $this->PrefixRole ,
+            'AddConfig'=> true ,
+            'configArr'=> ["filterid"=>0,"morePhotoFilterid"=>1],
+            'AddLang'=> true ,
+        ];
+        self::loadConstructData($sendArr);
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| # ClearCash
+    public function ClearCash(){
+        Cache::forget('ClearCashName');
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     index
+    public function index(){
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "List";
+        $pageData['Trashed'] = ThisModeName::onlyTrashed()->count();
+
+        $Rows = self::getSelectQuery(ThisModeName::newQuery());
+        return view('admin.',compact('pageData','Rows'));
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     SoftDeletes
+    public function SoftDeletes(){
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "deleteList";
+        $Rows = self::getSelectQuery(ThisModeName::onlyTrashed());
+        return view('admin.',compact('pageData','Rows'));
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     create
+    public function create(){
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "Add";
+        $LangAdd = self::getAddLangForAdd();
+        $FormsData = ThisModeName::findOrNew(0);
+        return view('admin.',compact('pageData','FormsData','LangAdd'));
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     edit
+    public function edit($id){
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "Edit";
+
+        $FormsData = ThisModeName::where('id','=',$id)->firstOrFail();
+        $LangAdd = self::getAddLangForEdit($FormsData);
+        return view('admin.project.form',compact('pageData','FormsData','LangAdd'));
+    }
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     storeUpdate
+    public function storeUpdate(ThisModeNameRequest $request, $id=0){
+
+        try{
+            DB::transaction(function () use ($request,$id){
+
+                $saveData =  ThisModeName::findOrNew($id);
+                $saveData->is_active = intval((bool) $request->input( 'is_active'));
+                $saveData->save();
+
+
+                self::SaveAndUpdateDefPhoto($saveData,$request,$this->UploadDirIs,'slug');
+                $addLang = json_decode($request->add_lang);
+
+                foreach ( $addLang as $key=>$lang) {
+                    $saveTranslation = ThisModeNameTranslation::where('xxx_id',$saveData->id)->where('locale',$key)->firstOrNew();
+                    $saveTranslation->xxx_id = $saveData->id;
+                    $saveTranslation = self::saveTranslationMain($saveTranslation,$key,$request);
+                    $saveTranslation->save();
+                }
+
+            });
+
+        }catch (\Exception $exception){
+            return back()->with('data_not_save',"");
+        }
+        self::ClearCash();
+        return  self::redirectWhere($request,$id,$this->PrefixRoute.'.index');
+
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     DeleteLang
+    public function DeleteLang($id){
+        $deleteRow = ThisModeNameTranslation::where('id',$id)->firstOrFail();
+        $countLang = ThisModeNameTranslation::where('xxx_id',$deleteRow->xxx_id)->count();
+        if($countLang > 1){
+            $deleteRow->delete();
+        }else{
+            abort(404);
+        }
+        self::ClearCash();
+        return redirect(route($this->PrefixRoute.'.edit',$deleteRow->xxx_id))->with('confirmDelete',"");
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     ForceDeletes
+    public function destroyException($id){
+        $deleteRow =  ThisModeName::where('id',$id)
+            ->withCount('del_units')
+            ->firstOrFail();
+
+        if($deleteRow->del_units_count == 0 ){
+            try{
+                DB::transaction(function () use  ($deleteRow,$id){
+                    $delMorePhoto = ThisModeNamePhoto::where('xxx_id',"=",$id)->get();
+
+                    if(count($delMorePhoto) > 0){
+                        foreach ($delMorePhoto as $del_photo ){
+                            $del_photo = AdminHelper::DeleteAllPhotos($del_photo);
+                        }
+                    }
+                    $deleteRow = AdminHelper::DeleteAllPhotos($deleteRow);
+                    $deleteRow->forceDelete();
+                });
+            }catch (\Exception $exception){
+                return back()->with(['confirmException'=>'','fromModel'=>'Project','deleteRow'=>$deleteRow]);
+            }
+        }else{
+            return back()->with(['confirmException'=>'','fromModel'=>'Project','deleteRow'=>$deleteRow]);
+        }
+
+        self::ClearCash();
+        return back()->with('confirmDelete',"");
+    }
+
+}
+
+Route::get('/controllerName/',[{{ class }}::class,'index'])->name('controllerName.index');
+Route::get('/controllerName/create',[{{ class }}::class,'create'])->name('controllerName.create');
+Route::get('/controllerName/create/ar',[{{ class }}::class,'create'])->name('controllerName.create_ar');
+Route::get('/controllerName/create/en',[{{ class }}::class,'create'])->name('controllerName.create_en');
+Route::get('/controllerName/edit/{id}',[{{ class }}::class,'edit'])->name('controllerName.edit');
+Route::get('/controllerName/editAr/{id}',[{{ class }}::class,'edit'])->name('controllerName.editAr');
+Route::get('/controllerName/editEn/{id}',[{{ class }}::class,'edit'])->name('controllerName.editEn');
+Route::get('/controllerName/emptyPhoto/{id}', [{{ class }}::class,'emptyPhoto'])->name('controllerName.emptyPhoto');
+Route::get('/controllerName/DeleteLang/{id}',[{{ class }}::class,'DeleteLang'])->name('controllerName.DeleteLang');
+Route::post('/controllerName/update/{id}',[{{ class }}::class,'storeUpdate'])->name('controllerName.update');
+Route::get('/controllerName/destroy/{id}',[{{ class }}::class,'destroyException'])->name('controllerName.destroy');
+Route::get('/controllerName/photos/{id}',[{{ class }}::class,'ListMorePhoto'])->name('controllerName.More_Photos');
+Route::post('/controllerName/saveSort', [{{ class }}::class,'sortPhotoSave'])->name('controllerName.sortPhotoSave');
+Route::post('/controllerName/AddMore',[{{ class }}::class,'AddMorePhotos'])->name('controllerName.More_PhotosAdd');
+Route::get('/controllerName/PhotoDel/{id}',[{{ class }}::class,'More_PhotosDestroy'])->name('controllerName.More_PhotosDestroy');
+Route::get('/controllerName/config', [{{ class }}::class,'config'])->name('controllerName.config');

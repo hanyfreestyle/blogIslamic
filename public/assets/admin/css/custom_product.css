@@ -1,0 +1,113 @@
+.productForm{
+
+
+}
+
+.productForm .mainForm{
+
+}
+
+.productForm .card-body{
+    /*padding-top: 5px!important;*/
+
+}
+
+.productForm .mainForm .def_form_label{
+    font-size: 13px!important;
+}
+
+.productForm  .fileUploadCurrent img{
+    max-width: 100%!important;
+    margin-top: 5px;
+
+}
+
+.fileUploadCurrent_label{
+    display: none;
+
+}
+
+
+.list_variant{
+    display: block;
+    width: 100%;
+    padding: 0!important;
+    margin-bottom: 0!important;
+}
+.list_variant li{
+    margin-bottom: 8px!important;
+
+}
+
+.variants_error li{
+    font-size: 14px;
+    color: red;
+}
+
+.child_product_name{
+    padding-right: 10px;
+    padding-left: 0!important;
+}
+.child_product_name li{
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.child_product_name span{
+    float: left;
+    color: red;
+    font-weight: bold;
+
+}
+
+
+
+.invoice_info h2{
+    font-size: 17px;
+    font-weight: bold;
+    border-bottom: 2px solid rgba(0,0,0,.1);
+    padding-bottom: 5px;
+    color: red;
+}
+
+.reject_mass h5{
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding-bottom: 5px;
+}
+
+.invoice_info .invoice-col {
+
+    margin-bottom: 20px;
+}
+.invoice_info .invoice-col p{
+    margin-bottom: 3px;
+}
+
+.reject_mass {
+}
+
+
+.reject_mass p {
+    margin-bottom: 3px;
+}
+.reject_mass p span {
+    font-size: 13px;
+    color: red;
+
+}
+
+.log_info{
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.log_info:last-child{
+    border-bottom: 0!important;
+    padding-bottom: 5px;
+}
+.log_ref{
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+}

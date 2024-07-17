@@ -1,0 +1,37 @@
+.social-button {
+    width: 2rem;
+    height: 2rem;
+    place-content: center;
+    border-radius: 50% !important;
+    display: grid !important;
+    background-color: hsl(var(--primary-50));
+}
+.social-button i {font-size: 14px;}
+.social-button:hover {color: #ffffff;}
+
+.facebook_button{color: #3c599f;}
+.facebook_button:hover{background: #3c599f;}
+
+.twitter_button{color: #000;}
+.twitter_button:hover{background: #000;}
+
+.linkedin_button{color: #0085ae;}
+.linkedin_button:hover{background: #0085ae;}
+
+.whatsapp_button{color: #4fce5d;}
+.whatsapp_button i{font-size: 18px}
+.whatsapp_button:hover{background: #4fce5d;}
+
+
+.social_favorite{
+    width: 2rem;
+    height: 2rem;
+    place-content: center;
+    border-radius: 50% !important;
+    display: grid !important;
+    background-color: hsl(var(--primary-50));
+    border: none!important;
+}
+.social_favorite i {font-size: 14px;}
+.social_favorite:hover {color: #ffffff; background: red }
+.social_favorite_active{color: #ffffff; background: red }

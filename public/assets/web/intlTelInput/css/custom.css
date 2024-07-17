@@ -1,0 +1,26 @@
+.containerClass{ font-family: Tahoma!important; font-size: 14px;}
+.iti__selected-flag {height:50px!important; padding-right: 15px; padding-left: 15px}
+.iti--allow-dropdown{ width:100%;}
+.iti--allow-dropdown input{font-size:20px; letter-spacing:2px; height:50px;}
+.fixed_action_btn_3{z-index:3!important}
+.iti__country-list{z-index:2!important}
+
+.MobilePhone .form-control.is-invalid{background-image: none}
+/*@media (min-width: 900px) {.iti__country-list{white-space:nowrap;max-height:300px!important;width:320px!important}}*/
+.iti__flag {
+    height: 15px;
+    box-shadow: 0px 0px 1px 0px #888;
+    background-image: url("../img/flags.webp?1");
+    background-repeat: no-repeat;
+    background-color: #dbdbdb;
+    background-position: 20px 0;
+}
+@media (min-resolution: 2x) {
+    .iti__flag {
+        background-image: url("../img/flags@2x.webp?1");
+    }
+}
+
+.iti__flag.iti__np {
+    background-color: transparent;
+}

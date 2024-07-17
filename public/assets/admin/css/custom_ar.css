@@ -1,0 +1,47 @@
+body{font-family: 'Tajawal', sans-serif!important;}
+.breadcrumb-item + .breadcrumb-item::before {
+    float: right!important;
+    padding-left: .5rem!important;
+    padding-right:.5rem!important;
+    color: #6c757d;
+
+}
+.alert-dismissible{padding-right: 1rem!important;padding-left:1rem!important; font-size: .9rem!important;}
+
+.nav-sidebar .menu-open > .nav-link svg.right,
+.nav-sidebar .menu-open > .nav-link i.right,
+.nav-sidebar .menu-is-opening > .nav-link svg.right,
+.nav-sidebar .menu-is-opening > .nav-link i.right {
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+
+.label_ar{direction:rtl!important;text-align:right}
+.label_en{direction:ltr!important;text-align:left;width:100%}
+
+
+.mainForm .form-control.is_invalid_ar{padding-left:.75rem!important;padding-right:2.25rem!important;background-position:right calc(.375em + .1875rem) center!important}
+.mainForm textarea.form-control.is_invalid_area_en{padding-right:2.25rem;background-position:top calc(0.375em + 0.1875rem) left calc(0.375em + 0.1875rem)!important}
+
+
+
+.select2-container .select2-selection--multiple .select2-selection__choice__remove {
+  float: right;
+  margin-right: -2px;
+  margin-left: 7px!important;
+}
+
+.dir_button{
+    text-align: left!important;
+}
+
+.formFilterBut{
+    float: left!important;
+}
+.formForgetBut form{
+    float: right!important;
+    margin-left: 10px;
+}
+
+

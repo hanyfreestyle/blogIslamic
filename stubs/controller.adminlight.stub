@@ -1,0 +1,51 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Controllers\AdminMainController;
+use App\Http\Traits\CrudTraits;
+use Illuminate\Http\Request;
+
+class {{ class }} extends AdminMainController{
+    use CrudTraits;
+
+      function __construct(ThisModeName $model){
+
+          parent::__construct();
+          $this->controllerName = "controllerName";
+          $this->PrefixRole = 'PrefixRole';
+          $this->selMenu = "selMenu.";
+          $this->PrefixCatRoute = "";
+          $this->PageTitle = __('admin/PageTitle') ;
+          $this->PrefixRoute = $this->selMenu.$this->controllerName ;
+          $this->model = $model ;
+
+          $sendArr = [
+              'TitlePage' =>  $this->PageTitle ,
+              'PrefixRoute'=>  $this->PrefixRoute,
+              'PrefixRole'=> $this->PrefixRole ,
+              'AddConfig'=> true ,
+              'configArr'=> ["filterid"=>0],
+              'restore'=> 0 ,
+              'AddAction'=> 0 ,
+          ];
+          self::loadConstructData($sendArr);
+          $this->middleware('permission:'.$this->PrefixRole.'_XXXXXXX', ['only' => ['index']]);
+
+      }
+
+  #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  #|||||||||||||||||||||||||||||||||||||| #   index
+      public function index(){
+          $pageData = $this->pageData;
+          $pageData['ViewType'] = "List";
+          $rowData = self::getSelectQuery(ThisModeName::where('id','!=',0));
+          return view('admin',compact('pageData','rowData'));
+      }
+
+
+}
+
+Route::get('/config/controllerName', [{{ class }}::class, 'index'])->name('selMenu.controllerName.index');
+Route::get('/config/controllerName/config', [{{ class }}::class, 'config'])->name('selMenu.controllerName.config');
+Route::get('/config/controllerName/{id}', [{{ class }}::class,'destroy'])->name('selMenu.controllerName.destroy');

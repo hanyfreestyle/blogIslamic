@@ -1,0 +1,1 @@
+<div class="row text-center text-lg-start">  <x-admin.file-manager.photo-col-row :photo-url="$photoUrl" :db-photos="$db_photos"/></div>

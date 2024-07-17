@@ -1,0 +1,57 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Foundation\Http\FormRequest;
+use App\Helpers\AdminHelper;
+use Illuminate\Http\Request;
+
+class {{ class }} extends FormRequest{
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    protected function prepareForValidation(){
+        $this->merge([
+            'slug'=> AdminHelper::Url_Slug($this->get('slug')),
+        ]);
+    }
+
+    public function rules(Request $request): array{
+
+        $request->merge(['slug' => AdminHelper::Url_Slug($request->slug)]);
+
+       $id = $this->route('id');
+       $addLang = json_decode($request->add_lang);
+
+        if($id == '0'){
+            $rules = ['slug'=> "required|unique:tableName"];
+        }else{
+            $rules =['slug'=> "required|unique:tableName,slug,$id"];
+            foreach( $addLang as $key=>$lang){
+                $rules[$key.".g_des"] =   'required';
+                $rules[$key.".g_title"] =   'required';
+            }
+        }
+
+        $rules += [
+            'input'=> "required",
+        ];
+
+        foreach( $addLang as $key=>$lang){
+            $rules[$key.".name"] =   'required';
+            $rules[$key.".des"] =   'required';
+        }
+
+        return $rules;
+    }
+
+    public function messages(){
+        return [
+            'slug.regex' => __('admin/alertMass.confirmSlugRegex') ,
+        ];
+    }
+
+}

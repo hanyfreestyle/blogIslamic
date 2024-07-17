@@ -1,0 +1,43 @@
+@page { margin: 15px 35px; }
+.page-break {page-break-after: always;}
+@page {
+    header: page-header;
+    footer: page-footer;
+}
+body { margin: 1px; direction: rtl }
+.w_5{width:4.55%!important}.w_10{width:9.55%!important}.w_15{width:14.55%!important}.w_20{width:19.55%!important}
+.w_25{width:24.55%!important}.w_30{width:29.55%!important}.w_35{width:34.55%!important}.w_40{width:39.55%!important}
+.w_45{width:44.55%!important}.w_50{width:49.55%!important}.w_55{width:54.55%!important}.w_60{width:59.55%!important}
+.w_65{width:64.55%!important}.w_70{width:69.55%!important}.w_75{width:64.55%!important}.w_80{width:79.55%!important}
+.w_85{width:54.55%!important}.w_90{width:89.55%!important}.w_95{width:94.55%!important}.w_100{width:99.55%!important}
+.mb_5{margin-bottom: 10px;}
+
+.Rubik{
+    font-size: 37px;
+    font-family: 'Rubik', Helvetica, sans-serif;
+    direction: rtl!important;
+    padding-top: 1px!important;
+    color: red;
+}
+.Tajawal{
+    font-size: 37px;
+    font-family: 'Tajawal', Helvetica, sans-serif;
+    direction: rtl!important;
+    padding-top: 1px!important;
+    color: red;
+}
+.Anton{
+    font-size: 37px;
+    font-family: 'Anton', Helvetica, sans-serif;
+    direction: ltr!important;
+    padding-top: 1px!important;
+    color: red;
+}
+.Ubuntu{
+    font-size: 37px;
+    font-family: 'Ubuntu', Helvetica, sans-serif;
+    direction: ltr!important;
+    padding-top: 1px!important;
+    color: red;
+}
+
