@@ -13,6 +13,7 @@ class AdminUserSeeder extends Seeder {
 
     public function run(): void {
 
+
         $name = "هانى درويش";
         $user = User::create([
             'name' => $name,
