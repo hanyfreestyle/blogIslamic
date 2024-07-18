@@ -148,6 +148,15 @@ class BlogCategoryController extends AdminMainController {
         $subMenu->icon = "fas fa-rss";
         $subMenu->save();
 
+        $subMenu = new AdminMenu();
+        $subMenu->parent_id = $mainMenu->id;
+        $subMenu->sel_routs = "BlogPost.index_draft";
+        $subMenu->url = "admin.Blog.BlogPost.index_draft";
+        $subMenu->name = "admin/blogPost.app_menu_blog_draft";
+        $subMenu->roleView = "Blog_view";
+        $subMenu->icon = "fas fa-pencil-ruler";
+        $subMenu->save();
+
 
         if ($Config['TableTags']) {
             $subMenu = new AdminMenu();

@@ -35,6 +35,21 @@ class WordPressController extends AdminMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function TrimBlogName() {
+        $names = BlogTranslation::query()->where('slug_count',1)->take(500)->get();
+//        $names = BlogTranslation::query()->where('id',2360)->get();
+        foreach ($names as $name){
+            $name->name = trim(AdminHelper::Url_Slug($name->name,['delimiter' => ' ']));
+            $name->slug_count = null ;
+            $name->save();
+        }
+        echobr(BlogTranslation::query()->where('slug_count',1)->count());
+    }
+
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function UpdatePostStatus() {
 
         $blog = Blog::query()->get()->groupBy('post_status');

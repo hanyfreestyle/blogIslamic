@@ -18,7 +18,9 @@ use App\Http\Traits\CrudTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class BlogPostController extends AdminMainController {
@@ -85,7 +87,129 @@ class BlogPostController extends AdminMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     PostCreate
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function PostIndex(Request $request) {
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "List";
+        $pageData['SubView'] = false;
+        $pageData['Trashed'] = $this->model::onlyTrashed()->count();
+        $routeName = '.DataTableDraft';
+
+        $session = self::getSessionData($request);
+//       dd( Route::currentRouteName());
+
+        if (Route::currentRouteName() == "admin.Blog.BlogPost.index_draft" or Route::currentRouteName() == "admin.Blog.BlogPost.index_draft") {
+            $is_active = 0;
+            $routeName = '.DataTableDraft';
+            $filterRoute = ".filter_archived";
+        } elseif (Route::currentRouteName() == 'admin.Shop.Product.SoftDelete') {
+            $is_archived = 0;
+            $routeName = '.DataTableSoftDelete';
+            $filterRoute = ".filter";
+            $pageData['ViewType'] = "deleteList";
+        } else {
+            $is_active = 1;
+            $routeName = '.DataTable';
+            $filterRoute = ".filter";
+
+        }
+
+        if ($session == null) {
+            $rowData = $this->model::def()->where('is_active', $is_active)->count();
+        } else {
+//            $rowData = self::ProductFilterQ($this->model::def()->where('is_archived', $is_archived), $session)->count();
+        }
+
+
+//        $data = self::indexQuery(1)->take(1)->first();
+//        dd($data);
+
+        return view('AppPlugin.BlogPost.index')->with([
+            'pageData' => $pageData,
+            'routeName' => $routeName,
+//            'rowData' => $rowData,
+
+            'filterRoute' => $filterRoute,
+        ]);
+
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function indexQuery($isActive) {
+        $data = Blog::query()->select(['blog_post.id', 'user_id','photo_thum_1', 'is_active', 'published_at'])
+            ->where('is_active', $isActive)
+            ->with('tablename')
+            ->with('userName');
+        return $data;
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function BlogDataTable(Request $request) {
+        if ($request->ajax()) {
+            $data = self::indexQuery(1);
+            return self::BlogColumn($data)->make(true);
+        }
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function BlogDataTableDraft(Request $request) {
+        if ($request->ajax()) {
+            $data = self::indexQuery(0);
+            return self::BlogColumn($data)->make(true);
+        }
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function BlogColumn($data, $arr = array()) {
+
+        $viewPhoto = AdminHelper::arrIsset($arr, 'Photo', true);
+
+        return DataTables::eloquent($data)
+            ->addIndexColumn()
+            ->editColumn('tablename.0.name', function ($row) {
+                return $row->tablename[0]->name ?? '';
+            })
+            ->editColumn('tablename.1.name', function ($row) {
+                return $row->tablename[1]->name ?? '';
+            })
+            ->editColumn('userName', function ($row) {
+                return $row->userName->name ?? '';
+            })
+
+            ->addColumn('photo', function ($row) use ($viewPhoto) {
+                if ($viewPhoto) {
+                    return TablePhoto($row);
+                }
+            })
+            ->editColumn('published_at', function ($row) {
+                return [
+                    'display' => date("Y-m-d", strtotime($row->published_at)),
+                    'timestamp' => strtotime($row->published_at)
+                ];
+            })
+            ->addColumn('CatName', function ($row) {
+                return view('datatable.but')->with(['btype' => 'CatName', 'row' => $row])->render();
+            })
+            ->addColumn('Edit', function ($row) {
+                return view('datatable.but')->with(['btype' => 'Edit', 'row' => $row])->render();
+            })
+            ->addColumn('Delete', function ($row) {
+                return view('datatable.but')->with(['btype' => 'Delete', 'row' => $row])->render();
+            })
+            ->rawColumns(["photo", 'Edit', "Delete", 'CatName']);
+    }
+
+
+
+
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostCreate() {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Add";
@@ -137,14 +261,7 @@ class BlogPostController extends AdminMainController {
     }
 
 
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #   PostDataTable
-    public function PostDataTable(Request $request) {
-        if ($request->ajax()) {
-            $data = $this->model::select(['blog_post.id', 'photo_thum_1', 'is_active', 'published_at'])->with('tablename');
-            return self::DataTableAddColumns($data)->make(true);
-        }
-    }
+
 
 
 
