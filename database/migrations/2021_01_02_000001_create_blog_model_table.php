@@ -47,18 +47,20 @@ return new class extends Migration {
         Schema::create('blog_post', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('old_id')->nullable();
-            $table->integer('old_cat')->nullable();
-            $table->text('old_tags')->nullable();
-            $table->integer('update_tags')->nullable();
-
             $table->integer('user_id')->nullable();
-            $table->integer('cat_id')->nullable();
-            $table->string('post_status')->nullable();
+
+
+//            $table->integer('old_cat')->nullable();
+//            $table->text('old_tags')->nullable();
+//            $table->integer('update_tags')->nullable();
+//            $table->integer('cat_id')->nullable();
+//            $table->string('post_status')->nullable();
+
             $table->boolean("is_active")->nullable()->default(true);
             $table->string("photo")->nullable();
             $table->string("photo_thum_1")->nullable();
-            $table->integer('url_type')->nullable()->default(0);
-            $table->string('youtube')->nullable();
+//            $table->integer('url_type')->nullable()->default(0);
+//            $table->string('youtube')->nullable();
 
             $table->date('published_at')->nullable();
             $table->softDeletes();
@@ -125,6 +127,7 @@ return new class extends Migration {
                 $table->string('locale')->index();
                 $table->string('slug')->nullable();
                 $table->string('name')->nullable();
+                $table->integer('trim')->nullable();
                 $table->unique(['tag_id', 'locale']);
                 $table->unique(['locale', 'slug']);
                 $table->foreign('tag_id')->references('id')->on('blog_tags')->onDelete('cascade');

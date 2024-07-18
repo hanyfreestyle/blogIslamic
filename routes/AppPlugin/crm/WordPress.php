@@ -13,10 +13,12 @@ Route::get('/wordpress/ImportPosts',[WordPressController::class,'ImportPosts'])-
 
 Route::get('/wordpress/CountSlug',[WordPressController::class,'CountSlug'])->name('admin.CountSlug');
 Route::get('/wordpress/UpdateErrSlug',[WordPressController::class,'UpdateErrSlug'])->name('admin.UpdateErrSlug');
+Route::get('/wordpress/UpdateErrSlugNew',[WordPressController::class,'UpdateErrSlugNew'])->name('admin.UpdateErrSlugNew');
 Route::get('/wordpress/syncBlogCategory',[WordPressController::class,'syncBlogCategory'])->name('admin.syncBlogCategory');
 Route::get('/wordpress/syncTags',[WordPressController::class,'syncTags'])->name('admin.syncTags');
 
 
 Route::get('/wordpress/CheckId',[WordPressController::class,'CheckId'])->name('admin.CheckId');
 Route::get('/wordpress/CheckUser',[WordPressController::class,'CheckUser'])->name('admin.CheckUser');
-
+Route::get('/wordpress/Test',[WordPressController::class,'Test'])->name('admin.Test');
+Route::get('/wordpress/TrimTags',[WordPressController::class,'TrimTags'])->name('admin.TrimTags');

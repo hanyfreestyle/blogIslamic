@@ -15,7 +15,7 @@
         @endif
 
         @if($webSlug != null)
-{{--            <x-admin.form.action-button url="{{route($webSlug,$row->slug)}}" type="webView" :tip="false"/>--}}
+            <x-admin.form.action-button url="{{route($webSlug,$row->slug)}}" type="webView" :tip="false"/>
         @endif
       </div>
     </div>

@@ -34,6 +34,9 @@
             @elseif($selectType == 'selActive')
                 <option class="status_unactive" value="0" @if ($sendvalue == 0 ) selected @endif>{{__('admin/def.status_unactive')}}</option>
                 <option value="1" @if ($sendvalue == 1) selected @endif>{{__('admin/def.status_active')}}</option>
+            @elseif($selectType == 'postPublish')
+                <option class="status_unactive" value="0" @if ($sendvalue == 0 ) selected @endif>{{__('admin/def.post_publish_0')}}</option>
+                <option value="1" @if ($sendvalue == 1) selected @endif>{{__('admin/def.post_publish_1')}}</option>
             @elseif($selectType == 'file')
                 @foreach($sendArr as $file)
                     <option value="{{$file}}" @if ($file == $sendvalue) selected @endif>{{pathinfo($file, PATHINFO_BASENAME)}}</option>

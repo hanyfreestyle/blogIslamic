@@ -9,11 +9,9 @@ use App\AppPlugin\BlogPost\Models\BlogPhotoTranslation;
 use App\AppPlugin\BlogPost\Models\BlogReview;
 use App\AppPlugin\BlogPost\Models\BlogTags;
 use App\AppPlugin\BlogPost\Models\BlogTranslation;
-
 use App\AppPlugin\BlogPost\Traits\BlogConfigTraits;
 use App\Helpers\AdminHelper;
 use App\Http\Controllers\AdminMainController;
-
 use App\Http\Requests\def\DefPostRequest;
 use App\Http\Traits\CrudPostTraits;
 use App\Http\Traits\CrudTraits;
@@ -86,6 +84,57 @@ class BlogPostController extends AdminMainController {
         Cache::forget('CashBrandMenuList');
     }
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     PostCreate
+    public function PostCreate() {
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "Add";
+
+        $Categories = $this->modelCategory::all();
+        $tags = $this->modelTags::where('id', '!=', 0)->take(100)->get();
+        $selTags = [];
+        $rowData = $this->model::findOrNew(0);
+        $LangAdd = self::getAddLangForAdd();
+        $selCat = [];
+
+        return view('AppPlugin.BlogPost.form')->with([
+            'pageData' => $pageData,
+            'rowData' => $rowData,
+            'Categories' => $Categories,
+            'LangAdd' => $LangAdd,
+            'selCat' => $selCat,
+            'tags' => $tags,
+            'selTags' => $selTags,
+            'selActive' => 1,
+        ]);
+    }
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     PostEdit
+    public function PostEdit($id) {
+        $pageData = $this->pageData;
+        $pageData['ViewType'] = "Edit";
+
+        $rowData = $this->model::where('id', $id)->with('categories')->firstOrFail();
+        $Categories = $this->modelCategory::all();
+        $selCat = $rowData->categories()->pluck('category_id')->toArray();
+        $LangAdd = self::getAddLangForEdit($rowData);
+        $selTags = $rowData->tags()->pluck('tag_id')->toArray();
+        $tags = $this->modelTags::whereIn('id', $selTags)->take(50)->get();
+
+
+        return view('AppPlugin.BlogPost.form')->with([
+            'pageData' => $pageData,
+            'rowData' => $rowData,
+            'Categories' => $Categories,
+            'LangAdd' => $LangAdd,
+            'selCat' => $selCat,
+            'tags' => $tags,
+            'selTags' => $selTags,
+            'selActive' => $rowData->is_active,
+        ]);
+    }
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

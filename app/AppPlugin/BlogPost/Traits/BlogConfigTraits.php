@@ -42,7 +42,7 @@ trait BlogConfigTraits {
             'postShowLang' => true,
             'postEditor' => true,
             'postDes' => true,
-            'postSeo' => true,
+            'postSeo' => false,
             'postSlug' => true,
             'postYoutube' => false,
             'postWebSlug' => null,
@@ -54,7 +54,7 @@ trait BlogConfigTraits {
             'LangPostDefDes' => __('admin/form.text_content'),
 
 
-            'postAddBrand' => true,
+            'postAddBrand' => false,
         ];
         $Config = array_merge($defConfig, $Config);
 

@@ -23,6 +23,40 @@ class WordPressController extends AdminMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function TrimTags() {
+        $tags = BlogTagsTranslation::query()->where('trim',null)->take(5000)->get();
+        foreach ($tags as $tag){
+            $tag->name = AdminHelper::Url_Slug($tag->name,['delimiter' => ' ']);
+            $tag->trim = 1 ;
+            $tag->save();
+        }
+        echobr(BlogTagsTranslation::query()->where('trim',null)->count());
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function UpdatePostStatus() {
+
+        $blog = Blog::query()->get()->groupBy('post_status');
+        $blog = Blog::query()
+            ->where('post_status', 'pending')
+            ->orWhere('post_status', 'draft')
+            ->get();
+//        foreach ($blog as $post){
+//            $post->is_active = 0 ;
+//            $post->timestamps = false;
+//            $post->save();
+//        }
+
+
+//
+//        dd($blog);
+
+
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function index() {
 
         $pageData['ViewType'] = "List";
@@ -308,6 +342,7 @@ class WordPressController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function UpdateErrSlug() {
+        dd('needCheckPls');
         set_time_limit(0);
         $blogs = BlogTranslation::where('slug_count', '>', 1)->take(500)->get();
         foreach ($blogs as $blog) {
@@ -318,6 +353,26 @@ class WordPressController extends AdminMainController {
         }
         echobr(BlogTranslation::where('slug_count', null)->count());
         echobr(BlogTranslation::where('slug_count', '>', 1)->count());
+    }
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function UpdateErrSlugNew() {
+        set_time_limit(0);
+        $blogs = BlogTranslation::where('slug_count', 0)->take(500)->get();
+        foreach ($blogs as $blog) {
+
+//            $blog->slug = AdminHelper::Url_Slug($blog->name." ".$blog->id);
+
+//            $blog->save();
+            $count = BlogTranslation::where('slug', $blog->slug)->count();
+            $blog->slug_count = $count;
+            $blog->save();
+//            echobr($blog->slug);
+        }
+        echobr(BlogTranslation::where('slug_count', null)->count());
+        echobr(BlogTranslation::where('slug_count', 0)->count());
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
