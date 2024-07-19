@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminMainController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 
 class FileManagerController extends AdminMainController {
@@ -23,6 +24,10 @@ class FileManagerController extends AdminMainController {
         $this->PrefixCatRoute = "";
         $this->PageTitle = __('admin/fileManager.app_menu');
         $this->PrefixRoute = $this->selMenu . $this->controllerName;
+
+        $this->defDir = "wp-content/uploads/";
+        View::share('defDir', $this->defDir);
+
 
 
         $sendArr = [
@@ -42,7 +47,6 @@ class FileManagerController extends AdminMainController {
         $this->middleware('permission:' . $this->PrefixRole . '_view', ['only' => ['index']]);
         $this->middleware('permission:' . $this->PrefixRole . '_add', ['only' => []]);
         $this->middleware('permission:' . $this->PrefixRole . '_edit', ['only' => ['listFolder','updateFolder','updatePhoto']]);
-//        $this->middleware('permission:' . $this->PrefixRole . '_delete', ['only' => ['destroy', 'destroyException']]);
 
     }
 
@@ -67,7 +71,7 @@ class FileManagerController extends AdminMainController {
             $cardTitle = __('admin/fileManager.menu_delete_photo');
             $db_directories = [];
         }
-        $directories = FileBrowserController::expandDirectoriesMatrix(public_path('media'), $level = 0);
+        $directories = FileBrowserController::expandDirectoriesMatrix(public_path($this->defDir), $level = 0);
 
         return view("AppPlugin.FileManager.fileManager_index")->with(
             [
@@ -102,7 +106,7 @@ class FileManagerController extends AdminMainController {
         $db_directories = FileManager::where('type', 'folder')->pluck('path')->toarray();
 
         $FileBrowser = new FileBrowserController();
-        $directories = $FileBrowser->expandDirectoriesMatrix(public_path('media'), $level = 0);
+        $directories = $FileBrowser->expandDirectoriesMatrix(public_path($this->defDir), $level = 0);
         return view("AppPlugin.FileManager.fileManager_list_folder", compact('directories', 'pageData', 'db_directories'));
     }
 
@@ -153,7 +157,7 @@ class FileManagerController extends AdminMainController {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "List";
         $FileBrowser = new FileBrowserController();
-        $directories = $FileBrowser->expandDirectoriesMatrix(public_path('media'), $level = 0);
+        $directories = $FileBrowser->expandDirectoriesMatrix(public_path($this->defDir), $level = 0);
         $directories = collect($directories);
 
         return view("AppPlugin.FileManager.fileManager_add_photos")->with(
@@ -171,7 +175,7 @@ class FileManagerController extends AdminMainController {
         $path = $request->input('path');
         $newFolder = $request->input('new_folder');
         if($path == null){
-            $UploadDirIs = public_path('media/'.$newFolder);
+            $UploadDirIs = public_path($this->defDir.$newFolder);
         }else{
             if($newFolder == null){
                 $UploadDirIs = $path;

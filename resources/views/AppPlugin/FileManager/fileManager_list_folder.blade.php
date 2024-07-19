@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('StyleFile')
-  {!! (new \App\Helpers\MinifyTools)->setWebAssets('assets/admin/')->MinifyCss('file-manager/style.css','Seo',true) !!}
+  {!! (new \App\Helpers\MinifyTools)->setWebAssets('assets/admin-plugins/')->MinifyCss('file-manager/style.css','Seo',true) !!}
 @endsection
 @section('content')
   <x-admin.hmtl.breadcrumb :pageData="$pageData"/>

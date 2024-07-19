@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -141,9 +142,9 @@ class BlogPostController extends AdminMainController {
             ->with('tablename')
             ->with('userName');
 
-        $teamleader =  Auth::user()->can('Blog_teamleader');
-        if(!$teamleader){
-            $data->where('user_id',Auth::user()->id);
+        $teamleader = Auth::user()->can('Blog_teamleader');
+        if (!$teamleader) {
+            $data->where('user_id', Auth::user()->id);
         }
         return $data;
     }
@@ -272,13 +273,18 @@ class BlogPostController extends AdminMainController {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Edit";
 
-        $rowData = $this->model::where('id', $id)->with('categories')->firstOrFail();
+        $teamleader = Auth::user()->can('Blog_teamleader');
+        if (!$teamleader) {
+            $rowData = $this->model::where('id', $id)->where('user_id', Auth::user()->id)->with('categories')->firstOrFail();
+        } else {
+            $rowData = $this->model::where('id', $id)->with('categories')->firstOrFail();
+        }
+
         $Categories = $this->modelCategory::all();
         $selCat = $rowData->categories()->pluck('category_id')->toArray();
         $LangAdd = self::getAddLangForEdit($rowData);
         $selTags = $rowData->tags()->pluck('tag_id')->toArray();
         $tags = $this->modelTags::whereIn('id', $selTags)->take(50)->get();
-
 
         return view('AppPlugin.BlogPost.form')->with([
             'pageData' => $pageData,
@@ -295,7 +301,52 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostStoreUpdate(DefPostRequest $request, $id = 0) {
-        return self::TraitsPostStoreUpdate($request, $id);
+
+        $saveData = $this->model::findOrNew($id);
+        try {
+            DB::transaction(function () use ($request, $saveData) {
+
+                $categories = $request->input('categories');
+                $tags = $request->input('tag_id');
+                $user_id = Auth::user()->id;
+
+                $saveData->is_active = $request->input('is_active');
+                $saveData->published_at = SaveDateFormat($request, 'published_at');
+                if ($request->input('form_type') == 'Add' and $this->TableReview) {
+                    $saveData->user_id = $user_id;
+                }
+                $saveData->save();
+
+                if ($request->input('form_type') == 'Edit' and $this->TableReview) {
+                    $blogReview = $this->modelReview;
+                    $blogReview->user_id = $user_id;
+                    $blogReview->blog_id = $saveData->id;
+                    $blogReview->updated_at = now();
+                    $blogReview->save();
+                }
+                $saveData->categories()->sync($categories);
+                $saveData->tags()->sync($tags);
+
+                self::SaveAndUpdateDefPhoto($saveData, $request, $this->UploadDirIs, 'ar.name');
+
+                $addLang = json_decode($request->add_lang);
+                foreach ($addLang as $key => $lang) {
+                    $CatId = $this->DbPostCatId;
+                    $saveTranslation = $this->translation->where($CatId, $saveData->id)->where('locale', $key)->firstOrNew();
+                    $saveTranslation->$CatId = $saveData->id;
+                    $saveTranslation->youtube_title = $request->input($key . '.youtube_title');
+                    $saveTranslation->slug = AdminHelper::Url_Slug($request->input($key . '.slug'));
+                    $saveTranslation = self::saveTranslationMain($saveTranslation, $key, $request);
+                    $saveTranslation->save();
+                }
+            });
+
+        } catch (\Exception $exception) {
+            return back()->with('data_not_save', "");
+        }
+        self::ClearCash();
+        return self::redirectWhere($request, $id, $this->PrefixRoute . '.index');
+
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

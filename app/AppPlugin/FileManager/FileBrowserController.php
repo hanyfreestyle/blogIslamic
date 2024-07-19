@@ -16,6 +16,8 @@ class FileBrowserController extends Controller {
         $this->PrefixRole = 'FileManager';
         View::share('PrefixRole', $this->PrefixRole);
 
+        $this->defDir = "wp-content/uploads/";
+        View::share('defDir', $this->defDir);
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -23,7 +25,7 @@ class FileBrowserController extends Controller {
     public function FileBrowser() {
         $view_path = public_path(self::defDir());
         $photoUrl = self::getPhotoList($view_path);
-        $directories = self::expandDirectoriesMatrix(public_path('media'), $level = 0);
+        $directories = self::expandDirectoriesMatrix(public_path($this->defDir), $level = 0);
         $db_directories = FileManager::where('type', 'folder')->pluck('path')->toarray();
         $db_photos = FileManager::where('type', 'photo')->pluck('path')->toarray();
         return view("AppPlugin.FileManager.browser_index")->with(
@@ -81,7 +83,8 @@ class FileBrowserController extends Controller {
     static function defDir() {
         $year = date('Y', time());
         $month = date('m', time());
-        $dir = 'media/' . $year . '/' . $month;
+//        $dir = 'media/' . $year . '/' . $month;
+        $dir = 'wp-content/uploads/' . $year . '/' . $month;
         $view_path = public_path($dir);
         if (!File::isDirectory($view_path)) {
             File::makeDirectory($view_path, 0777, true, true);
