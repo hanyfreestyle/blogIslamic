@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\AppPlugin\BlogPost\Models\Blog;
+use App\AppPlugin\BlogPost\Models\BlogCategory;
+use App\AppPlugin\Orders\Models\Order;
+use App\AppPlugin\Product\Models\Brand;
+use App\AppPlugin\Product\Models\Category;
+use App\AppPlugin\Product\Models\Product;
 use App\Http\Controllers\AdminMainController;
 use App\Helpers\PDF;
 use Illuminate\Support\Facades\Session;
@@ -22,9 +28,18 @@ public function ChangeCollapse(){
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function Dashboard() {
+        $blog_count = Blog::query();
+        $blog_cat_count = BlogCategory::query()->count();
+        $card = [];
+
+        $card['blog_count'] = $blog_count->count();
+        $card['blog_count_active'] = $blog_count->where('is_active',1)->count();
+        $card['blog_count_unactive'] = Blog::query()->where('is_active',0)->count();
+        $card['blog_cat_count'] = $blog_cat_count;
+
+
         return view('admin.dashbord')->with([
-
-
+            'card' => $card,
         ]);
     }
 

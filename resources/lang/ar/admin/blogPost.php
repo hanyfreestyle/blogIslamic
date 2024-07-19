@@ -11,8 +11,12 @@ return
 	'blog_date' => 'تاريخ النشر',
 	'blog_text_name' => 'عنوان المقال',
 	'blog_text_tags' => 'الكلمات البحثية',
+	'blog_user' => 'الناشر',
 	'cat_del_related_blog' => 'مقال مرتبط بالمحتوى',
 	'cat_del_related_cat' => 'مجموعات مرتبطة بالمحتوى',
 	'cat_text_name' => 'اسم المجموعة',
-	'blog_user' => 'الناشر',
+	'dash_count_active' => 'المقالات المنشورة',
+	'dash_count_unactive' => 'المسودات',
+	'dash_count_week' => 'اجمالى المقالات الجديدة لاخر اسبوع',
+	'dash_count_month' => 'اجمالى المقالات الجديدة لاخر شهر',
 ];
