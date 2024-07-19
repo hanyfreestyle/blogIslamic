@@ -8,6 +8,10 @@
     <x-admin.hmtl.breadcrumb :pageData="$pageData"/>
 
     <x-admin.hmtl.section>
+        <x-app-plugin.blog.filter-form :row="$rowData" form-name="{{$formName}}" :def-route="$filterRoute"/>
+    </x-admin.hmtl.section>
+
+    <x-admin.hmtl.section>
         <x-admin.card.def :page-data="$pageData">
             <table {!! Table_Style($viewDataTable,$yajraTable)  !!} >
                 <thead>

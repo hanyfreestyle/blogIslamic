@@ -16,6 +16,8 @@ use App\Http\Requests\def\DefPostRequest;
 use App\Http\Traits\CrudPostTraits;
 use App\Http\Traits\CrudTraits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
@@ -93,43 +95,40 @@ class BlogPostController extends AdminMainController {
         $pageData['ViewType'] = "List";
         $pageData['SubView'] = false;
         $pageData['Trashed'] = $this->model::onlyTrashed()->count();
-        $routeName = '.DataTableDraft';
 
-        $session = self::getSessionData($request);
-//       dd( Route::currentRouteName());
-
-        if (Route::currentRouteName() == "admin.Blog.BlogPost.index_draft" or Route::currentRouteName() == "admin.Blog.BlogPost.index_draft") {
-            $is_active = 0;
-            $routeName = '.DataTableDraft';
-            $filterRoute = ".filter_archived";
-        } elseif (Route::currentRouteName() == 'admin.Shop.Product.SoftDelete') {
+        if (Route::currentRouteName() == 'admin.Shop.Product.SoftDelete') {
             $is_archived = 0;
             $routeName = '.DataTableSoftDelete';
             $filterRoute = ".filter";
             $pageData['ViewType'] = "deleteList";
         } else {
-            $is_active = 1;
-            $routeName = '.DataTable';
-            $filterRoute = ".filter";
-
+            if (Route::currentRouteName() == "admin.Blog.BlogPost.index_draft" or Route::currentRouteName() == "admin.Blog.BlogPost.filter_draft") {
+                $is_active = 0;
+                $routeName = '.DataTableDraft';
+                $filterRoute = ".filter_draft";
+                $this->formName = 'BlogIndexDraft';
+            } else {
+                $is_active = 1;
+                $routeName = '.DataTable';
+                $filterRoute = ".filter";
+                $this->formName = 'BlogIndex';
+            }
         }
+
+        $session = self::getSessionData($request);
 
         if ($session == null) {
-            $rowData = $this->model::def()->where('is_active', $is_active)->count();
+            $rowData = self::indexQuery($is_active);
         } else {
-//            $rowData = self::ProductFilterQ($this->model::def()->where('is_archived', $is_archived), $session)->count();
+            $rowData = self::BlogFilterQ(self::indexQuery($is_active), $session);
         }
-
-
-//        $data = self::indexQuery(1)->take(1)->first();
-//        dd($data);
 
         return view('AppPlugin.BlogPost.index')->with([
             'pageData' => $pageData,
             'routeName' => $routeName,
-//            'rowData' => $rowData,
-
+            'rowData' => $rowData,
             'filterRoute' => $filterRoute,
+            'formName' => $this->formName,
         ]);
 
     }
@@ -137,18 +136,25 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function indexQuery($isActive) {
-        $data = Blog::query()->select(['blog_post.id', 'user_id','photo_thum_1', 'is_active', 'published_at'])
+        $data = Blog::query()->select(['blog_post.id', 'user_id', 'photo_thum_1', 'is_active', 'published_at'])
             ->where('is_active', $isActive)
             ->with('tablename')
             ->with('userName');
+
+        $teamleader =  Auth::user()->can('Blog_teamleader');
+        if(!$teamleader){
+            $data->where('user_id',Auth::user()->id);
+        }
         return $data;
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function BlogDataTable(Request $request) {
+        $this->formName = 'BlogIndex';
         if ($request->ajax()) {
-            $data = self::indexQuery(1);
+            $session = self::getSessionData($request);
+            $data = self::BlogFilterQ(self::indexQuery(1), $session);
             return self::BlogColumn($data)->make(true);
         }
     }
@@ -156,10 +162,43 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function BlogDataTableDraft(Request $request) {
+        $this->formName = 'BlogIndexDraft';
         if ($request->ajax()) {
-            $data = self::indexQuery(0);
+            $session = self::getSessionData($request);
+            $data = self::BlogFilterQ(self::indexQuery(0), $session);
             return self::BlogColumn($data)->make(true);
         }
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    static function BlogFilterQ($query, $session, $order = null) {
+        $query->where('id', '!=', 0);
+        if (isset($session['name']) and $session['name'] != null) {
+            $query->whereTranslationLike('name', '%' . $session['name'] . '%');
+        }
+
+        if (isset($session['cat_id']) and $session['cat_id'] != null) {
+            $id = $session['cat_id'];
+            $query->whereHas('categories', function ($query) use ($id) {
+                $query->where('category_id', $id);
+            });
+        }
+
+        if (isset($session['user_id']) and $session['user_id'] != null) {
+            $users_id = $session['user_id'];
+            $query->wherein('user_id', $users_id);
+        }
+
+        if (isset($session['from_date']) and $session['from_date'] != null) {
+            $query->whereDate('published_at', '>=', Carbon::createFromFormat('Y-m-d', $session['from_date']));
+        }
+
+        if (isset($session['to_date']) and $session['to_date'] != null) {
+            $query->whereDate('published_at', '<=', Carbon::createFromFormat('Y-m-d', $session['to_date']));
+        }
+
+        return $query;
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -179,7 +218,6 @@ class BlogPostController extends AdminMainController {
             ->editColumn('userName', function ($row) {
                 return $row->userName->name ?? '';
             })
-
             ->addColumn('photo', function ($row) use ($viewPhoto) {
                 if ($viewPhoto) {
                     return TablePhoto($row);
@@ -202,11 +240,6 @@ class BlogPostController extends AdminMainController {
             })
             ->rawColumns(["photo", 'Edit', "Delete", 'CatName']);
     }
-
-
-
-
-
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -233,9 +266,8 @@ class BlogPostController extends AdminMainController {
         ]);
     }
 
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     PostEdit
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostEdit($id) {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Edit";
@@ -260,21 +292,14 @@ class BlogPostController extends AdminMainController {
         ]);
     }
 
-
-
-
-
-
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     storeUpdate
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostStoreUpdate(DefPostRequest $request, $id = 0) {
         return self::TraitsPostStoreUpdate($request, $id);
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     ForceDeletes
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostForceDeleteException($id) {
         $deleteRow = $this->model::onlyTrashed()->where('id', $id)->with('more_photos')->firstOrFail();
         if (count($deleteRow->more_photos) > 0) {

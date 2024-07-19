@@ -26,10 +26,12 @@ Route::get('/BlogCategory/emptyIcon/{id}', [BlogCategoryController::class, 'empt
 Route::get('/BlogCategory/CatSort/{id}', [BlogCategoryController::class, 'CategorySort'])->name('Blog.BlogCategory.CatSort');
 Route::post('/BlogCategory/SaveSort', [BlogCategoryController::class, 'CategorySaveSort'])->name('Blog.BlogCategory.SaveSort');
 
-Route::get('/Blog', [BlogPostController::class, 'PostIndex'])->name('Blog.BlogPost.index');
+Route::get('/Blog/', [BlogPostController::class, 'PostIndex'])->name('Blog.BlogPost.index');
+Route::post('/Blog/', [BlogPostController::class, 'PostIndex'])->name('Blog.BlogPost.filter');
 Route::get('/Blog/DataTable', [BlogPostController::class, 'BlogDataTable'])->name('Blog.BlogPost.DataTable');
 
-Route::get('/Blog/draft', [BlogPostController::class, 'PostIndex'])->name('Blog.BlogPost.index_draft');
+Route::get('/Blog/draft/', [BlogPostController::class, 'PostIndex'])->name('Blog.BlogPost.index_draft');
+Route::post('/Blog/draft/', [BlogPostController::class, 'PostIndex'])->name('Blog.BlogPost.filter_draft');
 Route::get('/Blog/draft/DataTable', [BlogPostController::class, 'BlogDataTableDraft'])->name('Blog.BlogPost.DataTableDraft');
 
 Route::get('/Blog/Category/{Categoryid}', [BlogPostController::class, 'PostListCategory'])->name('Blog.BlogPost.ListCategory');

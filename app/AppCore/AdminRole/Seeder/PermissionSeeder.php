@@ -86,6 +86,7 @@ class PermissionSeeder extends Seeder {
                 ['cat_id' => 'Blog', 'name' => 'Blog_delete', 'name_ar' => 'حذف', 'name_en' => 'Delete'],
                 ['cat_id' => 'Blog', 'name' => 'Blog_edit_slug', 'name_ar' => 'تعديل الرابط', 'name_en' => 'Edit Slug'],
                 ['cat_id' => 'Blog', 'name' => 'Blog_restore', 'name_ar' => 'استعادة المحذوف', 'name_en' => 'Restore'],
+                ['cat_id' => 'Blog', 'name' => 'Blog_teamleader', 'name_ar' => 'مشرف عام', 'name_en' => 'Team Leader'],
             ];
             $data = array_merge($data, $newPer);
         }

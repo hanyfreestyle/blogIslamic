@@ -118,43 +118,21 @@ class AdminMainController extends DefaultMainController {
             ]);
 
             $session = Session::get($this->formName);
-            if($session){
-                if($request->input('country_id')){
-                    if(issetArr($session,'country_id',null) != $request->input('country_id')){
+            if ($session) {
+                if ($request->input('country_id')) {
+                    if (issetArr($session, 'country_id', null) != $request->input('country_id')) {
                         $request['city_id'] = null;
                         $request['area_id'] = null;
                     }
                 }
-                if($request->input('city_id')){
-                    if(issetArr($session,'city_id',null) != $request->input('city_id')){
+                if ($request->input('city_id')) {
+                    if (issetArr($session, 'city_id', null) != $request->input('city_id')) {
                         $request['area_id'] = null;
                     }
                 }
             }
-
-
-//            if($request->input('country_id')){
-//                $session = Session::get($this->formName);
-//                if($session){
-//                    if($session['country_id'] != $request->input('country_id')){
-//                        $request['city_id'] = null;
-//                        $request['area_id'] = null;
-//                    }
-//                }
-//            }
-//
-//            if($request->input('city_id')){
-//                $session = Session::get($this->formName);
-//                if($session){
-//                    if($session['city_id'] != $request->input('city_id')){
-//                        $request['area_id'] = null;
-//                    }
-//                }
-//            }
-
             Session::put($this->formName, $request->all());
             Session::save();
-
         }
 
         $session = Session::get($this->formName);
@@ -528,18 +506,18 @@ class AdminMainController extends DefaultMainController {
         foreach ($addLang as $key => $lang) {
             $rules[$key . ".name"] = 'required';
 
-            if($rulesConfig['des']){
+            if ($rulesConfig['des']) {
                 $rules[$key . ".des"] = 'required';
             }
             if ($id == '0') {
-                if($rulesConfig['slug']){
+                if ($rulesConfig['slug']) {
                     $rules[$key . ".slug"] = "required|unique:$table,slug";
                 }
             } else {
-                if($rulesConfig['slug']){
+                if ($rulesConfig['slug']) {
                     $rules[$key . ".slug"] = "required|unique:$table,slug,$id,$filedName,locale,$key";
                 }
-                if($rulesConfig['seo']){
+                if ($rulesConfig['seo']) {
                     $rules[$key . ".g_des"] = 'required';
                     $rules[$key . ".g_title"] = 'required';
                 }

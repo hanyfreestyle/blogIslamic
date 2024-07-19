@@ -141,7 +141,7 @@ class BlogCategoryController extends AdminMainController {
 
         $subMenu = new AdminMenu();
         $subMenu->parent_id = $mainMenu->id;
-        $subMenu->sel_routs = "BlogPost.index|BlogPost.edit|BlogPost.editEn|BlogPost.editAr";
+        $subMenu->sel_routs = "BlogPost.index|BlogPost.filter|BlogPost.edit|BlogPost.editEn|BlogPost.editAr";
         $subMenu->url = "admin.Blog.BlogPost.index";
         $subMenu->name = "admin/blogPost.app_menu_blog";
         $subMenu->roleView = "Blog_view";
@@ -150,7 +150,7 @@ class BlogCategoryController extends AdminMainController {
 
         $subMenu = new AdminMenu();
         $subMenu->parent_id = $mainMenu->id;
-        $subMenu->sel_routs = "BlogPost.index_draft";
+        $subMenu->sel_routs = "BlogPost.index_draft|BlogPost.filter_draft";
         $subMenu->url = "admin.Blog.BlogPost.index_draft";
         $subMenu->name = "admin/blogPost.app_menu_blog_draft";
         $subMenu->roleView = "Blog_view";
