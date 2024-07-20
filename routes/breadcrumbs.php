@@ -51,6 +51,11 @@ Breadcrumbs::for('AuthorView', function (BreadcrumbTrail $trail,$user) {
     $trail->push($user->name , route('AuthorView',$user->slug));
 });
 
+Breadcrumbs::for('page404', function (BreadcrumbTrail $trail,$meta) {
+    $trail->parent('home');
+    $trail->push($meta->g_title, route('PageReview'));
+});
+
 
 
 

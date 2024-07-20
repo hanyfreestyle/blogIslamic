@@ -2,6 +2,8 @@
 
 return
 [
+	'blog_review' => 'سجل المراجعات',
+	'blog_view' => 'عرض المقال',
 	'category_main' => 'المجموعات الرئيسية',
 	'category_name' => 'اسم المجموعة',
 	'delete_date' => 'تاريخ الحذف',
@@ -31,5 +33,4 @@ return
 	'status_active' => 'فعال',
 	'status_unactive' => 'غير فعال',
 	'status_unactive_but' => 'المحتوى المؤرشف',
-	'blog_review' => 'سجل المراجعات',
 ];

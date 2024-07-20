@@ -2,6 +2,8 @@
 
 return
 [
+	'blog_review' => '',
+	'blog_view' => '',
 	'category_main' => 'Main Category',
 	'category_name' => 'Category Name',
 	'delete_date' => 'Delete Date',
@@ -31,5 +33,4 @@ return
 	'status_active' => 'Active',
 	'status_unactive' => 'UnActive',
 	'status_unactive_but' => 'Archived Data',
-	'blog_review' => '',
 ];

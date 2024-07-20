@@ -1,16 +1,8 @@
 <?php
-
-use App\AppPlugin\Customers\ShoppingCartController;
-use App\AppPlugin\Product\Helpers\FilterBuilder;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\RouteNotFoundController;
-use App\Http\Controllers\web\BlogViewController;
-use App\Http\Controllers\web\BrandViewController;
 use App\Http\Controllers\web\MainPagesViewController;
 use App\Http\Controllers\web\PagesViewController;
-use App\Http\Controllers\web\ProductsCategoriesViewController;
-use App\Http\Controllers\web\ProductsPageController;
-use App\Http\Controllers\web\ProductsViewController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 

@@ -21,6 +21,9 @@ trait BlogConfigTraits {
             'DbTags'=>'blog_tags',
             'DbTagsTrans'=>'blog_tags_translations',
 
+            'TableMorePhotos' => false,
+            'MorePhotosEdit' => false,
+
             'categoryTree' => true,
             'categoryDeep' => 2,
             'categoryPhotoAdd' => true,

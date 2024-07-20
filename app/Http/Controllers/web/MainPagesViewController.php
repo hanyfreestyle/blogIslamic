@@ -198,13 +198,24 @@ class MainPagesViewController extends WebMainController {
 
             $slug = AdminHelper::Url_Slug($slug);
 
-            $blog = Blog::defWeb()
-                ->whereTranslation('slug', $slug)
-                ->with('tags')
-                ->with('userName')
-                ->with('categories')
-                ->with('reviews')
-                ->firstOrFail();
+            if (Auth::user() ){
+                $blog = Blog::query()
+                    ->whereTranslation('slug', $slug)
+                    ->with('tags')
+                    ->with('userName')
+                    ->with('categories')
+                    ->with('reviews')
+                    ->firstOrFail();
+            }else{
+                $blog = Blog::defWeb()
+                    ->whereTranslation('slug', $slug)
+                    ->with('tags')
+                    ->with('userName')
+                    ->with('categories')
+                    ->with('reviews')
+                    ->firstOrFail();
+            }
+
         } catch (\Exception $e) {
             self::abortError404();
         }
