@@ -263,7 +263,7 @@ class BlogPostController extends AdminMainController {
             'selCat' => $selCat,
             'tags' => $tags,
             'selTags' => $selTags,
-            'selActive' => 1,
+            'selActive' => 0,
         ]);
     }
 

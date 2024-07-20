@@ -17,7 +17,7 @@
                 @endcan
             @endif
         @endif
-        
+
         @if($des)
             <x-admin.form.trans-text-area name="des" :key="$key" :row="$row" :label="$defDes" :tdir="$key" add-class="bigTextArea"/>
         @endif
