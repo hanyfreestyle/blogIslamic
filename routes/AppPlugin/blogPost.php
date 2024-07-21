@@ -46,6 +46,7 @@ Route::get('/Blog/editEn/{id}', [BlogPostController::class, 'PostEdit'])->name('
 Route::post('/Blog/update/{id}', [BlogPostController::class, 'PostStoreUpdate'])->name('Blog.BlogPost.update');
 
 Route::get('/Blog/destroy/{id}', [BlogPostController::class, 'destroy'])->name('Blog.BlogPost.destroy');
+Route::get('/Blog/destroyEdit/{id}', [BlogPostController::class, 'destroyEdit'])->name('Blog.BlogPost.destroyEdit');
 Route::get('/Blog/restore/{id}', [BlogPostController::class, 'Restore'])->name('Blog.BlogPost.restore');
 Route::get('/Blog/force/{id}', [BlogPostController::class, 'PostForceDeleteException'])->name('Blog.BlogPost.force');
 Route::get('/Blog/DeleteLang/{id}', [BlogPostController::class, 'DeleteLang'])->name('Blog.BlogPost.DeleteLang');

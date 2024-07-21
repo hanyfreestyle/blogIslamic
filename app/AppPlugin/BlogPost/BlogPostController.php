@@ -350,6 +350,16 @@ class BlogPostController extends AdminMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     destroy
+    public function destroyEdit($id) {
+        $deleteRow = $this->model->where('id', $id)->firstOrFail();
+        $deleteRow->delete();
+        self::ClearCash();
+        return redirect()->route($this->PrefixRoute . '.index')->with('confirmDelete', "");
+    }
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostForceDeleteException($id) {
         $deleteRow = $this->model::onlyTrashed()->where('id', $id)->with('more_photos')->firstOrFail();
