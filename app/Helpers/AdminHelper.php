@@ -19,7 +19,7 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #       detectFlag
     public static function detectFlag($regional) {
         $data = [];
-        if(!empty($regional)) {
+        if (!empty($regional)) {
             $regional = Str::lower($regional);
             $regional = explode("_", $regional);
             $data['flagName'] = $regional[1];
@@ -61,35 +61,35 @@ class AdminHelper {
         $data['AddConfig'] = AdminHelper::arrIsset($sendArr, 'AddConfig', false);
         $data['AddMorePhoto'] = AdminHelper::arrIsset($sendArr, 'AddMorePhoto', false);
 
-        if($data['AddButToCard']) {
+        if ($data['AddButToCard']) {
 
-            if($data['WithSubCat'] == false) {
-                if($data['AddConfig']) {
+            if ($data['WithSubCat'] == false) {
+                if ($data['AddConfig']) {
                     $data['ConfigRoute'] = AdminHelper::arrIsset($sendArr, 'ConfigRoute', route($PrefixRoute . '.config'));
                 }
 
-                if(AdminHelper::arrIsset($sendArr, 'PageListUrl', "") != '#') {
+                if (AdminHelper::arrIsset($sendArr, 'PageListUrl', "") != '#') {
                     $data['PageListUrl'] = AdminHelper::arrIsset($sendArr, 'PageListUrl', route($PrefixRoute . '.index'));
                 }
 
-                if($data['AddAction']) {
+                if ($data['AddAction']) {
                     $data['AddPageUrl'] = AdminHelper::arrIsset($sendArr, 'AddPageUrl', route($PrefixRoute . '.create'));
                 }
 
-                if($data['Restore'] == 1) {
+                if ($data['Restore'] == 1) {
                     $data['RestoreRole'] = AdminHelper::arrIsset($sendArr, 'RestoreRole', $PrefixRole . "_restore");
                     $data['RestoreUrl'] = AdminHelper::arrIsset($sendArr, 'ConfigRoute', route($PrefixRoute . '.SoftDelete'));
                 }
 
             } else {
-                if($data['AddConfig']) {
+                if ($data['AddConfig']) {
                     $data['ConfigRoute'] = AdminHelper::arrIsset($sendArr, 'ConfigRoute', route($PrefixRoute . '.config', intval($data['ModelId'])));
                 }
 
                 $data['PageListUrl'] = AdminHelper::arrIsset($sendArr, 'PageListUrl', route($PrefixRoute . '.index', intval($data['ModelId'])));
                 $data['AddPageUrl'] = AdminHelper::arrIsset($sendArr, 'AddPageUrl', route($PrefixRoute . '.create', intval($data['ModelId'])));
 
-                if($data['Restore'] == 1) {
+                if ($data['Restore'] == 1) {
                     $data['RestoreRole'] = AdminHelper::arrIsset($sendArr, 'RestoreRole', $PrefixRole . "_restore");
                     $data['RestoreUrl'] = AdminHelper::arrIsset($sendArr, 'ConfigRoute', route($PrefixRoute . '.SoftDelete', intval($data['ModelId'])));
                 }
@@ -107,7 +107,7 @@ class AdminHelper {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #     file_newname
     static function file_newname($path, $filename) {
-        if($pos = strrpos($filename, '.')) {
+        if ($pos = strrpos($filename, '.')) {
             $name = substr($filename, 0, $pos);
             $ext = substr($filename, $pos);
         } else {
@@ -130,7 +130,7 @@ class AdminHelper {
     static function hex2rgb($hex, $opacity = ".5") {
         $hex = str_replace("#", "", $hex);
 
-        if(strlen($hex) == 3) {
+        if (strlen($hex) == 3) {
             $r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
             $g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
             $b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
@@ -144,7 +144,7 @@ class AdminHelper {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #     arrIsset
     static function arrIsset($Arr, $Name, $DefVall = "") {
-        if(isset($Arr[$Name])) {
+        if (isset($Arr[$Name])) {
             $SendVal = $Arr[$Name];
         } else {
             $SendVal = $DefVall;
@@ -167,7 +167,7 @@ class AdminHelper {
         $buffer = str_replace(': ', ':', $buffer);
         $buffer = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $buffer);
 
-        if($web == "1") {
+        if ($web == "1") {
             echo '<style>';
             echo($buffer);
             echo '</style>';
@@ -194,8 +194,8 @@ class AdminHelper {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #     Url_Slug
     static function Url_Slug($str, $options = array()) {
-        if(!$str){
-             return null ;
+        if (!$str) {
+            return null;
         }
         // Make sure string is in UTF-8 and strip invalid UTF-8 characters
         // $str = mb_convert_encoding((string)$str, 'UTF-8', mb_list_encodings());
@@ -284,7 +284,7 @@ class AdminHelper {
         $str = preg_replace(array_keys($options['replacements']), $options['replacements'], $str);
 
         // Transliterate characters to ASCII
-        if($options['transliterate']) {
+        if ($options['transliterate']) {
             $str = str_replace(array_keys($char_map), $char_map, $str);
         }
 
@@ -306,16 +306,16 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #     formatSizeUnits
     static function formatSizeUnits($bytes, $sendArr = array()) {
         $PrintMass = self::arrIsset($sendArr, 'PrintMass', '1');
-        if($bytes >= 1073741824) {
+        if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 2) . ' GB';
-        } elseif($bytes >= 1048576) {
+        } elseif ($bytes >= 1048576) {
             $bytes = number_format($bytes / 1048576, 2) . ' MB';
-        } elseif($bytes >= 1024) {
-            if($PrintMass == '1') {
+        } elseif ($bytes >= 1024) {
+            if ($PrintMass == '1') {
                 $bytesCount = number_format($bytes / 1024, 2);
-                if($bytesCount < 50) {
+                if ($bytesCount < 50) {
                     $bytes = '<span class="btn-success rounded p-1">' . $bytesCount . ' KB</span>';
-                } elseif($bytesCount <= 100) {
+                } elseif ($bytesCount <= 100) {
                     $bytes = '<span class="btn-warning rounded p-1">' . $bytesCount . ' KB</span>';
                 } else {
                     $bytes = '<span class="btn-danger rounded p-1">' . $bytesCount . ' KB</span>';
@@ -323,9 +323,9 @@ class AdminHelper {
             } else {
                 $bytes = number_format($bytes / 1024, 2) . ' KB';
             }
-        } elseif($bytes > 1) {
+        } elseif ($bytes > 1) {
             $bytes = $bytes . ' bytes';
-        } elseif($bytes == 1) {
+        } elseif ($bytes == 1) {
             $bytes = $bytes . ' byte';
         } else {
             $bytes = '0 bytes';
@@ -337,7 +337,7 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #     createDirecrotory
     static function createDirecrotory($uploadDir) {
         $fullPath = public_path($uploadDir);
-        if(!File::isDirectory($fullPath)) {
+        if (!File::isDirectory($fullPath)) {
             File::makeDirectory($fullPath, 0777, true, true);
         }
         return $uploadDir;
@@ -352,36 +352,36 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #     saveAndDeletePhoto
     static function saveAndDeletePhoto($saveData, $saveImgData) {
 
-        if(isset($saveData->old_id) and $saveData->old_id != null) {
+        if (isset($saveData->old_id) and $saveData->old_id != null) {
             $deletePhoto = false;
         } else {
             $deletePhoto = true;
         }
 
 
-        if(count($saveImgData->sendSaveData) != 0) {
+        if (count($saveImgData->sendSaveData) != 0) {
 
-            if(File::exists($saveData->photo) and $deletePhoto == true) {
+            if (File::exists($saveData->photo) and $deletePhoto == true) {
                 File::delete($saveData->photo);
             }
             $saveData->photo = $saveImgData->sendSaveData['photo']['file_name'];
 
-            if($saveImgData->setCountOfUpload >= 2) {
-                if(File::exists($saveData->photo_thum_1) and $deletePhoto == true) {
+            if ($saveImgData->setCountOfUpload >= 2) {
+                if (File::exists($saveData->photo_thum_1) and $deletePhoto == true) {
                     File::delete($saveData->photo_thum_1);
                 }
-                if(isset($saveImgData->sendSaveData['photo_thum_1'])) {
+                if (isset($saveImgData->sendSaveData['photo_thum_1'])) {
                     $saveData->photo_thum_1 = $saveImgData->sendSaveData['photo_thum_1']['file_name'];
                 } else {
                     $saveData->photo_thum_1 = null;
                 }
             }
 
-            if($saveImgData->setCountOfUpload >= 3) {
-                if(File::exists($saveData->photo_thum_2) and $deletePhoto == true) {
+            if ($saveImgData->setCountOfUpload >= 3) {
+                if (File::exists($saveData->photo_thum_2) and $deletePhoto == true) {
                     File::delete($saveData->photo_thum_2);
                 }
-                if(isset($saveImgData->sendSaveData['photo_thum_2'])) {
+                if (isset($saveImgData->sendSaveData['photo_thum_2'])) {
                     $saveData->photo_thum_2 = $saveImgData->sendSaveData['photo_thum_2']['file_name'];
                 } else {
                     $saveData->photo_thum_2 = null;
@@ -395,8 +395,8 @@ class AdminHelper {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #     saveAndDeletePhoto
     static function saveAndDeletePhotoByOne($saveData, $saveImgData, $dbName) {
-        if(isset($saveImgData->sendSaveData['photo']['file_name'])) {
-            if(File::exists($saveData->$dbName)) {
+        if (isset($saveImgData->sendSaveData['photo']['file_name'])) {
+            if (File::exists($saveData->$dbName)) {
                 File::delete($saveData->$dbName);
             }
             $saveData->$dbName = $saveImgData->sendSaveData['photo']['file_name'];
@@ -407,18 +407,18 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #     onlyDeletePhotos
     static function onlyDeletePhotos($deleteRow, $Num = 2) {
 
-        if(File::exists($deleteRow->photo)) {
+        if (File::exists($deleteRow->photo)) {
             File::delete($deleteRow->photo);
         }
 
-        if($Num >= 2) {
-            if(File::exists($deleteRow->photo_thum_1)) {
+        if ($Num >= 2) {
+            if (File::exists($deleteRow->photo_thum_1)) {
                 File::delete($deleteRow->photo_thum_1);
             }
         }
 
-        if($Num >= 3) {
-            if(File::exists($deleteRow->photo_thum_2)) {
+        if ($Num >= 3) {
+            if (File::exists($deleteRow->photo_thum_2)) {
                 File::delete($deleteRow->photo_thum_2);
             }
         }
@@ -429,10 +429,10 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #     onlyDeletePhotos
     static function DeleteAllPhotos($deleteRow, $emptyTable = false, $Names = ['photo', 'photo_thum_1']) {
         foreach ($Names as $name) {
-            if(File::exists($deleteRow->$name)) {
+            if (File::exists($deleteRow->$name)) {
                 File::delete($deleteRow->$name);
             }
-            if($emptyTable) {
+            if ($emptyTable) {
                 $deleteRow->$name = null;
             }
         }
@@ -443,7 +443,7 @@ class AdminHelper {
 #|||||||||||||||||||||||||||||||||||||| #     onlyDeletePhotos
     static function DeleteDir($dir, $id) {
         $thisDir = public_path('images/' . $dir . "/" . $id);
-        if(File::isDirectory($thisDir)) {
+        if (File::isDirectory($thisDir)) {
             File::deleteDirectory($thisDir);
         }
     }
@@ -460,6 +460,23 @@ class AdminHelper {
         $last_space_position = strrpos($str, ' ');
         $str = substr($str, 0, $last_space_position);
         return $str;
+    }
+
+    static function textClean($string) {
+        // ----- remove HTML TAGs -----
+        $string = preg_replace('/<[^>]*>/', ' ', $string);
+        // ----- remove control characters -----
+        $string = str_replace("\r", '', $string);
+        $string = str_replace("\n", ' ', $string);
+        $string = str_replace("\t", ' ', $string);
+        $string = str_replace("&nbsp;", ' ', $string);
+        // ----- remove multiple spaces -----
+        $string = trim(preg_replace('/ {2,}/', ' ', $string));
+        return $string;
+    }
+
+    static function str_word_count_ar($string) {
+       return str_word_count(preg_replace("/[\x{0600}-\x{06FF}a-zA-Z]/u", "a", $string));
     }
 
 }

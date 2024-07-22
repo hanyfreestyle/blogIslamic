@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -179,6 +180,12 @@ class BlogPostController extends AdminMainController {
             $query->whereTranslationLike('name', '%' . $session['name'] . '%');
         }
 
+        if (isset($session['des_text']) and $session['des_text'] != null) {
+            $query->whereTranslationLike('des_text', '%' . $session['des_text'] . '%');
+        }
+
+
+
         if (isset($session['cat_id']) and $session['cat_id'] != null) {
             $id = $session['cat_id'];
             $query->whereHas('categories', function ($query) use ($id) {
@@ -254,7 +261,7 @@ class BlogPostController extends AdminMainController {
         $rowData = $this->model::findOrNew(0);
         $LangAdd = self::getAddLangForAdd();
         $selCat = [];
-
+        $wordCount = null ;
         return view('AppPlugin.BlogPost.form')->with([
             'pageData' => $pageData,
             'rowData' => $rowData,
@@ -264,6 +271,7 @@ class BlogPostController extends AdminMainController {
             'tags' => $tags,
             'selTags' => $selTags,
             'selActive' => 0,
+            'wordCount' => $wordCount,
         ]);
     }
 
@@ -279,7 +287,7 @@ class BlogPostController extends AdminMainController {
         } else {
             $rowData = $this->model::where('id', $id)->with('categories')->firstOrFail();
         }
-
+        $wordCount = AdminHelper::str_word_count_ar($rowData->des_text);
         $Categories = $this->modelCategory::all();
         $selCat = $rowData->categories()->pluck('category_id')->toArray();
         $LangAdd = self::getAddLangForEdit($rowData);
@@ -295,8 +303,10 @@ class BlogPostController extends AdminMainController {
             'tags' => $tags,
             'selTags' => $selTags,
             'selActive' => $rowData->is_active,
+            'wordCount' => $wordCount,
         ]);
     }
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -334,7 +344,7 @@ class BlogPostController extends AdminMainController {
                     $CatId = $this->DbPostCatId;
                     $saveTranslation = $this->translation->where($CatId, $saveData->id)->where('locale', $key)->firstOrNew();
                     $saveTranslation->$CatId = $saveData->id;
-                    $saveTranslation->youtube_title = $request->input($key . '.youtube_title');
+                    $saveTranslation->des_text = AdminHelper::textClean($request->input($key . '.des'));
                     $saveTranslation->slug = AdminHelper::Url_Slug($request->input($key . '.slug'));
                     $saveTranslation = self::saveTranslationMain($saveTranslation, $key, $request);
                     $saveTranslation->save();

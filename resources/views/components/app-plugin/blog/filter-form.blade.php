@@ -21,6 +21,10 @@
                     @endcan
 
                 </div>
+                <div class="row">
+                    <x-admin.form.input name="des_text" :value="old('des_text',issetArr($getSessionData,'des_text'))" col="6" :labelview="false" :placeholder="true"
+                                        :label="__('admin/blogPost.filter_des')"/>
+                </div>
                 {{$slot}}
                 <div class="row formFilterBut">
                     <button type="submit" name="Forget" class="btn btn-dark btn-sm"><i

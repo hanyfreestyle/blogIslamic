@@ -16,7 +16,10 @@ return
 	'cat_del_related_cat' => 'Category Related to the content',
 	'cat_text_name' => 'Category Name',
 	'dash_count_active' => '',
+	'dash_count_month' => '',
 	'dash_count_unactive' => '',
 	'dash_count_week' => '',
-	'dash_count_month' => '',
+	'form_word' => '',
+	'form_word_count' => '',
+	'filter_des' => '',
 ];

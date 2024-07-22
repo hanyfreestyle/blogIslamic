@@ -21,6 +21,19 @@ class WordPressController extends AdminMainController {
 
     }
 
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
+    public function DesText () {
+        $names = BlogTranslation::query()->where('des_text',null)->take(500)->get();
+        foreach ($names as $name){
+            $name->des_text = AdminHelper::textClean($name->des);
+            $name->save();
+        }
+        echobr(BlogTranslation::query()->where('des_text',null)->count());
+    }
+
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function TrimTags() {

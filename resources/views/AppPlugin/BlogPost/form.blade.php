@@ -30,7 +30,10 @@
                                                     :def-name="$Config['LangPostDefName']" :def-des="$Config['LangPostDefDes']"/>
                     @endforeach
                 </div>
-
+                @if($wordCount)
+                    <hr>
+                    <div class="wordcount">{{__('admin/blogPost.form_word_count')}} <span>{{$wordCount}}</span> {{__('admin/blogPost.form_word')}}</div>
+                @endif
                 <hr>
                 <x-admin.form.upload-model-photo :page="$pageData" :row="$rowData" col="6"/>
 
