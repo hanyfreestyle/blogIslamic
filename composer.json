@@ -8,6 +8,7 @@
         "php": "^8.1",
         "artesaos/seotools": "^1.2",
         "astrotomic/laravel-translatable": "^11.12",
+        "caxy/php-htmldiff": "^0.1.15",
         "diglactic/laravel-breadcrumbs": "^8.1",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
