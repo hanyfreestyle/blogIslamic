@@ -22,6 +22,7 @@ class MetaTageSeo extends Component {
     public $desRow;
     public $seoRow;
     public $seoReq;
+    public $olddata;
 
     public function __construct(
         $showlang = true,
@@ -34,6 +35,7 @@ class MetaTageSeo extends Component {
         $slug = true,
         $viewtype = null,
         $fullRow = true,
+        $olddata = null,
 
     ) {
         $this->showlang = $showlang;
@@ -51,6 +53,7 @@ class MetaTageSeo extends Component {
         $this->defDes = $defDes;
         $this->seo = $seo;
         $this->slug = $slug;
+        $this->olddata = $olddata;
 
         $this->viewtype = $viewtype;
         if ($this->viewtype == 'Add') {

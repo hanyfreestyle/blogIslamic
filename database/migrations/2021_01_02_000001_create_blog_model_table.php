@@ -94,6 +94,9 @@ return new class extends Migration {
                 $table->bigIncrements('id');
                 $table->bigInteger('user_id')->unsigned();
                 $table->bigInteger('blog_id')->unsigned();
+                $table->string('name')->nullable();
+                $table->longText('des')->nullable();
+                $table->integer('loop_index')->nullable();
                 $table->dateTime('updated_at');
                 $table->foreign('blog_id')->references('id')->on('blog_post')->onDelete('cascade');
             });

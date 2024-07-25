@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 
@@ -92,7 +91,24 @@ class BlogPostController extends AdminMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function UpdateReview() {
+        $allBlog = Blog::all();
+        foreach ($allBlog as $blog) {
+            $blogReview = new BlogReview();
+            $blogReview->user_id = $blog->user_id;
+            $blogReview->blog_id = $blog->id;
+            $blogReview->name = null;
+            $blogReview->des = null;
+            $blogReview->loop_index = 1;
+            $blogReview->updated_at = $blog->created_at;
+            $blogReview->save();
+        }
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostIndex(Request $request) {
+
         $pageData = $this->pageData;
         $pageData['ViewType'] = "List";
         $pageData['SubView'] = false;
@@ -185,7 +201,6 @@ class BlogPostController extends AdminMainController {
         }
 
 
-
         if (isset($session['cat_id']) and $session['cat_id'] != null) {
             $id = $session['cat_id'];
             $query->whereHas('categories', function ($query) use ($id) {
@@ -254,6 +269,7 @@ class BlogPostController extends AdminMainController {
     public function PostCreate() {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Add";
+        $oldData = null ;
 
         $Categories = $this->modelCategory::all();
         $tags = $this->modelTags::where('id', '!=', 0)->take(100)->get();
@@ -261,7 +277,7 @@ class BlogPostController extends AdminMainController {
         $rowData = $this->model::findOrNew(0);
         $LangAdd = self::getAddLangForAdd();
         $selCat = [];
-        $wordCount = null ;
+        $wordCount = null;
         return view('AppPlugin.BlogPost.form')->with([
             'pageData' => $pageData,
             'rowData' => $rowData,
@@ -272,6 +288,7 @@ class BlogPostController extends AdminMainController {
             'selTags' => $selTags,
             'selActive' => 0,
             'wordCount' => $wordCount,
+            'oldData' => $oldData,
         ]);
     }
 
@@ -280,6 +297,8 @@ class BlogPostController extends AdminMainController {
     public function PostEdit($id) {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Edit";
+        $oldData = null ;
+
 
         $teamleader = Auth::user()->can('Blog_teamleader');
         if (!$teamleader) {
@@ -287,6 +306,12 @@ class BlogPostController extends AdminMainController {
         } else {
             $rowData = $this->model::where('id', $id)->with('categories')->firstOrFail();
         }
+
+        if (isset($_GET['revision'])){
+            $revisionId = intval($_GET['revision']);
+            $oldData = BlogReview::where('id', $revisionId)->firstOrFail();
+        }
+
         $wordCount = AdminHelper::str_word_count_ar($rowData->des_text);
         $Categories = $this->modelCategory::all();
         $selCat = $rowData->categories()->pluck('category_id')->toArray();
@@ -304,6 +329,7 @@ class BlogPostController extends AdminMainController {
             'selTags' => $selTags,
             'selActive' => $rowData->is_active,
             'wordCount' => $wordCount,
+            'oldData' => $oldData,
         ]);
     }
 
@@ -327,13 +353,43 @@ class BlogPostController extends AdminMainController {
                 }
                 $saveData->save();
 
-                if ($request->input('form_type') == 'Edit' and $this->TableReview) {
+                if ($request->input('form_type') == 'Add' and $this->TableReview) {
                     $blogReview = $this->modelReview;
                     $blogReview->user_id = $user_id;
                     $blogReview->blog_id = $saveData->id;
+                    $blogReview->name = null;
+                    $blogReview->des = null;
+                    $blogReview->loop_index = 1;
                     $blogReview->updated_at = now();
                     $blogReview->save();
+                } elseif ($request->input('form_type') == 'Edit' and $this->TableReview) {
+                    if ($saveData->des != $request->input('ar.des')) {
+                        $blogReview = $this->modelReview;
+                        $blogReview->user_id = $user_id;
+                        $blogReview->blog_id = $saveData->id;
+                        $blogReview->name = $saveData->name;
+                        $blogReview->des = $saveData->des;
+                        $blogReview->loop_index = $this->modelReview::where('blog_id', $saveData->id)->count() + 1;
+                        $blogReview->updated_at = now();
+                        $blogReview->save();
+                    }
+               }
+
+                $countReview =  $this->modelReview::where('blog_id', $saveData->id)->count();
+                $limitSave = 10 ;
+                if($countReview > $limitSave ){
+                   $oldDataReview =  $this->modelReview::where('blog_id', $saveData->id)->orderby('id','desc')->get();
+                   $x = $limitSave ;
+                   foreach ($oldDataReview as $review){
+                       $review->loop_index = $x ;
+                       $x = $x - 1 ;
+                       $review->save() ;
+                   }
+                    $this->modelReview::where('blog_id', $saveData->id)->where('loop_index','<=',0)->delete();
                 }
+
+
+
                 $saveData->categories()->sync($categories);
                 $saveData->tags()->sync($tags);
 

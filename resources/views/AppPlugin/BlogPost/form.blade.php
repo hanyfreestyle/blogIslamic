@@ -27,6 +27,7 @@
                         <x-admin.lang.meta-tage-seo :lang-add="$LangAdd" :viewtype="$pageData['ViewType']" :row="$rowData" :key="$key"
                                                     :full-row="true" :slug="$Config['postSlug']" :seo="false"
                                                     :des="$Config['postDes']" :showlang="$Config['postShowLang']"
+                                                    :olddata="$oldData"
                                                     :def-name="$Config['LangPostDefName']" :def-des="$Config['LangPostDefDes']"/>
                     @endforeach
                 </div>
@@ -54,8 +55,9 @@
                     </thead>
                     @foreach($rowData->reviews as $review)
                         <tr>
-                            <td>{{$review->userName->name}}</td>
-                            <td>{{$review->updated_at }}</td>
+                            <td>{{$review->userName->name}} </td>
+                            <td>{{dateDiff($review->updated_at)}}</td>
+                            <td><a href="{{route('admin.Blog.BlogPost.ListRevision',$review->id)}}">عرض</a> </td>
                         </tr>
                     @endforeach
                 </table>

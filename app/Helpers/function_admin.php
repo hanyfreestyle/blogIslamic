@@ -442,6 +442,15 @@ if (!function_exists('findValue')) {
 
 
 
+if (!function_exists('dateDiff')) {
+    function dateDiff($date) {
+        $diff = Carbon::parse($date)->diffForHumans(Carbon::now());
+        $thisDate = Carbon::parse($date)->format('d-m-Y');
+
+        return $diff ." (".$thisDate.")"   ;
+    }
+
+}
 
 
 

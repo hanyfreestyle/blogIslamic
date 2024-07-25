@@ -19,7 +19,11 @@
         @endif
 
         @if($des)
-            <x-admin.form.trans-text-area name="des" :key="$key" :row="$row" :label="$defDes" :tdir="$key" add-class="bigTextArea"/>
+            @if($olddata)
+                <x-admin.form.trans-text-area name="des" :key="$key" :value="$olddata->des" :label="$defDes" :tdir="$key" add-class="bigTextArea"/>
+            @else
+                <x-admin.form.trans-text-area name="des" :key="$key" :row="$row" :label="$defDes" :tdir="$key" add-class="bigTextArea"/>
+            @endif
         @endif
     </div>
 </div>

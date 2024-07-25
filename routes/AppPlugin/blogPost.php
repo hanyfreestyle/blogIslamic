@@ -2,6 +2,7 @@
 
 use App\AppPlugin\BlogPost\BlogCategoryController;
 use App\AppPlugin\BlogPost\BlogPostController;
+use App\AppPlugin\BlogPost\BlogPostRevisionController;
 use App\AppPlugin\BlogPost\BlogTagsController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,4 +72,6 @@ Route::get('/Blog/tags/destroy/{id}', [BlogTagsController::class, 'TagsDelete'])
 Route::get('/Blog/tags/config', [BlogTagsController::class, 'TagsConfig'])->name('Blog.BlogTags.config');
 Route::get('/Blog/tags/TagsSearch', [BlogTagsController::class, 'TagsSearch'])->name('BlogPost.TagsSearch');
 Route::get('/Blog/tags/TagsOnFly', [BlogTagsController::class, 'TagsOnFly'])->name('BlogPost.TagsOnFly');
+
+Route::get('/Blog/revision/{id}', [BlogPostRevisionController::class, 'ListRevision'])->name('Blog.BlogPost.ListRevision');
 

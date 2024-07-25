@@ -2,6 +2,7 @@
 namespace App\AppPlugin\BlogPost\Seeder;
 
 use App\AppPlugin\BlogPost\Models\BlogPivot;
+use App\AppPlugin\BlogPost\Models\BlogReview;
 use App\AppPlugin\BlogPost\Models\BlogTagsPivot;
 use App\AppPlugin\BlogPost\Traits\BlogConfigTraits;
 use Illuminate\Database\Seeder;
@@ -26,6 +27,9 @@ class PivotSeeder extends Seeder {
             DB::unprepared(file_get_contents($tablePath));
         }
 
+        BlogReview::unguard();
+        $tablePath = public_path('db/blog_post_review.sql');
+        DB::unprepared(file_get_contents($tablePath));
 
     }
 }

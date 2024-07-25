@@ -13,6 +13,12 @@ use App\AppCore\UploadFilter\Seeder\UploadFilterSeeder;
 use App\AppCore\Menu\AdminMenuSeeder;
 
 
+use App\AppPlugin\BlogPost\Models\Blog;
+use App\AppPlugin\BlogPost\Models\BlogCategory;
+use App\AppPlugin\BlogPost\Models\BlogCategoryTranslation;
+use App\AppPlugin\BlogPost\Models\BlogPivot;
+use App\AppPlugin\BlogPost\Models\BlogReview;
+use App\AppPlugin\BlogPost\Models\BlogTranslation;
 use App\AppPlugin\BlogPost\Seeder\BlogPostSeeder;
 use App\AppPlugin\BlogPost\Seeder\PivotSeeder;
 use App\AppPlugin\Config\Meta\SeederMetaTag;
@@ -22,6 +28,7 @@ use App\AppPlugin\BlogPost\Seeder\BlogCategorySeeder;
 
 use App\AppPlugin\Pages\Seeder\PageSeeder;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class DatabaseSeeder extends Seeder {
@@ -52,9 +59,37 @@ class DatabaseSeeder extends Seeder {
 
 
         if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
-            $this->call(BlogCategorySeeder::class);
-            $this->call(BlogPostSeeder::class);
-            $this->call(PivotSeeder::class);
+            $testReview = 1 ;
+            if($testReview){
+                BlogCategory::unguard();
+                $tablePath = public_path('db/blog_categories.sql');
+                DB::unprepared(file_get_contents($tablePath));
+
+                BlogCategoryTranslation::unguard();
+                $tablePath = public_path('db/blog_category_translations.sql');
+                DB::unprepared(file_get_contents($tablePath));
+
+                Blog::unguard();
+                $tablePath = public_path('db/_test/blog_post.sql');
+                DB::unprepared(file_get_contents($tablePath));
+
+                BlogTranslation::unguard();
+                $tablePath = public_path('db/_test/blog_translations.sql');
+                DB::unprepared(file_get_contents($tablePath));
+
+                BlogPivot::unguard();
+                $tablePath = public_path('db/_test/blogcategory_blog.sql');
+                DB::unprepared(file_get_contents($tablePath));
+
+                BlogReview::unguard();
+                $tablePath = public_path('db/_test/blog_post_review.sql');
+                DB::unprepared(file_get_contents($tablePath));
+
+            }else{
+                $this->call(BlogCategorySeeder::class);
+                $this->call(BlogPostSeeder::class);
+                $this->call(PivotSeeder::class);
+            }
         }
 
 
