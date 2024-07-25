@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 23, 2024 at 03:04 PM
+-- Generation Time: Jul 25, 2024 at 01:27 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -26,7 +26,9 @@ SET time_zone = "+00:00";
 --
 
 INSERT INTO `blog_post` (`id`, `old_id`, `user_id`, `is_active`, `photo`, `photo_thum_1`, `published_at`, `deleted_at`, `created_at`, `updated_at`, `view_count`) VALUES
-(1, NULL, 1, 1, NULL, NULL, '2024-07-23', NULL, '2024-07-23 09:10:42', '2024-07-23 09:10:42', NULL);
+(1, NULL, 1, 1, NULL, NULL, '2024-07-23', NULL, '2024-07-23 09:10:42', '2024-07-23 09:10:42', NULL),
+(2, NULL, 1, 1, NULL, NULL, '2024-07-25', NULL, '2024-07-25 06:47:43', '2024-07-25 06:47:43', NULL),
+(3, NULL, 1, 1, NULL, NULL, '2024-07-25', NULL, '2024-07-25 07:50:36', '2024-07-25 07:50:36', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
