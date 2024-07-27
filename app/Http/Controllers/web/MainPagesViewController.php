@@ -227,6 +227,10 @@ class MainPagesViewController extends WebMainController {
         $blogBody = $contents->fromText($blog->des)->getHandledText();
         $blogBody = self::CleanBody($blogBody);
         $contents = $contents->getContentsArray();
+        if(count($contents) == 0){
+            $blogBody =  $blog->des ;
+        }
+
         $catid = $blog->categories->first()->id;
 
         $categories = BlogCategory::query()
@@ -261,6 +265,7 @@ class MainPagesViewController extends WebMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| # CleanBody
     public function CleanBody($blogBody) {
+        /*
         $find = [
             '<!-- /wp:paragraph -->',
             '<!-- /wp:heading -->',
@@ -279,7 +284,7 @@ class MainPagesViewController extends WebMainController {
 //        $blogBody = preg_replace('/\r\n\r\n/', '<br/>', $blogBody);
 
         $blogBody = preg_replace('%(\\[caption.*])(.*)(\\[/caption\\])%', '<p class="Blog_Img_Caption">$2</p>', $blogBody);
-
+*/
         return $blogBody;
     }
 
