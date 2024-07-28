@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('StyleFile')
-    <x-admin.data-table.plugins  :style="true" :is-active="$viewDataTable"/>
+    <x-admin.data-table.plugins :style="true" :is-active="$viewDataTable"/>
 @endsection
 
 @section('content')
@@ -18,10 +18,15 @@
                             <th class="TD_200">{{__('admin/config/roles.users_fr_name')}}</th>
                             <th class="TD_200">{{__('admin/config/roles.users_fr_email')}}</th>
                             @if($pageData['ViewType'] == 'deleteList')
-                                <x-admin.table.soft-delete />
+                                <x-admin.table.soft-delete/>
                             @else
                                 <th class="TD_150">{{ __('admin/config/roles.users_fr_status') }}</th>
                                 <th class="TD_300">{{ __('admin/config/roles.users_fr_role') }}</th>
+
+                                @if(File::isFile(base_path('routes/AppPlugin/blogPost.php')))
+                                    <th class="TD_100">{{ __('admin/config/roles.t_post_count') }}</th>
+                                @endif
+
                                 <x-admin.table.action-but po="top" type="edit"/>
                                 <x-admin.table.action-but po="top" type="delete"/>
                             @endif
@@ -36,10 +41,11 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 @if($pageData['ViewType'] == 'deleteList')
-                                    <x-admin.table.soft-delete type="b" :row="$user" />
+                                    <x-admin.table.soft-delete type="b" :row="$user"/>
                                 @else
                                     @can($PrefixRole."_edit")
-                                        <td> <input type="checkbox" class="status_but" thisid="{{$user->id}}" name="status" @if($user->status == '1') checked @endif data-bootstrap-switch data-off-color="danger" data-on-color="success"></td>
+                                        <td><input type="checkbox" class="status_but" thisid="{{$user->id}}" name="status" @if($user->status == '1') checked
+                                                   @endif data-bootstrap-switch data-off-color="danger" data-on-color="success"></td>
                                     @else
                                         <td class="text-center">{!! is_active($user->status) !!}</td>
                                     @endcan
@@ -50,8 +56,11 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                    <x-admin.table.action-but type="edit" :row="$user" />
-                                    <x-admin.table.action-but type="delete" :row="$user" />
+                                    @if(File::isFile(base_path('routes/AppPlugin/blogPost.php')))
+                                        <td class="text-center">{{count($user->del_post)}}</td>
+                                    @endif
+                                    <x-admin.table.action-but type="edit" :row="$user"/>
+                                    <x-admin.table.action-but type="delete" :row="$user"/>
                                 @endif
                             </tr>
                         @endforeach
@@ -59,20 +68,20 @@
                     </table>
                 </div>
             @else
-                <x-admin.hmtl.alert-massage type="nodata" />
+                <x-admin.hmtl.alert-massage type="nodata"/>
             @endif
         </x-admin.card.def>
-        <x-admin.hmtl.pages-link :row="$users" />
+        <x-admin.hmtl.pages-link :row="$users"/>
     </x-admin.hmtl.section>
 @endsection
 
 @push('JsCode')
     <x-admin.table.sweet-delete-js/>
-    <x-admin.data-table.plugins  :jscode="true" :is-active="$viewDataTable" />
+    <x-admin.data-table.plugins :jscode="true" :is-active="$viewDataTable"/>
     <script>
         $(".status_but").bootstrapSwitch({
             'size': 'mini',
-            'onSwitchChange': function(event, state){
+            'onSwitchChange': function (event, state) {
                 var inputId = $(this).attr('thisid');
                 $.ajax({
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},

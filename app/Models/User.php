@@ -3,15 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\AppPlugin\BlogPost\Models\Blog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
-{
+class User extends Authenticatable {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
     use SoftDeletes;
@@ -47,4 +48,9 @@ class User extends Authenticatable
         'password' => 'hashed',
         'roles_name' => 'array',
     ];
+
+
+    public function del_post(): HasMany {
+        return $this->hasMany(Blog::class,'user_id','id')->withTrashed();
+    }
 }

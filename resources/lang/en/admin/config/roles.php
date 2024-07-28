@@ -2,6 +2,8 @@
 
 return
 [
+	'exception_user_name' => '',
+	'exception_user_post' => '',
 	'menu_roles' => 'Users &amp; Permissions',
 	'menu_roles_permissions' => 'Permissions',
 	'menu_roles_role' => 'Roles',
@@ -13,6 +15,8 @@ return
 	'role_frname' => 'Group Name',
 	'role_title' => 'Roles',
 	'roles_model_leads' => 'Manage Leads',
+	't_post_count' => '',
+	'users_des' => 'About User',
 	'users_fr_email' => 'Email Address',
 	'users_fr_name' => 'User Name',
 	'users_fr_phone' => 'Phone Number',
@@ -21,5 +25,4 @@ return
 	'users_fr_status' => 'User Status',
 	'users_list' => 'Users List',
 	'users_title' => 'Users',
-	'users_des' => 'About User',
 ];

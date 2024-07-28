@@ -57,9 +57,8 @@ class DatabaseSeeder extends Seeder {
             $this->call(SeederWebPrivacy::class);
         }
 
-
         if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
-            $testReview = 1 ;
+            $testReview = 0 ;
             if($testReview){
                 BlogCategory::unguard();
                 $tablePath = public_path('db/blog_categories.sql');

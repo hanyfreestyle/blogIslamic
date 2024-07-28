@@ -9,6 +9,7 @@ use App\Helpers\photoUpload\PuzzleUploadProcess;
 use App\Http\Controllers\AdminMainController;
 use App\Http\Traits\CrudTraits;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -124,13 +125,46 @@ class UserController extends AdminMainController {
 #|||||||||||||||||||||||||||||||||||||| #     destroy
     public function destroy($id) {
         if ($id != '1') {
-            $deleteRow = User::findOrFail($id);
-            $deleteRow->delete();
+            $deleteRow = self::DeleteQuery(User::where('id', $id))->firstOrFail();
+            $deleteRowCount = self::deleteRowCount($deleteRow);
+            if ($deleteRowCount == 0) {
+                try {
+                    DB::transaction(function () use ($deleteRow, $id) {
+                        $deleteRow->forceDelete();
+                    });
+                } catch (\Exception $exception) {
+                    return back()->with(['confirmException' => '', 'fromModel' => 'UsersPost', 'deleteRow' => $deleteRow]);
+                }
+            } else {
+                return back()->with(['confirmException' => '', 'fromModel' => 'UsersPost', 'deleteRow' => $deleteRow]);
+            }
             return redirect(route($this->PrefixRoute . '.index'))->with('confirmDelete', "");
         } else {
             return back();
         }
     }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function DeleteQuery($query) {
+        if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
+            $query->withCount('del_post');
+        }
+        return $query;
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function deleteRowCount($deleteRow) {
+        $deleteRowCount = 0;
+        if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
+            $deleteRowCount = $deleteRowCount + intval($deleteRow->del_post_count);
+        }
+        return $deleteRowCount;
+    }
+
+
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #  updateStatus
     public function updateStatus(Request $request) {

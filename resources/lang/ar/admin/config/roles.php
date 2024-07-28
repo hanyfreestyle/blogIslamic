@@ -2,6 +2,8 @@
 
 return
 [
+	'exception_user_name' => 'المستخدم',
+	'exception_user_post' => 'مقال مرتبط بالمستخدم',
 	'menu_roles' => 'الاعضاء والصلاحيات',
 	'menu_roles_permissions' => 'الصلاحيات',
 	'menu_roles_role' => 'مجموعات الصلاحيات',
@@ -13,6 +15,8 @@ return
 	'role_frname' => 'اسم المجموعة',
 	'role_title' => 'مجموعة الصلاحيات',
 	'roles_model_leads' => 'ادارة الاتصالات',
+	't_post_count' => 'مقالات',
+	'users_des' => 'نبذة عن العضو',
 	'users_fr_email' => 'البريد الالكترونى',
 	'users_fr_name' => 'اسم المستخدم',
 	'users_fr_phone' => 'رقم الهاتف',
@@ -21,5 +25,4 @@ return
 	'users_fr_status' => 'حالة العضو',
 	'users_list' => 'عرض الاعضاء',
 	'users_title' => 'الاعضاء',
-	'users_des' => 'نبذة عن العضو',
 ];

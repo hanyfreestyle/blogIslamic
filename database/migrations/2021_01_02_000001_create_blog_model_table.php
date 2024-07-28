@@ -47,7 +47,7 @@ return new class extends Migration {
         Schema::create('blog_post', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('old_id')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
 
 
 //            $table->integer('old_cat')->nullable();
@@ -67,6 +67,7 @@ return new class extends Migration {
             $table->timestamps();
             $table->integer('view_count')->nullable();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
         });
 
         Schema::create('blog_translations', function (Blueprint $table) {

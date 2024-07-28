@@ -25,3 +25,13 @@
   @endif
 @endif
 
+@if(Session::has('fromModel') and Session::get('fromModel') == "UsersPost")
+    <br> {{__('admin/config/roles.exception_user_name')}} ({{ Session::get('deleteRow')->name }})
+    @if(intval(Session::get('deleteRow')->del_post_count) > 0 )
+        <br> ({{Session::get('deleteRow')->del_post_count}}) {!! __('admin/config/roles.exception_user_post') !!}
+    @endif
+@endif
+
+
+
+
