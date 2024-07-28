@@ -269,7 +269,7 @@ class BlogPostController extends AdminMainController {
     public function PostCreate() {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Add";
-        $oldData = null ;
+        $oldData = null;
 
         $Categories = $this->modelCategory::all();
         $tags = $this->modelTags::where('id', '!=', 0)->take(100)->get();
@@ -297,7 +297,7 @@ class BlogPostController extends AdminMainController {
     public function PostEdit($id) {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "Edit";
-        $oldData = null ;
+        $oldData = null;
 
 
         $teamleader = Auth::user()->can('Blog_teamleader');
@@ -307,7 +307,7 @@ class BlogPostController extends AdminMainController {
             $rowData = $this->model::where('id', $id)->with('categories')->firstOrFail();
         }
 
-        if (isset($_GET['revision'])){
+        if (isset($_GET['revision'])) {
             $revisionId = intval($_GET['revision']);
             $oldData = BlogReview::where('id', $revisionId)->firstOrFail();
         }
@@ -373,21 +373,20 @@ class BlogPostController extends AdminMainController {
                         $blogReview->updated_at = now();
                         $blogReview->save();
                     }
-               }
-
-                $countReview =  $this->modelReview::where('blog_id', $saveData->id)->count();
-                $limitSave = 10 ;
-                if($countReview > $limitSave ){
-                   $oldDataReview =  $this->modelReview::where('blog_id', $saveData->id)->orderby('id','desc')->get();
-                   $x = $limitSave ;
-                   foreach ($oldDataReview as $review){
-                       $review->loop_index = $x ;
-                       $x = $x - 1 ;
-                       $review->save() ;
-                   }
-                    $this->modelReview::where('blog_id', $saveData->id)->where('loop_index','<=',0)->delete();
                 }
 
+                $countReview = $this->modelReview::where('blog_id', $saveData->id)->count();
+                $limitSave = 10;
+                if ($countReview > $limitSave) {
+                    $oldDataReview = $this->modelReview::where('blog_id', $saveData->id)->orderby('id', 'desc')->get();
+                    $x = $limitSave;
+                    foreach ($oldDataReview as $review) {
+                        $review->loop_index = $x;
+                        $x = $x - 1;
+                        $review->save();
+                    }
+                    $this->modelReview::where('blog_id', $saveData->id)->where('loop_index', '<=', 0)->delete();
+                }
 
 
                 $saveData->categories()->sync($categories);
@@ -428,14 +427,16 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostForceDeleteException($id) {
-        $deleteRow = $this->model::onlyTrashed()->where('id', $id)->with('more_photos')->firstOrFail();
-        if (count($deleteRow->more_photos) > 0) {
-            foreach ($deleteRow->more_photos as $del_photo) {
-                AdminHelper::DeleteAllPhotos($del_photo);
-            }
-        }
-        $deleteRow = AdminHelper::DeleteAllPhotos($deleteRow);
-        AdminHelper::DeleteDir($this->UploadDirIs, $id);
+
+        $deleteRow = $this->model::onlyTrashed()->where('id', $id)->firstOrFail();
+//        $deleteRow = $this->model::onlyTrashed()->where('id', $id)->with('more_photos')->firstOrFail();
+//        if (count($deleteRow->more_photos) > 0) {
+//            foreach ($deleteRow->more_photos as $del_photo) {
+//                AdminHelper::DeleteAllPhotos($del_photo);
+//            }
+//        }
+//        $deleteRow = AdminHelper::DeleteAllPhotos($deleteRow);
+//        AdminHelper::DeleteDir($this->UploadDirIs, $id);
         $deleteRow->forceDelete();
         self::ClearCash();
         return back()->with('confirmDelete', "");
