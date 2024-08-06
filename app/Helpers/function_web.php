@@ -258,4 +258,18 @@ if(!function_exists('htmlBodyStyle')) {
         }
     }
 
+    if (!function_exists('CleanBlogDes')) {
+        function CleanBlogDes($des) {
+
+//            $des = preg_replace('/\[.*?\]/', '', $des);
+//            $des = preg_replace('#\s*\[caption[^]]*\].*?\[/caption\]\s*#is', '', $des);
+
+            $des =  preg_replace('/.*(<img[^>]+)>.*/', '$1', $des);
+
+            return $des;
+        }
+    }
+
+
+
 }

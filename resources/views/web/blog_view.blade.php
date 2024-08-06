@@ -36,8 +36,8 @@
                                     </div>
                                 @endif
 
-                                <div class="blog_des_view">
-                                    {!! nl2br($blogBody) !!}
+                                <div class="blog_des_view_div">
+                                    {!! CleanBlogDes($blogBody) !!}
                                 </div>
 
                                 @if(count($blog->tags)>0)

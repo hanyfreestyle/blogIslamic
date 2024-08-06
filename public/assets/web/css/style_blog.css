@@ -35,32 +35,70 @@
 
 
 /*.blog_des_view br{display:block;margin:2px!important;content:""}*/
-.blog_des_view br { display: none; }
-.blog_des_view{
+
+
+/*
+
+
+
+.blog_des_view .Blog_Img_Caption{text-align:center}
+
+.blog_des_view li{font-size:15px;margin-bottom:5px;padding:0!important}
+
+
+
+
+
+
+ */
+
+.blog_des_view_div {
     padding: 10px 0!important;
     font-size: 15px;
     line-height: 30px;
 }
-.blog_des_view img{display:block;margin:auto;margin-top:15px!important;margin-bottom:15px!important;max-width:90%}
-.blog_des_view .Blog_Img_Caption{text-align:center}
-.blog_des_view ul{padding:10px 40px;margin:0!important;list-style-type:disc}
-.blog_des_view li{font-size:15px;margin-bottom:5px;padding:0!important}
-
-.blog_des_view p{
-    color: rgba(0,0,0,1);
-    margin: 1px!important;
-    line-height: 30px;
-    content:""
-}
-
-.blog_des_view h2 , .blog_des_view h3 , .blog_des_view h4 , .blog_des_view h5 ,.blog_des_view h6 {
+.blog_des_view_div br { display: none; }
+.blog_des_view_div img{display:block;margin:auto;margin-top:15px!important;margin-bottom:15px!important;max-width:90%}
+.blog_des_view_div h2 , .blog_des_view_div h3 , .blog_des_view_div h4 , .blog_des_view_div h5 ,.blog_des_view_div h6 {
     padding: 0!important;
     margin: 0!important;
     line-height:normal;
     scroll-margin-top: 5rem!important;
 }
-.blog_des_view h2  {font-size: 20px;}
-.blog_des_view h3 {font-size: 20px;}
-.blog_des_view h4 {font-size: 20px;}
-.blog_des_view h5 {font-size: 20px;}
-.blog_des_view h6 {font-size: 20px;}
+.blog_des_view_div h2  {font-size: 20px; color: var(--h1Color); margin-top: 8px!important; margin-bottom: 7px!important;}
+.blog_des_view_div h3 {font-size: 20px;}
+.blog_des_view_div h4 {font-size: 20px;}
+.blog_des_view_div h5 {font-size: 20px;}
+.blog_des_view_div h6 {font-size: 20px;}
+
+.blog_des_view_div p {
+    padding: 10px 0!important;
+    font-size: 15px;
+    line-height: 30px;
+}
+
+.blog_des_view_div ul{
+    padding:10px 30px;
+    margin:0!important;
+    list-style-type:disc;
+}
+
+.blog_des_view_div ul li{
+    line-height: 25px;
+    font-size: 15px;
+    margin-top: 3px!important;
+    margin-bottom: 4px!important;
+}
+
+.blog_des_view_div ol{
+    padding:10px 30px;
+    margin:0!important;
+    list-style-type: decimal;
+}
+
+.blog_des_view_div ol li{
+    line-height: 25px;
+    font-size: 15px;
+    margin-top: 3px!important;
+    margin-bottom: 4px!important;
+}
