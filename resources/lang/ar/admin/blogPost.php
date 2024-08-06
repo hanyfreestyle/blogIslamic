@@ -12,6 +12,7 @@ return
 	'blog_text_name' => 'عنوان المقال',
 	'blog_text_tags' => 'الكلمات البحثية',
 	'blog_user' => 'الناشر',
+	'but_published_now' => 'نشر بتاريخ اليوم',
 	'cat_del_related_blog' => 'مقال مرتبط بالمحتوى',
 	'cat_del_related_cat' => 'مجموعات مرتبطة بالمحتوى',
 	'cat_text_name' => 'اسم المجموعة',
@@ -19,7 +20,8 @@ return
 	'dash_count_month' => 'اجمالى المقالات الجديدة لاخر شهر',
 	'dash_count_unactive' => 'المسودات',
 	'dash_count_week' => 'اجمالى المقالات الجديدة لاخر اسبوع',
+	'filter_des' => 'البحث فى المحتوى',
 	'form_word' => 'كلمة',
 	'form_word_count' => 'عدد كلمات المحتوى',
-	'filter_des' => 'البحث فى المحتوى',
+	'but_published_sweet' => 'من نشر هذا المقال بتاريخ اليوم',
 ];

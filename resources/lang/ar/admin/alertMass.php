@@ -21,4 +21,5 @@ return
 	'sweet_confirm_button_text' => 'نعم ..قم بالحذف',
 	'sweet_text' => 'لن يتم اعادة المحتوى فى حالة الحذف',
 	'sweet_title' => 'هل انت متاكد',
+    'sweet_confirm_button_yes' => 'نعم',
 ];

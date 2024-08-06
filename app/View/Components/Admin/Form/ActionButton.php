@@ -89,6 +89,13 @@ class ActionButton extends Component {
                     $this->sweetDelClass = ' sweet_daleteBtn_noForm ';
                     break;
 
+                case 'confirmSweet':
+                    $this->icon = 'fas fa-calendar-check ';
+                    $this->bg = getBgColor('p');
+                    $this->printLable = __('admin/blogPost.but_published_now');
+                    $this->sweetDelClass = ' sweet_confirm_but ';
+                    break;
+
                 case 'deleteContent':
                     $this->icon = 'fas fa-trash ';
                     $this->bg = getBgColor('d');

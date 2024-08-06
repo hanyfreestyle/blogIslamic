@@ -10,6 +10,11 @@
                     <x-admin.lang.delete-button :row="$row"/>
                 @endif
 
+                @if($row->is_active == 0)
+                    <x-admin.form.action-button url="#" id="{{route($PrefixRoute.'.publishNow',$row->id)}}" :tip="false" type="confirmSweet"/>
+                @endif
+
+
                 @if($Config['TableMorePhotos'])
                     <x-admin.form.action-button url="{{route($PrefixRoute.'.More_Photos',$row->id)}}" type="morePhoto" :tip="false"/>
                 @endif

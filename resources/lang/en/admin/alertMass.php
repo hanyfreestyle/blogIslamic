@@ -21,4 +21,5 @@ return
 	'sweet_confirm_button_text' => 'Sure Delete',
 	'sweet_text' => 'You wont&#039;t  be able to revert this !',
 	'sweet_title' => 'Are You Sure',
+    'sweet_confirm_button_yes' => 'Sure',
 ];

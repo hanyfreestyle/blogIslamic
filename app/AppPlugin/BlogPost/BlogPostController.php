@@ -336,6 +336,23 @@ class BlogPostController extends AdminMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function publishNow($id) {
+
+        $teamleader = Auth::user()->can('Blog_teamleader');
+        if (!$teamleader) {
+            $rowData = $this->model::where('id', $id)->where('is_active', 0)->where('user_id', Auth::user()->id)->firstOrFail();
+        } else {
+            $rowData = $this->model::where('id', $id)->where('is_active', 0)->with('categories')->firstOrFail();
+        }
+        $dateValue = Carbon::parse(now())->format("Y-m-d");
+        $rowData->published_at = $dateValue;
+        $rowData->is_active = 1;
+        $rowData->save();
+        return redirect()->route($this->PrefixRoute . ".index");
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PostStoreUpdate(DefPostRequest $request, $id = 0) {
 
         $saveData = $this->model::findOrNew($id);

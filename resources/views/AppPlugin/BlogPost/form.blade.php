@@ -99,6 +99,8 @@
 
     </script>
     <x-admin.table.sweet-delete-js/>
+    <x-admin.table.sweet-confirm-js s-text="{{__('admin/blogPost.but_published_sweet')}}" />
+
     <x-admin.java.update-slug :view-type="$pageData['ViewType']"/>
     @if($Config['TableTags'] and $Config['TableTagsOnFly'] )
         <x-admin.ajax.tag-serach/>

@@ -45,6 +45,8 @@ Route::get('/Blog/edit/{id}', [BlogPostController::class, 'PostEdit'])->name('Bl
 Route::get('/Blog/editAr/{id}', [BlogPostController::class, 'PostEdit'])->name('Blog.BlogPost.editAr');
 Route::get('/Blog/editEn/{id}', [BlogPostController::class, 'PostEdit'])->name('Blog.BlogPost.editEn');
 Route::post('/Blog/update/{id}', [BlogPostController::class, 'PostStoreUpdate'])->name('Blog.BlogPost.update');
+Route::get('/Blog/publish-now/{id}', [BlogPostController::class, 'publishNow'])->name('Blog.BlogPost.publishNow');
+
 
 Route::get('/Blog/destroy/{id}', [BlogPostController::class, 'destroy'])->name('Blog.BlogPost.destroy');
 Route::get('/Blog/destroyEdit/{id}', [BlogPostController::class, 'destroyEdit'])->name('Blog.BlogPost.destroyEdit');
