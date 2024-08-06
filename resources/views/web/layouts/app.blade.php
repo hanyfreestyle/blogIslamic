@@ -11,7 +11,7 @@
 {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/boxicons/css/boxicons.min.css',$cssMinifyType,$cssReBuild) !!}--}}
 {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/glightbox/css/glightbox.min.css',$cssMinifyType,$cssReBuild) !!}--}}
 {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/swiper/swiper-bundle.min.css',$cssMinifyType,$cssReBuild) !!}--}}
-    {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style.css',$cssMinifyType,$cssReBuild) !!}
+    {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style.css','Seo',$cssReBuild) !!}
 
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_menu_footer.css',$cssMinifyType,$cssReBuild) !!}
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_edit.css',$cssMinifyType,$cssReBuild) !!}
