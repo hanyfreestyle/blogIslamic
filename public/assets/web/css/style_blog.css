@@ -57,7 +57,7 @@
     font-size: 15px;
     line-height: 30px;
 }
-.blog_des_view_div br { display: none; }
+/*.blog_des_view_div br { display: none; }*/
 .blog_des_view_div img{display:block;margin:auto;margin-top:15px!important;margin-bottom:15px!important;max-width:90%}
 .blog_des_view_div h2 , .blog_des_view_div h3 , .blog_des_view_div h4 , .blog_des_view_div h5 ,.blog_des_view_div h6 {
     padding: 0!important;
@@ -75,6 +75,7 @@
     padding: 10px 0!important;
     font-size: 15px;
     line-height: 30px;
+    background-color: red;
 }
 
 .blog_des_view_div ul{
@@ -102,3 +103,5 @@
     margin-top: 3px!important;
     margin-bottom: 4px!important;
 }
+
+.blog_des_view_div br{display:block;margin:2px!important;}
