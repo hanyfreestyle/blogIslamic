@@ -24,3 +24,6 @@ Route::get('/wordpress/Test',[WordPressController::class,'Test'])->name('admin.T
 Route::get('/wordpress/TrimTags',[WordPressController::class,'TrimTags'])->name('admin.TrimTags');
 Route::get('/wordpress/TrimBlogName',[WordPressController::class,'TrimBlogName'])->name('admin.TrimBlogName');
 Route::get('/wordpress/DesText',[WordPressController::class,'DesText'])->name('admin.DesText');
+
+
+Route::get('/wordpress/CleanBreakLine',[WordPressController::class,'CleanBreakLine'])->name('admin.CleanBreakLine');

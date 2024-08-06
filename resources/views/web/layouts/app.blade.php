@@ -20,6 +20,23 @@
     {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('share/share_buttons.css',$cssMinifyType,$cssReBuild) !!}--}}
     @yield('AddStyle')
     @livewireStyles
+
+    <style>
+        /*p {*/
+        /*    background-color: red;*/
+        /*    margin-bottom: 0 !important;*/
+        /*    margin-top: 0 !important;*/
+        /*    padding: 0 !important;*/
+        /*    line-height: normal;*/
+
+        /*}*/
+
+        /*br {*/
+        /*    display: none;*/
+
+        /*}*/
+    </style>
+
 </head>
 <body>
 

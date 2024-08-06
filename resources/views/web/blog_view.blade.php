@@ -35,10 +35,14 @@
                                         @include('web.blog_table_of_contents', $contents)
                                     </div>
                                 @endif
+{{--                                <div class="blog_des_view_div">--}}
+{{--                                    {!! nl2br(CleanBlogDes($blog->des)) !!}--}}
+{{--                                </div>--}}
 
                                 <div class="blog_des_view_div">
-                                    {!! nl2br(CleanBlogDes($blogBody)) !!}
+                                    {!! (CleanBlogDes($blogBody)) !!}
                                 </div>
+
 
                                 @if(count($blog->tags)>0)
                                     <div class="tag_div">

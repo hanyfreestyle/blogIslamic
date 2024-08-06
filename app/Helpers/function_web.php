@@ -260,12 +260,17 @@ if(!function_exists('htmlBodyStyle')) {
 
     if (!function_exists('CleanBlogDes')) {
         function CleanBlogDes($des) {
+//dd($des);
 
+//            $des = preg_replace("/<p[^>]*><\\/p[^>]*>/", '', $des);
+//             $des = str_replace("<p></p>", '', $des);
+//            $des = str_replace("<img", '<p>ddddddddddddddddd</p>', $des);
 
 //            $des = preg_replace('/\[.*?\]/', '', $des);
 //            $des = preg_replace('#\s*\[caption[^]]*\].*?\[/caption\]\s*#is', '', $des);
 
-            $des =  preg_replace('/.*(<img[^>]+)>.*/', '$1', $des);
+//            $des =  preg_replace('/.*(<img[^>]+)>.*/', '$1', $des);
+//            $descleane =  preg_replace('%(\[caption\b[^\]]*\](.*?)(\[\/caption]))%', '$2', $descleane);
 //             $des = str_replace( '<br/>', "<p>\n</p>", nl2br($des) );
             return $des;
         }

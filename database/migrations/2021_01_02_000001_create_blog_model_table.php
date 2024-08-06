@@ -83,6 +83,7 @@ return new class extends Migration {
             $table->text('g_des')->nullable();
             $table->string('youtube_title')->nullable();
             $table->integer('slug_count')->nullable();
+            $table->integer('clean_des')->nullable();
 
             $table->unique(['blog_id', 'locale']);
             $table->unique(['locale', 'slug']);

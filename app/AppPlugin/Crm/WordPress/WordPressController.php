@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminMainController;
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
 use Illuminate\Support\Facades\DB;
+use function Laravel\Prompts\select;
 
 class WordPressController extends AdminMainController {
 
@@ -22,41 +23,111 @@ class WordPressController extends AdminMainController {
     }
 
 
+    public function CleanBreakLine() {
+
+        $allData = BlogTranslation::query()
+            ->where('clean_des', null)
+//            ->where('id', 4608)
+            ->take(500)
+            ->get();
+
+        foreach ($allData as $data) {
+
+            $des = $data->des;
+            $descleane = $data->des;
+
+            $descleane = str_replace('<!--more-->', '', $descleane);
+            $descleane = preg_replace('%(\[caption\b[^\]]*\](.*?)(\[\/caption]))%', '$2', $descleane);
+            $descleane = self::nl2p($descleane, false,true);
+            $descleane = str_replace('<br />', '', $descleane);
+            $descleane = str_replace('<p></p>', '', $descleane);
+
+            $destext = AdminHelper::textClean($descleane);
+
+            $data->clean_des = 1;
+            $data->des_text = $destext;
+            $data->des = $descleane;
+//             $data->save();
+        }
+
+        echobr(BlogTranslation::query()->where('clean_des', null)->count());
+
+//        return view('AppPlugin.CrmWordPress.index')->with([
+//            'des' => $des,
+//            'descleane' => $descleane,
+//            'destext' => $destext,
+//
+//
+//        ]);
+
+    }
+
+
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function nl2p($string, $line_breaks = true, $xml = true) {
+        $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
+
+        if ($line_breaks == true)
+            return '<p>' . preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'), trim($string)) . '</p>';
+        else
+            return preg_replace(
+                array("/([\n]{2,})/i", "/([\r\n]{3,})/i", "/([^>])\n([^<])/i"),
+                array("</p>\n<p>", "</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'),
+                trim($string));
+    }
+
+
+    public function nl2p_sours($string, $line_breaks = true, $xml = true) {
+        $string = str_replace(array('<p>', '</p>', '<br>', '<br />'), '', $string);
+
+        if ($line_breaks == true)
+            return '<p>' . preg_replace(array("/([\n]{2,})/i", "/([^>])\n([^<])/i"), array("</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'), trim($string)) . '</p>';
+        else
+            return '<p>' . preg_replace(
+                    array("/([\n]{2,})/i", "/([\r\n]{3,})/i", "/([^>])\n([^<])/i"),
+                    array("</p>\n<p>", "</p>\n<p>", '$1<br' . ($xml == true ? ' /' : '') . '>$2'),
+                    trim($string)) . '</p>';
+    }
+
+
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
-    public function DesText () {
-        $names = BlogTranslation::query()->where('des_text',null)->take(500)->get();
-        foreach ($names as $name){
+    public function DesText() {
+        $names = BlogTranslation::query()->where('des_text', null)->take(500)->get();
+        foreach ($names as $name) {
             $name->des_text = AdminHelper::textClean($name->des);
             $name->save();
         }
-        echobr(BlogTranslation::query()->where('des_text',null)->count());
+        echobr(BlogTranslation::query()->where('des_text', null)->count());
     }
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function TrimTags() {
-        $tags = BlogTagsTranslation::query()->where('trim',null)->take(5000)->get();
-        foreach ($tags as $tag){
-            $tag->name = AdminHelper::Url_Slug($tag->name,['delimiter' => ' ']);
-            $tag->trim = 1 ;
+        $tags = BlogTagsTranslation::query()->where('trim', null)->take(5000)->get();
+        foreach ($tags as $tag) {
+            $tag->name = AdminHelper::Url_Slug($tag->name, ['delimiter' => ' ']);
+            $tag->trim = 1;
             $tag->save();
         }
-        echobr(BlogTagsTranslation::query()->where('trim',null)->count());
+        echobr(BlogTagsTranslation::query()->where('trim', null)->count());
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| #
     public function TrimBlogName() {
-        $names = BlogTranslation::query()->where('slug_count',1)->take(500)->get();
+        $names = BlogTranslation::query()->where('slug_count', 1)->take(500)->get();
 //        $names = BlogTranslation::query()->where('id',2360)->get();
-        foreach ($names as $name){
-            $name->name = trim(AdminHelper::Url_Slug($name->name,['delimiter' => ' ']));
-            $name->slug_count = null ;
+        foreach ($names as $name) {
+            $name->name = trim(AdminHelper::Url_Slug($name->name, ['delimiter' => ' ']));
+            $name->slug_count = null;
             $name->save();
         }
-        echobr(BlogTranslation::query()->where('slug_count',1)->count());
+        echobr(BlogTranslation::query()->where('slug_count', 1)->count());
     }
 
 
