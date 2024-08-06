@@ -31,6 +31,7 @@
          }
         );
         CKEDITOR.config.versionCheck = false ;
+        CKEDITOR.config.fillEmptyBlocks = false;
         CKEDITOR.config.removeButtons = 'Save,NewPage,ExportPdf,Preview,Print,Templates,About,Smiley,SpecialChar,PageBreak,Iframe,Language,BidiRtl,BidiLtr,Subscript,Superscript,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Find,Replace,SelectAll,Scayt';
         CKEDITOR.on("instanceReady", function(event) {
             event.editor.on("beforeCommandExec", function(event) {
