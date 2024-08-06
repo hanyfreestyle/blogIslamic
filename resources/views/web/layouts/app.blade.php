@@ -15,7 +15,7 @@
 
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_menu_footer.css',$cssMinifyType,$cssReBuild) !!}
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_edit.css',$cssMinifyType,$cssReBuild) !!}
-    {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_blog.css',$cssMinifyType,$cssReBuild) !!}
+    {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_blog.css',"Seo",$cssReBuild) !!}
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('fontawesome/all.css',$cssMinifyType,$cssReBuild) !!}
     {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('share/share_buttons.css',$cssMinifyType,$cssReBuild) !!}--}}
     @yield('AddStyle')

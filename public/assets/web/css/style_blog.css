@@ -34,7 +34,8 @@
 
 
 
-.blog_des_view br{display:block;margin:2px!important;content:""}
+/*.blog_des_view br{display:block;margin:2px!important;content:""}*/
+.blog_des_view br { display: none; }
 .blog_des_view{
     padding: 10px 0!important;
     font-size: 15px;
