@@ -13,10 +13,10 @@ return new class extends Migration {
             $table->string('web_url')->nullable();
             $table->integer('web_status')->default('1');
             $table->integer('switch_lang')->default('1');
-            $table->integer('users_login')->default('1');
-            $table->integer('serach')->default('1');
-            $table->integer('serach_type')->default('1');
-            $table->integer('wish_list')->default('1');
+//            $table->integer('users_login')->default('1');
+//            $table->integer('serach')->default('1');
+//            $table->integer('serach_type')->default('1');
+//            $table->integer('wish_list')->default('1');
 
             $table->string('phone_num')->nullable();
             $table->string('whatsapp_num')->nullable();
@@ -32,29 +32,11 @@ return new class extends Migration {
             $table->string('linkedin')->nullable();
             $table->string('google_api')->nullable();
 
-            $table->integer('telegram_send')->nullable();
-            $table->string('telegram_key')->nullable();
-            $table->string('telegram_phone')->nullable();
-            $table->string('telegram_group')->nullable();
-
-            $table->integer('page_about')->default('1');
-            $table->integer('page_warranty')->default('1');
-            $table->integer('page_shipping')->default('1');
-            $table->integer('pro_sale_lable')->default('1');
-            $table->integer('pro_quick_view')->default('1');
-            $table->integer('pro_quick_shop')->default('1');
-            $table->integer('pro_warranty_tab')->default('1');
-            $table->integer('pro_shipping_tab')->default('1');
-            $table->integer('pro_social_share')->default('1');
-
-            $table->integer('pro_free_shipping')->default('1');
-            $table->json('pro_main_city_id')->nullable();
-            $table->integer('pro_main_city_rate')->nullable();
-            $table->integer('pro_main_city_discount')->nullable();
-            $table->integer('pro_all_city_rate')->nullable();
-            $table->integer('pro_all_city_discount')->nullable();
-
-
+            $table->string('schema_type')->nullable();
+            $table->string('schema_lat')->nullable();
+            $table->string('schema_long')->nullable();
+            $table->string('schema_postal_code')->nullable();
+            $table->string('schema_country')->nullable();
 
         });
 
@@ -66,6 +48,10 @@ return new class extends Migration {
             $table->string('locale')->index();
             $table->string('name')->nullable();
             $table->text('closed_mass')->nullable();
+            $table->text('meta_des')->nullable();
+            $table->text('whatsapp_des')->nullable();
+            $table->text('schema_address')->nullable();
+            $table->text('schema_city')->nullable();
             $table->unique(['setting_id','locale']);
             $table->foreign('setting_id')->references('id')->on('config_settings')->onDelete('cascade');
         });
