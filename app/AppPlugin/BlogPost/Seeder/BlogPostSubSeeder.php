@@ -23,8 +23,8 @@ class BlogPostSubSeeder extends Seeder {
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_4.sql');
         DB::unprepared(file_get_contents($tablePath));
 
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_5.sql');
-        DB::unprepared(file_get_contents($tablePath));
+//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_5.sql');
+//        DB::unprepared(file_get_contents($tablePath));
 
 //        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_6.sql');
 //        DB::unprepared(file_get_contents($tablePath));
