@@ -16,7 +16,7 @@ class BlogPostSubSeeder extends Seeder {
         ini_set('memory_limit', '20000M');
 
 
-
+        BlogTranslation::unguard();
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_3.sql');
         DB::unprepared(file_get_contents($tablePath));
 
