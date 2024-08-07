@@ -1,4 +1,5 @@
 <?php
+
 namespace App\AppPlugin\BlogPost\Seeder;
 
 
@@ -8,13 +9,9 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class BlogPostWeb2Seeder extends Seeder {
+class BlogTranslationSeeder2 extends Seeder {
 
     public function run(): void {
-
-
-        set_time_limit(0);
-        ini_set('memory_limit', -1);
 
 
         BlogTranslation::unguard();
@@ -32,8 +29,6 @@ class BlogPostWeb2Seeder extends Seeder {
 
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_10.sql');
         DB::unprepared(file_get_contents($tablePath));
-
-
 
 
     }
