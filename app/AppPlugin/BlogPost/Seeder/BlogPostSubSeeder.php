@@ -17,11 +17,11 @@ class BlogPostSubSeeder extends Seeder {
 
 
         BlogTranslation::unguard();
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_3.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_4.sql');
+//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_3.sql');
 //        DB::unprepared(file_get_contents($tablePath));
+
+        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_4.sql');
+        DB::unprepared(file_get_contents($tablePath));
 
 //        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_5.sql');
 //        DB::unprepared(file_get_contents($tablePath));
