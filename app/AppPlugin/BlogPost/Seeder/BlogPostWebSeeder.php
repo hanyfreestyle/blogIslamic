@@ -39,53 +39,6 @@ class BlogPostWebSeeder extends Seeder {
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_5.sql');
         DB::unprepared(file_get_contents($tablePath));
 
-        Setting::unguard();
-        $tablePath = public_path('db/config_settings.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-        SettingTranslation::unguard();
-        $tablePath = public_path('db/config_setting_translations.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-
-        BlogTranslation::unguard();
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_6.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_7.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_8.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_9.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_10.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_11.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-//
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_12.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-//
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_13.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-//
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_14.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-//
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_15.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-//
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_16.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-//
-//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_17.sql');
-//        DB::unprepared(file_get_contents($tablePath));
-
 
     }
 }

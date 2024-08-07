@@ -21,6 +21,7 @@ use App\AppPlugin\BlogPost\Models\BlogReview;
 use App\AppPlugin\BlogPost\Models\BlogTranslation;
 use App\AppPlugin\BlogPost\Seeder\BlogPostSeeder;
 use App\AppPlugin\BlogPost\Seeder\BlogPostSubSeeder;
+use App\AppPlugin\BlogPost\Seeder\BlogPostWeb2Seeder;
 use App\AppPlugin\BlogPost\Seeder\BlogPostWebSeeder;
 use App\AppPlugin\BlogPost\Seeder\PivotSeeder;
 use App\AppPlugin\Config\Meta\SeederMetaTag;
@@ -90,6 +91,8 @@ class DatabaseSeeder extends Seeder {
                 $this->call(BlogCategorySeeder::class);
                 $this->call(BlogPostSeeder::class);
                 $this->call(BlogPostWebSeeder::class);
+                $this->call(SettingsTableSeeder::class);
+                $this->call(BlogPostWeb2Seeder::class);
 //                $this->call(BlogPostSubSeeder::class);
 //                $this->call(PivotSeeder::class);
             }
