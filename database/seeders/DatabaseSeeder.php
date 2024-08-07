@@ -20,9 +20,9 @@ use App\AppPlugin\BlogPost\Models\BlogPivot;
 use App\AppPlugin\BlogPost\Models\BlogReview;
 use App\AppPlugin\BlogPost\Models\BlogTranslation;
 use App\AppPlugin\BlogPost\Seeder\BlogPostSeeder;
-use App\AppPlugin\BlogPost\Seeder\BlogPostSubSeeder;
-use App\AppPlugin\BlogPost\Seeder\BlogPostWeb2Seeder;
-use App\AppPlugin\BlogPost\Seeder\BlogPostWebSeeder;
+ 
+
+use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder;
 use App\AppPlugin\BlogPost\Seeder\PivotSeeder;
 use App\AppPlugin\Config\Meta\SeederMetaTag;
 use App\AppPlugin\Config\Privacy\SeederWebPrivacy;
@@ -61,41 +61,12 @@ class DatabaseSeeder extends Seeder {
         }
 
         if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
-            $testReview = 0 ;
-            if($testReview){
-                BlogCategory::unguard();
-                $tablePath = public_path('db/blog_categories.sql');
-                DB::unprepared(file_get_contents($tablePath));
+            $this->call(BlogCategorySeeder::class);
+            $this->call(BlogPostSeeder::class);
+            $this->call(BlogTranslationSeeder::class);
 
-                BlogCategoryTranslation::unguard();
-                $tablePath = public_path('db/blog_category_translations.sql');
-                DB::unprepared(file_get_contents($tablePath));
 
-                Blog::unguard();
-                $tablePath = public_path('db/_test/blog_post.sql');
-                DB::unprepared(file_get_contents($tablePath));
-
-                BlogTranslation::unguard();
-                $tablePath = public_path('db/_test/blog_translations.sql');
-                DB::unprepared(file_get_contents($tablePath));
-
-                BlogPivot::unguard();
-                $tablePath = public_path('db/_test/blogcategory_blog.sql');
-                DB::unprepared(file_get_contents($tablePath));
-
-                BlogReview::unguard();
-                $tablePath = public_path('db/_test/blog_post_review.sql');
-                DB::unprepared(file_get_contents($tablePath));
-
-            }else{
-                $this->call(BlogCategorySeeder::class);
-                $this->call(BlogPostSeeder::class);
-                $this->call(BlogPostWebSeeder::class);
-
-//                $this->call(BlogPostWeb2Seeder::class);
-//                $this->call(BlogPostSubSeeder::class);
 //                $this->call(PivotSeeder::class);
-            }
         }
 
 

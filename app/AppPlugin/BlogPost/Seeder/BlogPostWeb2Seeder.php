@@ -34,5 +34,7 @@ class BlogPostWeb2Seeder extends Seeder {
         DB::unprepared(file_get_contents($tablePath));
 
 
+
+
     }
 }
