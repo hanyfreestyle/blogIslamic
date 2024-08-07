@@ -10,7 +10,7 @@ class Setting extends Model implements TranslatableContract {
 
     use Translatable;
 
-    public $translatedAttributes = ['name', 'g_title', 'g_des', 'closed_mass'];
+    public $translatedAttributes = ['name', 'g_title', 'g_des', 'closed_mass','meta_des','whatsapp_des','schema_address','schema_city'];
     protected $fillable = ['facebook', 'twitter', 'youtube', 'instagram', 'google_api', 'web_status', 'phone_num', 'whatsapp_num'];
     protected $table = "config_settings";
     protected $primaryKey = 'id';

@@ -1,7 +1,7 @@
 @extends('web.layouts.app')
 @section('content')
+    <x-admin.hmtl.test-meta/>
     <div class="area_padding">
-
         <div class="container">
             <div class="col-lg-12">
                 {!! Breadcrumbs::render('PageReview') !!}
@@ -26,7 +26,7 @@
                     @foreach($page->more_photos as $photo)
                         <div class="row justify-content-md-center">
                             <div class="col-lg-5 order-lg-1 reviewPhoto">
-                                <x-site.def.img :row="$photo" def="categories" class="blog_img rounded-3" w="400" h="240" />
+                                <x-site.def.img :row="$photo" def="categories" class="blog_img rounded-3" w="400" h="240"/>
                             </div>
                             <div class="col-lg-7 order-lg-2">{!! $photo->des !!}</div>
                         </div>
@@ -34,9 +34,5 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
 @endsection

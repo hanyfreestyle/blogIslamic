@@ -1,7 +1,7 @@
 @extends('web.layouts.app')
 @section('content')
+    <x-admin.hmtl.test-meta/>
     <div class="area_padding">
-
         <div class="container">
             <div class="col-lg-12">
                 {!! Breadcrumbs::render('PageAbout') !!}
@@ -14,6 +14,5 @@
                 {!! $page->des !!}
             </div>
         </div>
-
     </div>
 @endsection

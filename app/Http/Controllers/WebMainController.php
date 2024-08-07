@@ -85,17 +85,24 @@ class WebMainController extends DefaultMainController {
 
 
             if ($ErrorPage != true) {
+
+                if ($route == 'AuthorView') {
+                    OpenGraph::setDescription($row->name ?? "");
+                } else {
+                    OpenGraph::setDescription($setDescription ?? "");
+                }
+
                 self::Urlinfo($row, $route);
                 OpenGraph::setTitle($setTitle);
-                OpenGraph::setDescription($row->translate($lang)->g_des ?? "");
+
                 OpenGraph::addProperty('type', $type);
-                OpenGraph::setUrl(url()->current());
+                OpenGraph::setUrl(urldecode(url()->current()));
                 OpenGraph::addImage($defImage);
                 OpenGraph::setSiteName($this->WebConfig->name);
 
                 TwitterCard::setTitle($setTitle);
                 TwitterCard::setDescription($setDescription);
-                TwitterCard::setUrl(url()->current());
+                TwitterCard::setUrl(urldecode(url()->current()));
                 TwitterCard::setImage($defImage);
                 TwitterCard::setImage($defImage);
                 TwitterCard::setType('summary_large_image');
@@ -106,66 +113,39 @@ class WebMainController extends DefaultMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #   TitleInfo
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function TitleInfo($row, $route, $sendArr) {
-        $sendRows = AdminHelper::arrIsset($sendArr, 'sendRows', array());
-        $sendRows2 = AdminHelper::arrIsset($sendArr, 'sendRows2', array());
 
-        $siteName = " | " . $this->WebConfig->name;
 
+        if ($this->WebConfig->meta_des) {
+            $siteName = $this->WebConfig->meta_des;
+        } else {
+            $siteName = null;
+        }
 
         switch ($route) {
-
-            case 'page_developer_view':
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName;
+            case 'CategoryView':
+                $setTitle = self::CheckMeta($row, 'g_title', 'name') . " " . $siteName;
                 $setDescription = self::CheckMeta($row, 'g_des', 'des');
                 $xx = "1";
                 break;
 
-            case 'page_blogCatList':
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName;
+            case 'blog_view':
+                $setTitle = self::CheckMeta($row, 'g_title', 'name') . " " . $siteName;
                 $setDescription = self::CheckMeta($row, 'g_des', 'des');
                 $xx = "2";
                 break;
 
-            case 'page_blogView':
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName;
-                $setDescription = self::CheckMeta($row, 'g_des', 'des');
+            case 'TagView':
+                $setTitle = self::CheckMeta($row, 'name', 'name') . " " . $siteName;
+                $setDescription = self::CheckMeta($row, 'name', 'name') . " " . $siteName;
                 $xx = "3";
                 break;
 
-            case 'page_for_sale':
-                $count = $sendRows->total() . " " . __('web/compound.h1_properties');
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName . " " . $count;
-                $setDescription = self::CheckMeta($row, 'g_des', 'des');
+            case 'AuthorView':
+                $setTitle = self::CheckMeta($row, 'name', 'name')  . " " . $siteName;
+                $setDescription = self::CheckMeta($row, 'name', 'name')  . " " . $siteName;
                 $xx = "4";
-                break;
-
-            case 'page_compounds':
-                $count = $sendRows->total() . " " . __('web/compound.h1_compounds') . " - ";
-                $count .= $sendRows2->total() . " " . __('web/compound.h1_properties');
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName . " " . $count;
-                $setDescription = self::CheckMeta($row, 'g_des', 'des');
-                $xx = "5";
-                break;
-
-            case 'page_ListView':
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName;
-                $setDescription = self::CheckMeta($row, 'g_des', 'des');
-                $xx = "6";
-                break;
-
-            case 'page_locationView':
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName;
-                $setDescription = self::CheckMeta($row, 'g_des', 'des');
-                $xx = "7";
-                break;
-
-            case 'page_ListingPageView':
-                $count = $sendRows->total() . " " . __('web/compound.h1_properties');
-                $setTitle = self::CheckMeta($row, 'g_title', 'name') . $siteName . " " . $count;
-                $setDescription = self::CheckMeta($row, 'g_des', 'des');
-                $xx = "8";
                 break;
 
             default:
@@ -204,45 +184,27 @@ class WebMainController extends DefaultMainController {
         }
 
         switch ($route) {
-            case 'page_index':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('page_index')));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('page_index')));
+
+            case 'CategoryView':
+                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('CategoryView', $row->slug)));
+                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('CategoryView', $row->slug)));
                 break;
 
-            case 'BlogCategoryView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('BlogCategoryView', [$row->slug, $pages])));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('BlogCategoryView', [$row->slug, $pages])));
+            case 'blog_view':
+                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('blog_view', $row->slug)));
+                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('blog_view', $row->slug)));
                 break;
 
-            case 'BlogView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('BlogView', $row->slug)));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('BlogView', $row->slug)));
+            case 'TagView':
+                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('TagView', [$row->slug, $pages])));
+                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('TagView', [$row->slug, $pages])));
                 break;
 
-            case 'BlogTagView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('BlogTagView', [$row->slug, $pages])));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('BlogTagView', [$row->slug, $pages])));
+            case 'AuthorView':
+                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('AuthorView', [$row->slug, $pages])));
+                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('AuthorView', [$row->slug, $pages])));
                 break;
 
-            case 'BrandView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('BrandView', [$row->slug, $pages])));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('BrandView', [$row->slug, $pages])));
-                break;
-
-            case 'ProductsCategoriesView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('ProductsCategoriesView', $row->slug)));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('ProductsCategoriesView', $row->slug)));
-                break;
-
-            case 'ProductsTagView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('ProductsTagView', [$row->slug, $pages])));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('ProductsTagView', [$row->slug, $pages])));
-                break;
-
-            case 'ProductView':
-                $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route('ProductView', $row->slug)));
-                $alternatUrl = urldecode(LaravelLocalization::getLocalizedURL($alternateLang, route('ProductView', $row->slug)));
-                break;
 
             default:
                 $Url = urldecode(LaravelLocalization::getLocalizedURL($lang, route($route, $pages)));

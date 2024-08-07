@@ -13,17 +13,16 @@ use App\Http\Controllers\WebMainController;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\View;
+
 
 class MainPagesViewController extends WebMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PagePrivacy() {
-        $Meta = parent::getMeatByCatId('Privacy');
-        parent::printSeoMeta($Meta, 'page_index');
+        $Meta = parent::getMeatByCatId('trems');
+        parent::printSeoMeta($Meta, 'PagePrivacy');
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'PagePrivacy';
         $webPrivacy = WebPrivacy::where('is_active', true)->orderby('postion', 'asc')->with('translation')->get();
@@ -42,7 +41,7 @@ class MainPagesViewController extends WebMainController {
         $pageView['SelMenu'] = 'PageAbout';
         $page = Page::where('id', 1)->with('translation')->firstOrFail();
         $Meta = parent::getMeatByCatId('AboutUs');
-        parent::printSeoMeta($Meta, 'page_index');
+        parent::printSeoMeta($Meta, 'PageAbout');
         return view('web.page_about')->with(
             [
                 'pageView' => $pageView,
@@ -55,7 +54,7 @@ class MainPagesViewController extends WebMainController {
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PageReview() {
         $Meta = parent::getMeatByCatId('Review');
-        parent::printSeoMeta($Meta, 'page_index');
+        parent::printSeoMeta($Meta, 'PageReview');
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'PageReview';
 
@@ -102,7 +101,7 @@ class MainPagesViewController extends WebMainController {
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function categories() {
         $Meta = parent::getMeatByCatId('categories');
-        parent::printSeoMeta($Meta, 'page_index');
+        parent::printSeoMeta($Meta, 'categories_list');
 
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'Category';
@@ -127,7 +126,7 @@ class MainPagesViewController extends WebMainController {
             self::abortError404('root');
         }
 
-        parent::printSeoMeta($category, 'page_index');
+        parent::printSeoMeta($category, 'CategoryView');
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'CategoryID' . $category->id;
 
@@ -158,7 +157,7 @@ class MainPagesViewController extends WebMainController {
 
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'Category';
-
+        parent::printSeoMeta($user, 'AuthorView');
         $userId = $user->id;
 
         $blogs = Blog::defWeb()->where('user_id', $userId)->orderby('created_at', 'desc')->paginate(12);
@@ -176,9 +175,6 @@ class MainPagesViewController extends WebMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function BlogView($slug, Contents $contents) {
-
-        $Meta = parent::getMeatByCatId('home');
-        parent::printSeoMeta($Meta, 'page_index');
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'HomePage';
 
@@ -209,6 +205,7 @@ class MainPagesViewController extends WebMainController {
             self::abortError404();
         }
 
+        parent::printSeoMeta($blog, 'blog_view');
 
         $review = self::checkReviews($blog);
 
@@ -300,12 +297,8 @@ class MainPagesViewController extends WebMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function TagView($slug) {
-        $Meta = parent::getMeatByCatId('home');
-        parent::printSeoMeta($Meta, 'page_index');
-
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'HomePage';
-
 
         $slug = AdminHelper::Url_Slug($slug);
         $tag = BlogTags::whereTranslation('slug', $slug)->firstOrFail();
@@ -314,6 +307,9 @@ class MainPagesViewController extends WebMainController {
             ->whereHas('tags', function ($query) use ($tagId) {
                 $query->where('tag_id', $tagId);
             })->paginate(12);
+
+
+        parent::printSeoMeta($tag, 'TagView');
 
         return view('web.tag_view')->with(
             [

@@ -1,5 +1,6 @@
 @extends('web.layouts.app')
 @section('content')
+    <x-admin.hmtl.test-meta/>
     <div class="area_padding">
         <div class="container BlogList">
             <div class="row">

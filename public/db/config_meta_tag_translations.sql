@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 30, 2024 at 08:02 PM
+-- Generation Time: Aug 07, 2024 at 11:16 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -18,19 +18,20 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `blog_article`
+-- Database: `islamic_4`
 --
 
 --
 -- Dumping data for table `config_meta_tag_translations`
 --
 
-INSERT INTO `config_meta_tag_translations` (`id`, `meta_tag_id`, `locale`, `g_title`, `g_des`) VALUES
-(1, 1, 'ar', 'مقالات', 'موقع مقالات'),
-(3, 2, 'ar', 'الاقسام', 'الاقسام'),
-(5, 3, 'ar', 'من نحن', 'من نحن'),
-(7, 4, 'ar', 'معايير تدقيق المحتوى', 'معايير تدقيق المحتوى'),
-(13, 7, 'ar', 'عذرًا !! الصفحة التي تبحث عنها غير موجودة.', 'عذرًا !! الصفحة التي تبحث عنها غير موجودة.');
+INSERT INTO `config_meta_tag_translations` (`id`, `meta_tag_id`, `locale`, `name`, `des`, `g_title`, `g_des`) VALUES
+(1, 1, 'ar', NULL, NULL, 'مقالات', 'موقع مقالات'),
+(3, 2, 'ar', NULL, NULL, 'الاقسام', 'الاقسام'),
+(5, 3, 'ar', NULL, NULL, 'من نحن', 'من نحن'),
+(7, 4, 'ar', NULL, NULL, 'معايير تدقيق المحتوى', 'معايير تدقيق المحتوى'),
+(13, 7, 'ar', NULL, NULL, 'عذرًا !! الصفحة التي تبحث عنها غير موجودة.', 'عذرًا !! الصفحة التي تبحث عنها غير موجودة.'),
+(14, 8, 'ar', 'سياسية الاستخدام', 'سياسية الاستخدام', 'سياسية الاستخدام', 'سياسية الاستخدام');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
