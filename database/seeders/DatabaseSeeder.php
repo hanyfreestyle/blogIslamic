@@ -24,6 +24,8 @@ use App\AppPlugin\BlogPost\Seeder\BlogPostSeeder;
 
 use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder;
 use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder2;
+use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder3;
+use App\AppPlugin\BlogPost\Seeder\BlogTranslationSeeder4;
 use App\AppPlugin\BlogPost\Seeder\PivotSeeder;
 use App\AppPlugin\Config\Meta\SeederMetaTag;
 use App\AppPlugin\Config\Privacy\SeederWebPrivacy;
@@ -65,12 +67,10 @@ class DatabaseSeeder extends Seeder {
             $this->call(BlogCategorySeeder::class);
             $this->call(BlogPostSeeder::class);
             $this->call(BlogTranslationSeeder::class);
-            $this->call(BlogTranslationSeeder2::class);
-
-
-//                $this->call(PivotSeeder::class);
+//            $this->call(BlogTranslationSeeder2::class);
+//            $this->call(BlogTranslationSeeder3::class);
+//            $this->call(BlogTranslationSeeder4::class);
         }
-
 
         if (File::isFile(base_path('routes/AppPlugin/pages.php'))) {
             $this->call(PageSeeder::class);

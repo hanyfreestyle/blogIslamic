@@ -12,6 +12,7 @@ class BlogTranslationSeeder extends Seeder {
     public function run(): void {
 
         BlogTranslation::unguard();
+
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_DataStructure.sql');
         DB::unprepared(file_get_contents($tablePath));
 

@@ -1,14 +1,13 @@
 <?php
+
 namespace App\AppPlugin\BlogPost\Seeder;
-
-
 use App\AppPlugin\BlogPost\Models\BlogTranslation;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class BlogPostWeb3Seeder extends Seeder {
+class BlogTranslationSeeder3 extends Seeder {
 
     public function run(): void {
 
@@ -27,13 +26,6 @@ class BlogPostWeb3Seeder extends Seeder {
 
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_15.sql');
         DB::unprepared(file_get_contents($tablePath));
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_16.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_17.sql');
-        DB::unprepared(file_get_contents($tablePath));
-
 
     }
 }
