@@ -87,7 +87,7 @@ class DatabaseSeeder extends Seeder {
             }else{
                 $this->call(BlogCategorySeeder::class);
                 $this->call(BlogPostSeeder::class);
-                $this->call(PivotSeeder::class);
+//                $this->call(PivotSeeder::class);
             }
         }
 
