@@ -13,7 +13,7 @@ class BlogPostSubSeeder extends Seeder {
     public function run(): void {
 
         set_time_limit(0);
-        ini_set('memory_limit', '20000M');
+        ini_set('memory_limit', '20000000000M');
 
 
         BlogTranslation::unguard();
