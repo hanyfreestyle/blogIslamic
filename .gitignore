@@ -11,6 +11,7 @@
 /public/db/blog_translations.sql
 /public/db/*.zip
 /public/db/SQLDumpSplitterResult
+/public/db/SQLDumpSplitterResult_2
 /public/ckfinder
 /public/images/product
 /public/images/category
