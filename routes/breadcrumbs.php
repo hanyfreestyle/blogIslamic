@@ -38,7 +38,7 @@ Breadcrumbs::for('CategoryView', function (BreadcrumbTrail $trail,$category) {
 Breadcrumbs::for('BlogView', function (BreadcrumbTrail $trail,$category,$blog) {
     $trail->parent('categories');
     $trail->push($category->name , route('CategoryView',$category->slug));
-    $trail->push($blog->name , route('blog_view',[$blog->slug,'.html']));
+    $trail->push($blog->name , route('blog_view',$blog->slug));
 });
 
 Breadcrumbs::for('TagView', function (BreadcrumbTrail $trail,$tag) {

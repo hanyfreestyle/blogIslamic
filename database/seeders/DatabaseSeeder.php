@@ -85,9 +85,9 @@ class DatabaseSeeder extends Seeder {
                 DB::unprepared(file_get_contents($tablePath));
 
             }else{
-//                $this->call(BlogCategorySeeder::class);
-//                $this->call(BlogPostSeeder::class);
-//                $this->call(PivotSeeder::class);
+                $this->call(BlogCategorySeeder::class);
+                $this->call(BlogPostSeeder::class);
+                $this->call(PivotSeeder::class);
             }
         }
 

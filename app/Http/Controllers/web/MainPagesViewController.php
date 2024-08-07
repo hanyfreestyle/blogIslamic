@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\View;
 class MainPagesViewController extends WebMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     PagePrivacy
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PagePrivacy() {
         $Meta = parent::getMeatByCatId('Privacy');
         parent::printSeoMeta($Meta, 'page_index');
@@ -36,7 +36,7 @@ class MainPagesViewController extends WebMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     PageAbout
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PageAbout() {
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'PageAbout';
@@ -52,7 +52,7 @@ class MainPagesViewController extends WebMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     PageReview
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function PageReview() {
         $Meta = parent::getMeatByCatId('Review');
         parent::printSeoMeta($Meta, 'page_index');
@@ -69,11 +69,8 @@ class MainPagesViewController extends WebMainController {
         );
     }
 
-
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     index
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function index() {
         $Meta = parent::getMeatByCatId('home');
         parent::printSeoMeta($Meta, 'page_index');
@@ -86,7 +83,6 @@ class MainPagesViewController extends WebMainController {
 //            return $blog;
 //        });
 
-
         $categories = BlogCategory::query()->withCount('blogs')
             ->orderby('blogs_count', "desc")
             ->having('blogs_count', '>', 0)
@@ -95,17 +91,15 @@ class MainPagesViewController extends WebMainController {
                 return $blog;
             });
 
-        return view('web.index')->with(
-            [
-                'pageView' => $pageView,
-                'categories' => $categories,
-            ]
-        );
+        return view('web.index')->with([
+            'pageView' => $pageView,
+            'categories' => $categories,
+        ]);
 
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     categories
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function categories() {
         $Meta = parent::getMeatByCatId('categories');
         parent::printSeoMeta($Meta, 'page_index');
@@ -115,16 +109,14 @@ class MainPagesViewController extends WebMainController {
 
         $categories = BlogCategory::orderby('count', "desc")->paginate(12);
 
-        return view('web.category_list')->with(
-            [
-                'pageView' => $pageView,
-                'categories' => $categories,
-            ]
-        );
+        return view('web.category_list')->with([
+            'pageView' => $pageView,
+            'categories' => $categories,
+        ]);
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function CategoryView($slug) {
 
         try {
@@ -146,17 +138,15 @@ class MainPagesViewController extends WebMainController {
                 $query->where('category_id', $catid);
             })->orderby('created_at', 'desc')->paginate(12);
 
-        return view('web.category_view')->with(
-            [
-                'pageView' => $pageView,
-                'blogs' => $blogs,
-                'category' => $category,
-            ]
-        );
+        return view('web.category_view')->with([
+            'pageView' => $pageView,
+            'blogs' => $blogs,
+            'category' => $category,
+        ]);
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function AuthorView($slug) {
 
         try {
@@ -184,9 +174,8 @@ class MainPagesViewController extends WebMainController {
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| # BlogView
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function BlogView($slug, Contents $contents) {
-
 
         $Meta = parent::getMeatByCatId('home');
         parent::printSeoMeta($Meta, 'page_index');
@@ -194,11 +183,11 @@ class MainPagesViewController extends WebMainController {
         $pageView['SelMenu'] = 'HomePage';
 
         try {
-            $slug = str_replace('.html', '', $slug);
+//            $slug = str_replace('.html', '', $slug);
 
             $slug = AdminHelper::Url_Slug($slug);
 
-            if (Auth::user() ){
+            if (Auth::user()) {
                 $blog = Blog::query()
                     ->whereTranslation('slug', $slug)
                     ->with('tags')
@@ -206,7 +195,7 @@ class MainPagesViewController extends WebMainController {
                     ->with('categories')
                     ->with('reviews')
                     ->firstOrFail();
-            }else{
+            } else {
                 $blog = Blog::defWeb()
                     ->whereTranslation('slug', $slug)
                     ->with('tags')
@@ -227,8 +216,8 @@ class MainPagesViewController extends WebMainController {
         $blogBody = $contents->fromText($blog->des)->getHandledText();
         $blogBody = self::CleanBody($blogBody);
         $contents = $contents->getContentsArray();
-        if(count($contents) == 0){
-            $blogBody =  $blog->des ;
+        if (count($contents) == 0) {
+            $blogBody = $blog->des;
         }
 
         $catid = $blog->categories->first()->id;
@@ -248,49 +237,34 @@ class MainPagesViewController extends WebMainController {
         $popularTags = BlogTags::orderby('count', "desc")->take(10)->get();
 
 
-        return view('web.blog_view')->with(
-            [
-                'pageView' => $pageView,
-                'blog' => $blog,
-                'categories' => $categories,
-                'ReletedBlog' => $ReletedBlog,
-                'popularTags' => $popularTags,
-                'blogBody' => $blogBody,
-                'contents' => $contents,
-                'review' => $review,
-            ]
-        );
+        return view('web.blog_view')->with([
+            'pageView' => $pageView,
+            'blog' => $blog,
+            'categories' => $categories,
+            'ReletedBlog' => $ReletedBlog,
+            'popularTags' => $popularTags,
+            'blogBody' => $blogBody,
+            'contents' => $contents,
+            'review' => $review,
+        ]);
     }
 
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| # CleanBody
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function CleanBody($blogBody) {
-        /*
-        $find = [
-            '<!-- /wp:paragraph -->',
-            '<!-- /wp:heading -->',
-            '<!-- /wp:list -->',
 
-        ];
-        $replace = [
-            '<!-- wp:paragraph -->',
-            '<!-- wp:heading -->',
-            '<!-- wp:list -->',
-        ];
-        $blogBody = str_replace($find, $replace, $blogBody);
-
-        $pattern = ["/<!-- wp:paragraph -->\r\n/", "/<!-- wp:heading -->\r\n/", "/<!-- wp:list -->\r\n/",];
-        $blogBody = preg_replace($pattern, '', $blogBody);
+//        $pattern = ["/<!-- wp:paragraph -->\r\n/", "/<!-- wp:heading -->\r\n/", "/<!-- wp:list -->\r\n/",];
+//        $blogBody = preg_replace($pattern, '', $blogBody);
 //        $blogBody = preg_replace('/\r\n\r\n/', '<br/>', $blogBody);
+//
+//        $blogBody = preg_replace('%(\\[caption.*])(.*)(\\[/caption\\])%', '<p class="Blog_Img_Caption">$2</p>', $blogBody);
 
-        $blogBody = preg_replace('%(\\[caption.*])(.*)(\\[/caption\\])%', '<p class="Blog_Img_Caption">$2</p>', $blogBody);
-*/
         return $blogBody;
     }
 
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function checkReviews($blog) {
         if ($blog->updated_at >= $blog->published_at) {
             $hasUpdate = true;
@@ -324,7 +298,7 @@ class MainPagesViewController extends WebMainController {
         return $review;
     }
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| # TagView
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function TagView($slug) {
         $Meta = parent::getMeatByCatId('home');
         parent::printSeoMeta($Meta, 'page_index');
@@ -353,7 +327,7 @@ class MainPagesViewController extends WebMainController {
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function ContactUs() {
         $Meta = parent::getMeatByCatId('contact-us');
         parent::printSeoMeta($Meta, "page_ContactUs");
@@ -364,7 +338,7 @@ class MainPagesViewController extends WebMainController {
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     ContactSaveForm
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function ContactSaveForm(ContactUsFormRequest $request) {
         $saveContactUs = new ContactUsForm();
         $saveContactUs->name = $request->input('name');
@@ -389,8 +363,9 @@ class MainPagesViewController extends WebMainController {
         Session::forget('RequestListing');
         return redirect()->route('ContactUsThanksPage');
     }
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function ContactSaveFormOnPage(ContactUsOnPageRequest $request) {
         $saveContactUs = new ContactUsForm();
         $formId = $request->input('form_id');
@@ -411,7 +386,7 @@ class MainPagesViewController extends WebMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     ContactUsThanksPage
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function ContactUsThanksPage() {
         $Meta = parent::getMeatByCatId('contact-us');
         parent::printSeoMeta($Meta);
@@ -421,62 +396,7 @@ class MainPagesViewController extends WebMainController {
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     RequestListing
-    public function RequestListing($listid) {
-        Session::put('RequestListing', $listid);
-        Session::save();
-        return redirect()->route('ContactUsRequestPage');
-    }
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     RequestListing
-    public function MeetingRequest($listid) {
-        Session::put('RequestListing', $listid);
-        Session::save();
-        return redirect()->route('MeetingRequestPage');
-    }
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #     RequestListingView
-    public function RequestListingView() {
-
-        $pageView = $this->pageView;
-        $pageView['SelMenu'] = 'Contact';
-        $Meta = parent::getMeatByCatId('contact-us');
-        parent::printSeoMeta($Meta);
-
-
-        $DaysArr = [];
-        $thisDay = strtotime('today 00:00:00');
-        for ($i = 1; $i <= 10; $i++) {
-            if ($i != 1) {
-                $thisDay = $thisDay + 86400;
-            }
-            $Name = Carbon::parse($thisDay)->locale(app()->getLocale())->translatedFormat('jS M Y');
-            array_push($DaysArr, ['id' => $thisDay, 'name' => $Name]);
-
-        }
-        View::share('DaysArr', $DaysArr);
-
-        if (intval(Session::get('RequestListing')) != 0) {
-            $listingId = intval(Session::get('RequestListing'));
-            $unit = Listing::def()->where('id', $listingId)->first();
-            if ($unit != null) {
-                if (Route::currentRouteName() == 'MeetingRequestPage') {
-                    $formType = 'meeting';
-                } elseif (Route::currentRouteName() == 'ContactUsRequestPage') {
-                    $formType = 'request';
-                } else {
-                    $formType = '';
-                }
-                return view('web.contact.request')->with(['pageView' => $pageView, 'unit' => $unit, 'formType' => $formType]);
-            }
-        }
-        return view('web.contact.us')->with(['pageView' => $pageView]);
-    }
-
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-#|||||||||||||||||||||||||||||||||||||| #   UnderConstruction
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function UnderConstruction() {
         $config = WebMainController::getWebConfig(0);
         if ($config->web_status == 1 or Auth::check()) {

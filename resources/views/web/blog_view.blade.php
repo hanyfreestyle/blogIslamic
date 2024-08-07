@@ -35,14 +35,9 @@
                                         @include('web.blog_table_of_contents', $contents)
                                     </div>
                                 @endif
-{{--                                <div class="blog_des_view_div">--}}
-{{--                                    {!! nl2br(CleanBlogDes($blog->des)) !!}--}}
-{{--                                </div>--}}
-
                                 <div class="blog_des_view_div">
                                     {!! (CleanBlogDes($blogBody)) !!}
                                 </div>
-
 
                                 @if(count($blog->tags)>0)
                                     <div class="tag_div">
@@ -82,13 +77,14 @@
                             <div class="recent-post">
                                 @foreach($ReletedBlog as $blog)
                                     <div class="recent_single_post">
-                                        <a href="{{route('blog_view',[$blog->slug,'.html'])}}">
+                                        <a href="{{route('blog_view',$blog->slug)}}">
                                             <div class="post_img">
                                                 <x-site.def.img :row="$blog" def="blog" class="" w="400" h="240"/>
                                             </div>
                                         </a>
                                         <div class="pst_content">
-                                            <p><a href="{{route('blog_view',[$blog->slug,'.html'])}}"> {{$blog->name}}</a></p>
+                                            <p><a href="{{route('blog_view',$blog->slug)}}"> {{$blog->name}}</a></p>
+{{--                                            <p><a href="{{route('blog_view',[$blog->slug,'.html'])}}"> {{$blog->name}}</a></p>--}}
                                         </div>
                                     </div>
                                 @endforeach
