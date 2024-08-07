@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder {
             }else{
                 $this->call(BlogCategorySeeder::class);
                 $this->call(BlogPostSeeder::class);
-//                $this->call(BlogPostWebSeeder::class);
+                $this->call(BlogPostWebSeeder::class);
                 $this->call(SettingsTableSeeder::class);
                 $this->call(BlogPostWeb2Seeder::class);
 //                $this->call(BlogPostSubSeeder::class);
