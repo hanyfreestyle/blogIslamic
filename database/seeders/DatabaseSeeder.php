@@ -43,7 +43,7 @@ class DatabaseSeeder extends Seeder {
         $this->call(RoleSeeder::class);
         $this->call(UsersTableSeeder::class);
 
-//        $this->call(SettingsTableSeeder::class);
+        $this->call(SettingsTableSeeder::class);
         $this->call(DefPhotoSeeder::class);
         $this->call(UploadFilterSeeder::class);
         $this->call(AdminMenuSeeder::class);
@@ -91,8 +91,8 @@ class DatabaseSeeder extends Seeder {
                 $this->call(BlogCategorySeeder::class);
                 $this->call(BlogPostSeeder::class);
                 $this->call(BlogPostWebSeeder::class);
-                $this->call(SettingsTableSeeder::class);
-                $this->call(BlogPostWeb2Seeder::class);
+
+//                $this->call(BlogPostWeb2Seeder::class);
 //                $this->call(BlogPostSubSeeder::class);
 //                $this->call(PivotSeeder::class);
             }
