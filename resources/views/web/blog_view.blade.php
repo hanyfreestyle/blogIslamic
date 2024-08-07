@@ -57,6 +57,7 @@
                             </div>
                         </div>
                     </div>
+                    {!! $printSchema->Article($blog,'blog_view') !!}
                 </div>
 
                 <div class="col-lg-4 col-md-4">
@@ -87,6 +88,7 @@
 {{--                                            <p><a href="{{route('blog_view',[$blog->slug,'.html'])}}"> {{$blog->name}}</a></p>--}}
                                         </div>
                                     </div>
+                                    {!! $printSchema->Article($blog,'blog_view') !!}
                                 @endforeach
                             </div>
                         </div>

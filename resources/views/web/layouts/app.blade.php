@@ -37,13 +37,13 @@
 {!! (new \App\Helpers\MinifyTools)->MinifyJs('js/main.js',"Web",$cssReBuild) !!}
 <x-site.js.load-web-font/>
 {{--@livewireScripts--}}
-<script>
-    document.addEventListener('livewire:load', () => {
-        Livewire.onPageExpired((response, message) => {})
-    })
-</script>
+{{--<script>--}}
+{{--    document.addEventListener('livewire:load', () => {--}}
+{{--        Livewire.onPageExpired((response, message) => {})--}}
+{{--    })--}}
+{{--</script>--}}
 @yield('AddScript')
 @stack('ScriptCode')
-{{--{!! $printSchema->Businesses() !!}--}}
+{!! $printSchema->Businesses() !!}
 </body>
 </html>
