@@ -11,10 +11,11 @@ use Illuminate\Support\Facades\DB;
 class BlogPostWeb2Seeder extends Seeder {
 
     public function run(): void {
-        $Config = BlogConfigTraits::DbConfig();
+
 
         set_time_limit(0);
         ini_set('memory_limit', '20000M');
+
 
         BlogTranslation::unguard();
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_6.sql');
@@ -29,8 +30,8 @@ class BlogPostWeb2Seeder extends Seeder {
         $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_9.sql');
         DB::unprepared(file_get_contents($tablePath));
 
-        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_10.sql');
-        DB::unprepared(file_get_contents($tablePath));
+//        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_10.sql');
+//        DB::unprepared(file_get_contents($tablePath));
 
 //        $tablePath = public_path('db/SQLDumpSplitterResult/blog_translations_11.sql');
 //        DB::unprepared(file_get_contents($tablePath));
