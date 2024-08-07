@@ -65,8 +65,7 @@
                             <h4>{{__('web/menu.main_category')}}</h4>
                             <ul class="blog_view_cat_list">
                                 @foreach($categories as $category)
-                                    <li><a href="{{route('CategoryView',$category->slug)}}">{{$category->name}} <span class="number">({{$category->count}})</span></a>
-                                    </li>
+                                    <li><a href="{{route('CategoryView',$category->slug)}}">{{$category->name}} <span class="number">({{$category->count}})</span></a></li>
                                 @endforeach
                             </ul>
                         </div>

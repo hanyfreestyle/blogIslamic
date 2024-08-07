@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-between">
 
         <div class="logo">
-            <h1><a href="{{route('page_index')}}"><span>م</span>قالات</a></h1>
+            <a class="site_name" href="{{route('page_index')}}">{{$WebConfig->name ?? ''}}</a>
         </div>
 
         <nav id="navbar" class="navbar">

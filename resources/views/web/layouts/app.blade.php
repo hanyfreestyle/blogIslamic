@@ -8,9 +8,6 @@
     <x-site.def.fav-icon/>
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/animate.css/animate.min.css',$cssMinifyType,$cssReBuild) !!}
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/bootstrap/css/bootstrap.min.css',$cssMinifyType,$cssReBuild) !!}
-{{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/boxicons/css/boxicons.min.css',$cssMinifyType,$cssReBuild) !!}--}}
-{{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/glightbox/css/glightbox.min.css',$cssMinifyType,$cssReBuild) !!}--}}
-{{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/swiper/swiper-bundle.min.css',$cssMinifyType,$cssReBuild) !!}--}}
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style.css','Seo',$cssReBuild) !!}
 
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('css/style_menu_footer.css',$cssMinifyType,$cssReBuild) !!}
@@ -19,24 +16,7 @@
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('fontawesome/all.css',$cssMinifyType,$cssReBuild) !!}
     {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('share/share_buttons.css',$cssMinifyType,$cssReBuild) !!}--}}
     @yield('AddStyle')
-    @livewireStyles
-
-    <style>
-        /*p {*/
-        /*    background-color: red;*/
-        /*    margin-bottom: 0 !important;*/
-        /*    margin-top: 0 !important;*/
-        /*    padding: 0 !important;*/
-        /*    line-height: normal;*/
-
-        /*}*/
-
-        /*br {*/
-        /*    display: none;*/
-
-        /*}*/
-    </style>
-
+{{--    @livewireStyles--}}
 </head>
 <body>
 
@@ -56,7 +36,7 @@
 {!! (new \App\Helpers\MinifyTools)->MinifyJs('vendor/swiper/swiper-bundle.min.js',"Web",$cssReBuild) !!}
 {!! (new \App\Helpers\MinifyTools)->MinifyJs('js/main.js',"Web",$cssReBuild) !!}
 <x-site.js.load-web-font/>
-@livewireScripts
+{{--@livewireScripts--}}
 <script>
     document.addEventListener('livewire:load', () => {
         Livewire.onPageExpired((response, message) => {})
