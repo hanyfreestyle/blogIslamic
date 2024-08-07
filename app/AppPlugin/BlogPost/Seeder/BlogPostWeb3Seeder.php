@@ -8,13 +8,13 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class BlogPostWeb2Seeder extends Seeder {
+class BlogPostWeb3Seeder extends Seeder {
 
     public function run(): void {
 
 
         set_time_limit(0);
-        ini_set('memory_limit', -1);
+        ini_set('memory_limit', '20000M');
 
 
         BlogTranslation::unguard();
