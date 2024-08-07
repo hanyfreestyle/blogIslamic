@@ -14,6 +14,7 @@ class BlogPostSeeder extends Seeder {
 
         $Config = BlogConfigTraits::DbConfig();
 
+        ini_set('memory_limit', '512M');
 
         Blog::unguard();
         $tablePath = public_path('db/blog_post.sql');
