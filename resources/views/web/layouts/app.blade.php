@@ -3,7 +3,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
+
+    @if(Route::currentRouteName() == "TagView")
+        <meta name="robots" content="noindex, nofollow">
+    @else
+        <meta name="robots" content="index, follow">
+    @endif
+
     {!! SEO::generate() !!}
     <x-site.def.fav-icon/>
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('vendor/animate.css/animate.min.css',$cssMinifyType,$cssReBuild) !!}
