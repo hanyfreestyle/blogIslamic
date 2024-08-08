@@ -1,13 +1,11 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
     <a href="{{route('admin.Dashboard')}}" class="brand-link">
         <img src="{{defAdminAssets('img/LogoIcon.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">{{config('adminConfig.textWithLogo')}}</span>
     </a>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
+
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{!! UserProfilePhoto() !!}" class="img-circle elevation-2" alt="User Image">
@@ -17,7 +15,7 @@
             </div>
         </div>
 
-        <!-- SidebarSearch Form -->
+
         @if(config('adminConfig.sidebar_navbar_search') == true)
             <div class="form-inline">
                 <div class="input-group" data-widget="sidebar-search">
@@ -35,16 +33,33 @@
             <ul class="nav nav-pills nav-sidebar flex-column {{sideBarNavUlStyle()}}" data-widget="treeview" role="menu" data-accordion="false">
                 @foreach( $adminMenu as $MenuList )
                     @if($MenuList->type == "One")
-                        @can($MenuList->roleView)
-                            @if( Route::has($MenuList->url))
-                                <li class="nav-item">
-                                    <a href="{{ route($MenuList->url) }}" class="nav-link  @if(Route::is($MenuList->sel_routs.'.*')) active @endif ">
-                                        @if(isset($MenuList->icon))<i class="nav-icon {{$MenuList->icon}}"></i>@endif
-                                        <p>{!! __($MenuList->name) !!}</p>
-                                    </a>
-                                </li>
+                        @if($MenuList->roleView == 'adminlang_view')
+                            @if(config('app.ADMIN_LANG'))
+                                @can($MenuList->roleView)
+                                    @if( Route::has($MenuList->url))
+                                        <li class="nav-item">
+                                            <a href="{{ route($MenuList->url) }}" class="nav-link  @if(Route::is($MenuList->sel_routs.'.*')) active @endif ">
+                                                @if(isset($MenuList->icon))<i class="nav-icon {{$MenuList->icon}}"></i>@endif
+                                                <p>{!! __($MenuList->name)!!}</p>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endcan
                             @endif
-                        @endcan
+                        @else
+                            @can($MenuList->roleView)
+                                @if( Route::has($MenuList->url))
+                                    <li class="nav-item">
+                                        <a href="{{ route($MenuList->url) }}" class="nav-link  @if(Route::is($MenuList->sel_routs.'.*')) active @endif ">
+                                            @if(isset($MenuList->icon))<i class="nav-icon {{$MenuList->icon}}"></i>@endif
+                                            <p>{!! __($MenuList->name) !!}</p>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endcan
+                        @endif
+
+
                     @elseif($MenuList->type == "Many")
                         @can($MenuList->roleView)
 

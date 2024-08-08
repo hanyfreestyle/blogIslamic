@@ -18,6 +18,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
     'configAdminDir' => env('ADMIN_DIR', 'admin'),
+    'ADMIN_LANG' => env('APP_ADMIN_LANG', false),
 
     /*
     |--------------------------------------------------------------------------

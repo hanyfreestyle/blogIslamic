@@ -308,7 +308,7 @@ class LangFileController extends AdminMainController {
         for ($i = 0; $i < $forloop; $i++) {
             $langloop = [];
             foreach ($AppLang as $key => $lang) {
-                $langloop += $rowData[$key][$i];
+                $langloop += $rowData[$key][$i] ?? [];
             }
             array_push($LastData, $langloop);
         }
