@@ -14,9 +14,23 @@ return new class extends Migration {
             $table->integer('url_count')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('config_site_robots', function (Blueprint $table) {
+            $table->id();
+            $table->string('cat_id')->nullable();
+            $table->string('tag_manager_code')->nullable();
+            $table->string('analytics_code')->nullable();
+            $table->string('web_master_meta')->nullable();
+            $table->string('web_master_html')->nullable();
+            $table->string('google_api')->nullable();
+            $table->longText('robots')->nullable();
+            $table->timestamps();
+        });
+
     }
 
     public function down(): void {
+        Schema::dropIfExists('config_google_tags');
         Schema::dropIfExists('config_site_maps');
     }
 

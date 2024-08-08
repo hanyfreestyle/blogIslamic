@@ -391,6 +391,9 @@ class SiteMapTools {
             }
             fwrite($fh, $This_stringData);
         }
+
+
+
         fclose($fh);
     }
 

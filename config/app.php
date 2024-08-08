@@ -235,7 +235,7 @@ return [
 
 
     //'development' => env('APP_DEVELOPMENT'),
-    'development' => env('APP_DEVELOPMENT', true),
+    'development' => env('APP_DEVELOPMENT', false),
     'puzzle_active' => env('PUZZLE_ACTIVE', false),
     'upload_photo_notes' => true,
     'SideBarCollapse' => false,

@@ -32,6 +32,7 @@ use App\AppPlugin\Config\Privacy\SeederWebPrivacy;
 use App\AppPlugin\BlogPost\Seeder\BlogCategorySeeder;
 
 
+use App\AppPlugin\Config\SiteMap\GoogleCodeSeeder;
 use App\AppPlugin\Pages\Seeder\PageSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -41,39 +42,45 @@ class DatabaseSeeder extends Seeder {
 
     public function run(): void {
 
-        $this->call(PermissionSeeder::class);
-        $this->call(AdminUserSeeder::class);
-        $this->call(RoleSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        if (config('app.development')) {
+            $this->call(PermissionSeeder::class);
+            $this->call(AdminUserSeeder::class);
+            $this->call(RoleSeeder::class);
+            $this->call(UsersTableSeeder::class);
 
-        $this->call(SettingsTableSeeder::class);
-        $this->call(DefPhotoSeeder::class);
-        $this->call(UploadFilterSeeder::class);
-        $this->call(AdminMenuSeeder::class);
+            $this->call(SettingsTableSeeder::class);
+            $this->call(DefPhotoSeeder::class);
+            $this->call(UploadFilterSeeder::class);
+            $this->call(AdminMenuSeeder::class);
 
-        if (File::isFile(base_path('routes/AppPlugin/crm/ImportData.php'))) {
-            $this->call(ImportDataSeeder::class);
-        }
+            if (File::isFile(base_path('routes/AppPlugin/config/siteMaps.php'))) {
+                $this->call(GoogleCodeSeeder::class);
+            }
 
-        if (File::isFile(base_path('routes/AppPlugin/config/configMeta.php'))) {
-            $this->call(SeederMetaTag::class);
-        }
+            if (File::isFile(base_path('routes/AppPlugin/crm/ImportData.php'))) {
+                $this->call(ImportDataSeeder::class);
+            }
 
-        if (File::isFile(base_path('routes/AppPlugin/config/webPrivacy.php'))) {
-            $this->call(SeederWebPrivacy::class);
-        }
+            if (File::isFile(base_path('routes/AppPlugin/config/configMeta.php'))) {
+                $this->call(SeederMetaTag::class);
+            }
 
-        if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
-            $this->call(BlogCategorySeeder::class);
-            $this->call(BlogPostSeeder::class);
-            $this->call(BlogTranslationSeeder::class);
-//            $this->call(BlogTranslationSeeder2::class);
-//            $this->call(BlogTranslationSeeder3::class);
-//            $this->call(BlogTranslationSeeder4::class);
-        }
+            if (File::isFile(base_path('routes/AppPlugin/config/webPrivacy.php'))) {
+                $this->call(SeederWebPrivacy::class);
+            }
 
-        if (File::isFile(base_path('routes/AppPlugin/pages.php'))) {
-            $this->call(PageSeeder::class);
+            if (File::isFile(base_path('routes/AppPlugin/blogPost.php'))) {
+                $this->call(BlogCategorySeeder::class);
+                $this->call(BlogPostSeeder::class);
+                $this->call(BlogTranslationSeeder::class);
+                $this->call(BlogTranslationSeeder2::class);
+                $this->call(BlogTranslationSeeder3::class);
+                $this->call(BlogTranslationSeeder4::class);
+            }
+
+            if (File::isFile(base_path('routes/AppPlugin/pages.php'))) {
+                $this->call(PageSeeder::class);
+            }
         }
 
 
