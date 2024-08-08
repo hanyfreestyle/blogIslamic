@@ -37,6 +37,11 @@ class LangFileController extends AdminMainController {
 
         $selId = AdminHelper::arrIsset($_GET, 'id', '');
         View::share('selId', $selId);
+
+        if (!config('app.ADMIN_LANG')) {
+            abort('403');
+        }
+
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -326,8 +331,8 @@ class LangFileController extends AdminMainController {
         $mainMenu->name = "admin.app_menu_lang_admin";
         $mainMenu->icon = "fas fa-language";
         $mainMenu->roleView = "adminlang_view";
-        $mainMenu->is_active =  true;
-        $mainMenu->postion =  100;
+        $mainMenu->is_active = true;
+        $mainMenu->postion = 100;
         $mainMenu->save();
     }
 
