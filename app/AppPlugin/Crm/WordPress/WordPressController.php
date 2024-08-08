@@ -5,6 +5,7 @@ namespace App\AppPlugin\Crm\WordPress;
 use App\AppPlugin\BlogPost\Models\Blog;
 use App\AppPlugin\BlogPost\Models\BlogCategory;
 use App\AppPlugin\BlogPost\Models\BlogCategoryTranslation;
+use App\AppPlugin\BlogPost\Models\BlogReview;
 use App\AppPlugin\BlogPost\Models\BlogTags;
 use App\AppPlugin\BlogPost\Models\BlogTagsTranslation;
 use App\AppPlugin\BlogPost\Models\BlogTranslation;
@@ -25,7 +26,21 @@ class WordPressController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function UpdateDates() {
-        dd('hi');
+
+       $blogs = BlogReview::query()->get();
+       foreach ($blogs as $blog){
+           $blog->updated_at  = "2024-04-15 00:00:00";
+           $blog->save();
+       }
+
+        $blogs = Blog::query()->get();
+        foreach ($blogs as $blog){
+            $blog->created_at  = "2024-04-15 00:00:00";
+            $blog->updated_at  = "2024-04-15 00:00:00";
+            $blog->published_at  = "2024-04-15 ";
+            $blog->save();
+        }
+
     }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
