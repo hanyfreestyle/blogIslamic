@@ -13,7 +13,6 @@ use App\Http\Controllers\AdminMainController;
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
 use Illuminate\Support\Facades\DB;
-use function Laravel\Prompts\select;
 
 class WordPressController extends AdminMainController {
 

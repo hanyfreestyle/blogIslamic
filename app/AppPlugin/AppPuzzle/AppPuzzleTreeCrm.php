@@ -12,10 +12,24 @@ class AppPuzzleTreeCrm {
             'ImportData' => self::treeImportData(),
             'CrmCustomers' => self::treeCrmCustomers(),
             'Periodicals' => self::treePeriodicals(),
+            'WordPress' => self::treeWordPress(),
         ];
         return $modelTree;
     }
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #
+    static function treeWordPress() {
+        return [
+            'view' => true,
+            'id' => "WordPress",
+            'CopyFolder' => "Crm_WordPress",
+            'appFolder' => 'Crm/WordPress',
+            'viewFolder' => 'WordPress',
+            'routeFolder' => "crm/",
+            'routeFile' => 'WordPress.php',
+        ];
+    }
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #
@@ -44,6 +58,8 @@ class AppPuzzleTreeCrm {
             'ComponentFolderView' => ['app-plugin/crm/book'],
         ];
     }
+
+
 
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
