@@ -22,6 +22,14 @@ class WordPressController extends AdminMainController {
     }
 
 
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function UpdateDates() {
+        dd('hi');
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function CleanBreakLine() {
 
         $allData = BlogTranslation::query()
@@ -37,7 +45,7 @@ class WordPressController extends AdminMainController {
 
             $descleane = str_replace('<!--more-->', '', $descleane);
             $descleane = preg_replace('%(\[caption\b[^\]]*\](.*?)(\[\/caption]))%', '$2', $descleane);
-            $descleane = self::nl2p($descleane, false,true);
+            $descleane = self::nl2p($descleane, false, true);
             $descleane = str_replace('<br />', '', $descleane);
             $descleane = str_replace('<p></p>', '', $descleane);
 

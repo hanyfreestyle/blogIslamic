@@ -27,3 +27,5 @@ Route::get('/wordpress/DesText',[WordPressController::class,'DesText'])->name('a
 
 
 Route::get('/wordpress/CleanBreakLine',[WordPressController::class,'CleanBreakLine'])->name('admin.CleanBreakLine');
+
+Route::get('/wordpress/UpdateDates',[WordPressController::class,'UpdateDates'])->name('admin.UpdateDates');
