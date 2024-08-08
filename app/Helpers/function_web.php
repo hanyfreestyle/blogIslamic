@@ -276,6 +276,30 @@ if(!function_exists('htmlBodyStyle')) {
         }
     }
 
-
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    if (!function_exists('printBlogName')) {
+        function printBlogName($name) {
+            $name = explode(" ", $name);
+            $newLine = '';
+            foreach ($name as $newName) {
+                if (mb_substr($newName, 0, 3) == 'الا') {
+                    $offset = '<span>' . mb_substr($newName, 0, 3) . '</span>';
+                    $offset_after = mb_substr($newName, 3, 2000);
+                    $line = $offset . $offset_after;
+                }elseif (mb_substr($newName, 0, 2) == 'لا' or  mb_substr($newName, 0, 2) == 'ال'){
+                    $offset = '<span>' . mb_substr($newName, 0, 2) . '</span>';
+                    $offset_after = mb_substr($newName, 2, 2000);
+                    $line = $offset . $offset_after;
+                } else {
+                    $offset = '<span>'.mb_substr($newName, 0, 1).'</span>';
+                    $offset_after =  mb_substr($newName, 1, 2000);
+                    $line = $offset .$offset_after  ;
+                }
+                $newLine .= $line . " ";
+            }
+            return $newLine;
+        }
+    }
 
 }

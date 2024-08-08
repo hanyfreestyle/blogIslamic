@@ -2,7 +2,7 @@
     <div class="container d-flex justify-content-between">
 
         <div class="logo">
-            <a class="site_name" href="{{route('page_index')}}">{{$WebConfig->name ?? ''}}</a>
+            <a class="site_name" href="{{route('page_index')}}">{!! printBlogName($WebConfig->name ?? '') !!}</a>
         </div>
 
         <nav id="navbar" class="navbar">
@@ -22,3 +22,5 @@
         </nav>
     </div>
 </header>
+
+<span></span>

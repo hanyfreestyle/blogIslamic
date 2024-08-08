@@ -77,11 +77,6 @@ class MainPagesViewController extends WebMainController {
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'HomePage';
 
-//        $categories = BlogCategory::orderby('count', "desc")->take(10)->get()->map(function ($blog) {
-//            $blog->setRelation('homeBlog', $blog->homeBlog->take(3));
-//            return $blog;
-//        });
-
         $categories = BlogCategory::query()->withCount('blogs')
             ->orderby('blogs_count', "desc")
             ->having('blogs_count', '>', 0)
