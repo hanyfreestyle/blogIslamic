@@ -2,6 +2,7 @@
 
 namespace App\AppPlugin\Config\SiteMap;
 
+use Illuminate\Support\Facades\File;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -362,6 +363,17 @@ class SiteMapTools {
 #|||||||||||||||||||||||||||||||||||||| #    updateRobotsTxt
     static function updateRobotsTxt($siteMapList) {
 
+        $googleCode = GoogleCode::query()->first();
+        if ($googleCode->web_master_html) {
+            $filePath = public_path($googleCode->web_master_html . ".html");
+            if (!File::isFile(public_path($googleCode->web_master_html . ".html"))) {
+                $fh = fopen($filePath, 'w') or die("can't open file");
+                $stringData = "google-site-verification: $googleCode->web_master_html.html";
+                fwrite($fh, $stringData);
+                fclose($fh);
+            }
+        }
+
         $myFile = public_path('robots.txt');
         $fh = fopen($myFile, 'w') or die("can't open file");
 
@@ -381,8 +393,16 @@ class SiteMapTools {
         $lines .= "Disallow: /temp/" . "\n";
         $lines .= "Disallow: /tests/" . "\n";
         $lines .= "Disallow: /vendor/" . "\n";
-
         fwrite($fh, $lines);
+
+        if ($googleCode->robots) {
+            $addrobots = "\n";
+            $addrobots .= $googleCode->robots;
+            $addrobots .= "\n";
+            fwrite($fh, $addrobots);
+        }
+
+
         if (count($siteMapList) > '0') {
             $This_stringData = "\n";
             for ($i = 0; $i < count($siteMapList); $i++) {
@@ -392,16 +412,22 @@ class SiteMapTools {
             fwrite($fh, $This_stringData);
         }
 
-
-
         fclose($fh);
     }
-
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #    updateRobotsTxtsinglePage
     static function updateRobotsTxtsinglePage() {
+
+        $googleCode = GoogleCode::query()->first();
+        if ($googleCode->web_master_html) {
+            $filePath = public_path($googleCode->web_master_html . ".html");
+            if (!File::isFile(public_path($googleCode->web_master_html . ".html"))) {
+                $fh = fopen($filePath, 'w') or die("can't open file");
+                $stringData = "google-site-verification: $googleCode->web_master_html.html";
+                fwrite($fh, $stringData);
+                fclose($fh);
+            }
+        }
 
         $myFile = public_path('robots.txt');
         $fh = fopen($myFile, 'w') or die("can't open file");
@@ -422,14 +448,24 @@ class SiteMapTools {
         $lines .= "Disallow: /temp/" . "\n";
         $lines .= "Disallow: /tests/" . "\n";
         $lines .= "Disallow: /vendor/" . "\n";
-
         fwrite($fh, $lines);
+
+        if ($googleCode->robots) {
+            $addrobots = "\n";
+            $addrobots .= $googleCode->robots;
+            $addrobots .= "\n";
+            fwrite($fh, $addrobots);
+        }
+
         $This_stringData = "\n";
         $ThisUrl = urldecode(url('sitemap.xml'));
-        $This_stringData .= "Sitemap: " . $ThisUrl . "\n";;
+        $This_stringData .= "Sitemap: " . $ThisUrl . "\n";
         fwrite($fh, $This_stringData);
+
         fclose($fh);
     }
+
+
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #   ForSaleCode

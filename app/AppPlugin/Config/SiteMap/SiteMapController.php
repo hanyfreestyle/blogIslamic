@@ -118,11 +118,6 @@ class SiteMapController extends AdminMainController {
         return back()->with('Update.Done', '');
     }
 
-
-
-
-
-
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function UpdateSiteMap() {
@@ -142,7 +137,7 @@ class SiteMapController extends AdminMainController {
         }
 
         $stringData .= self::UpdateIndexPages('index');
-//        $stringData .= self::UpdateBlogPages('blog');
+        $stringData .= self::UpdateBlogPages('blog');
 
         if ($this->config['singlePage']) {
             $stringData .= "</urlset>\n";
@@ -151,6 +146,8 @@ class SiteMapController extends AdminMainController {
         }
 
         SiteMapTools::updateIndexSiteMapXmlFile($this->config['singlePage']);
+
+
         return redirect()->back();
     }
 

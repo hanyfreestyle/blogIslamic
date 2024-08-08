@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <x-app-plugin.google-code.web-tag type="web_master_meta"/>
 
     @if(Route::currentRouteName() == "TagView")
         <meta name="robots" content="noindex, nofollow">
@@ -22,10 +23,11 @@
     {!! (new \App\Helpers\MinifyTools)->MinifyCss('fontawesome/all.css',$cssMinifyType,$cssReBuild) !!}
     {{--    {!! (new \App\Helpers\MinifyTools)->MinifyCss('share/share_buttons.css',$cssMinifyType,$cssReBuild) !!}--}}
     @yield('AddStyle')
-{{--    @livewireStyles--}}
+    {{--    @livewireStyles--}}
+    <x-app-plugin.google-code.web-tag type="tag_manager_code_header"/>
 </head>
 <body>
-
+<x-app-plugin.google-code.web-tag type="tag_manager_code_body"/>
 @include('web.layouts.inc.header_menu')
 @yield('content')
 @include('web.layouts.inc.footer')

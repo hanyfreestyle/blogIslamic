@@ -5,6 +5,7 @@
 /public/hot
 /public/robots.txt
 /public/*.xml
+/public/google*.html
 /public/storage
 /public/wp-content
 /public/media
