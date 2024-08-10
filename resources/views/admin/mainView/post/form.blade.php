@@ -3,7 +3,7 @@
 @section('content')
     <x-admin.hmtl.breadcrumb :pageData="$pageData"/>
 
-    <x-admin.hmtl.top-edit-page :page-data="$pageData" :row="$rowData" web-slug="BlogView"/>
+    <x-admin.hmtl.top-edit-page :page-data="$pageData" :row="$rowData"/>
     <x-admin.hmtl.section>
         <x-admin.card.def :page-data="$pageData">
             <form class="mainForm" action="{{route($PrefixRoute.'.update',intval($rowData->id))}}" method="post" enctype="multipart/form-data">

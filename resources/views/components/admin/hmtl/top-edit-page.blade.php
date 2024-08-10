@@ -20,7 +20,9 @@
                 @endif
 
                 @can($PrefixRole.'_delete')
-                    <x-admin.form.action-button url="#" id="{{route($PrefixRoute.'.destroyEdit',$row->id)}}" :tip="false" type="deleteSweet"/>
+                    @if(Route::has($PrefixRoute.'.destroyEdit'))
+                            <x-admin.form.action-button url="#" id="{{route($PrefixRoute.'.destroyEdit',$row->id)}}" :tip="false" type="deleteSweet"/>
+                    @endif
                 @endcan
 
                 @if($webSlug != null)
