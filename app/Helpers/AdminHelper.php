@@ -289,7 +289,8 @@ class AdminHelper {
         }
 
         // Replace non-alphanumeric characters with our delimiter
-        $str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
+//        $str = preg_replace('/[^\p{L}\p{Nd}]+/u', $options['delimiter'], $str);
+        $str = preg_replace('/[^\p{L}\p{Nd}\?؟]+/u', $options['delimiter'], $str);
 
         // Remove duplicate delimiters
         $str = preg_replace('/(' . preg_quote($options['delimiter'], '/') . '){2,}/', '$1', $str);
