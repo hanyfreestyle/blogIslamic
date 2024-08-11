@@ -22,7 +22,7 @@ class Blog extends Model implements TranslatableContract {
     use SoftDeletes;
 
     public $translatedAttributes = ['name', 'des', 'other', 'slug','des_text'];
-    protected $fillable = ['category_id', 'photo', 'photo_thum_1', 'is_active', 'postion', 'text_view', 'url_type'];
+    protected $fillable = ['category_id', 'photo', 'photo_thum_1', 'is_active', 'postion', 'text_view', 'url_type','updated_at'];
     protected $table = "blog_post";
     protected $primaryKey = 'id';
     protected $translationForeignKey = 'blog_id';

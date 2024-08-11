@@ -358,7 +358,6 @@ class BlogPostController extends AdminMainController {
         $saveData = $this->model::findOrNew($id);
         try {
             DB::transaction(function () use ($request, $saveData) {
-
                 $categories = $request->input('categories');
                 $tags = $request->input('tag_id');
                 $user_id = Auth::user()->id;
@@ -368,6 +367,7 @@ class BlogPostController extends AdminMainController {
                 if ($request->input('form_type') == 'Add' and $this->TableReview) {
                     $saveData->user_id = $user_id;
                 }
+                $saveData->updated_at = now();
                 $saveData->save();
 
                 if ($request->input('form_type') == 'Add' and $this->TableReview) {
