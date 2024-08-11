@@ -44,11 +44,11 @@ final class HeadersParser {
     }
 
     private function deleteUnstructuredHeader(int $key, &$headers): void {
-//dd($headers);
 //        if ($key > 0 && ($headers[$key]['level'] - $headers[$key - 1]['level'] > 1)) {
 //            unset($headers[$key]);
 //        }
     }
+    
 
     private function addHeaderId() {
         foreach ($this->parsedHeaders as $key => &$header) {
