@@ -191,9 +191,16 @@ class AdminHelper {
         $code .= (10 - ($sum % 10)) % 10;
         return $code;
     }
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #     Url_Slug
     static function Url_Slug($str, $options = array()) {
+        $str = preg_replace('/\s+/', '-', $str);
+        return $str;
+    }
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#|||||||||||||||||||||||||||||||||||||| #     Url_Slug
+    static function Url_Slug_old($str, $options = array()) {
         if (!$str) {
             return null;
         }
@@ -477,7 +484,7 @@ class AdminHelper {
     }
 
     static function str_word_count_ar($string) {
-       return str_word_count(preg_replace("/[\x{0600}-\x{06FF}a-zA-Z]/u", "a", $string));
+        return str_word_count(preg_replace("/[\x{0600}-\x{06FF}a-zA-Z]/u", "a", $string));
     }
 
 }
