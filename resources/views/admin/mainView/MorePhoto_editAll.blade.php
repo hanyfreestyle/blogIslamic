@@ -46,7 +46,7 @@
                                     </div>
                                     @foreach ( config('app.web_lang') as $key=>$lang )
                                         <div class="col-lg-{{getColLang(5,10)}}">
-                                            <x-admin.form.text-area name="des_{{$key}}_{{$photo['id']}}" :labelview="false"
+                                            <x-admin.form.textarea name="des_{{$key}}_{{$photo['id']}}" :labelview="false"
                                                                     value="{!! $photo->translateOrNew($key)->des !!}" :tdir="$key" col="6"/>
                                         </div>
                                     @endforeach
