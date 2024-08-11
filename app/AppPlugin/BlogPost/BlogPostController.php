@@ -370,6 +370,8 @@ class BlogPostController extends AdminMainController {
                 $saveData->updated_at = now();
                 $saveData->save();
 
+                self::SaveAndUpdateDefPhoto($saveData, $request, $this->UploadDirIs, 'ar.name');
+
                 if ($request->input('form_type') == 'Add' and $this->TableReview) {
                     $blogReview = $this->modelReview;
                     $blogReview->user_id = $user_id;
@@ -409,7 +411,7 @@ class BlogPostController extends AdminMainController {
                 $saveData->categories()->sync($categories);
                 $saveData->tags()->sync($tags);
 
-                self::SaveAndUpdateDefPhoto($saveData, $request, $this->UploadDirIs, 'ar.name');
+
 
                 $addLang = json_decode($request->add_lang);
                 foreach ($addLang as $key => $lang) {
