@@ -44,9 +44,9 @@ final class HeadersParser {
     }
 
     private function deleteUnstructuredHeader(int $key, &$headers): void {
-        if ($key > 0 && ($headers[$key]['level'] - $headers[$key - 1]['level'] > 1)) {
-            unset($headers[$key]);
-        }
+//        if ($key > 0 && ($headers[$key]['level'] - $headers[$key - 1]['level'] > 1)) {
+//            unset($headers[$key]);
+//        }
     }
 
 
