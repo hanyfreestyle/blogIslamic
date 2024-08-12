@@ -141,6 +141,7 @@ class BlogPostController extends AdminMainController {
         } else {
             $rowData = self::BlogFilterQ(self::indexQuery($is_active), $session);
         }
+//        dd($rowData->get());
 
         return view('AppPlugin.BlogPost.index')->with([
             'pageData' => $pageData,
@@ -152,10 +153,14 @@ class BlogPostController extends AdminMainController {
 
     }
 
+
+
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function indexQuery($isActive) {
-        $data = DB::table('blog_post')->where('blog_post.deleted_at',null)
+        $data = DB::table('blog_post')
+//            ->where('blog_post.id', 200)
+            ->where('blog_post.deleted_at', null)
             ->leftJoin("blog_translations", function ($join) {
                 $join->on('blog_post.id', '=', 'blog_translations.blog_id');
                 $join->where('blog_translations.locale', '=', 'ar');
@@ -168,6 +173,7 @@ class BlogPostController extends AdminMainController {
                 "blog_post.photo as photo",
                 "blog_translations.name as name",
                 "blog_translations.slug as slug",
+//                "blog_translations.des_text as des_text",
                 "users.name as user_name",
             );
 
@@ -176,8 +182,7 @@ class BlogPostController extends AdminMainController {
         if (!$teamleader) {
             $data->where('blog_post.user_id', Auth::user()->id);
         }
-//        $session['name'] = "تفسير";
-//        $data->where('blog_translations.name', '%' . $session['name'] . '%');
+
         return $data;
     }
 
@@ -208,34 +213,45 @@ class BlogPostController extends AdminMainController {
     static function BlogFilterQ($query, $session, $order = null) {
         $query->where('blog_post.id', '!=', 0);
 
-//        if (isset($session['name']) and $session['name'] != null) {
-//            $query->where('blog_translations.name', '%' . $session['name'] . '%');
-//        }
-//
-//        if (isset($session['des_text']) and $session['des_text'] != null) {
-//            $query->whereTranslationLike('des_text', '%' . $session['des_text'] . '%');
-//        }
-//
-//
+        if (isset($session['name']) and $session['name'] != null) {
+            $query->where('blog_translations.name', 'like', '%' . $session['name'] . '%');
+        }
+
+        if (isset($session['des_text']) and $session['des_text'] != null) {
+            $query->where('blog_translations.des_text', 'like', '%' . $session['des_text'] . '%');
+//            $query->leftJoin("blog_translations", function ($join) {
+//                $join->on('blog_post.id', '=', 'blog_translations.blog_id');
+//                $join->where('blog_translations.locale', '=', 'ar');
+//            });
+        }
+
+        if (isset($session['cat_id']) and $session['cat_id'] != null) {
+            $id = $session['cat_id'];
+            $query->leftJoin('blogcategory_blog', 'blog_post.id', '=', 'blogcategory_blog.blog_id')
+                ->leftJoin('blog_categories', 'blogcategory_blog.category_id', '=', 'blog_categories.id')
+                ->wherein('blog_categories.id', $id);
+        }
+
+
 //        if (isset($session['cat_id']) and $session['cat_id'] != null) {
 //            $id = $session['cat_id'];
 //            $query->whereHas('categories', function ($query) use ($id) {
 //                $query->where('category_id', $id);
 //            });
 //        }
-//
-//        if (isset($session['user_id']) and $session['user_id'] != null) {
-//            $users_id = $session['user_id'];
-//            $query->wherein('user_id', $users_id);
-//        }
-//
-//        if (isset($session['from_date']) and $session['from_date'] != null) {
-//            $query->whereDate('published_at', '>=', Carbon::createFromFormat('Y-m-d', $session['from_date']));
-//        }
-//
-//        if (isset($session['to_date']) and $session['to_date'] != null) {
-//            $query->whereDate('published_at', '<=', Carbon::createFromFormat('Y-m-d', $session['to_date']));
-//        }
+
+        if (isset($session['user_id']) and $session['user_id'] != null) {
+            $users_id = $session['user_id'];
+            $query->wherein('blog_post.user_id', $users_id);
+        }
+
+        if (isset($session['from_date']) and $session['from_date'] != null) {
+            $query->whereDate('blog_post.published_at', '>=', Carbon::createFromFormat('Y-m-d', $session['from_date']));
+        }
+
+        if (isset($session['to_date']) and $session['to_date'] != null) {
+            $query->whereDate('blog_post.published_at', '<=', Carbon::createFromFormat('Y-m-d', $session['to_date']));
+        }
 
         return $query;
     }
