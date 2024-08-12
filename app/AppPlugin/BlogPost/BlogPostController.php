@@ -155,7 +155,7 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function indexQuery($isActive) {
-        $data = DB::table('blog_post')->where('updated_at',null)
+        $data = DB::table('blog_post')->where('blog_post.deleted_at',null)
             ->leftJoin("blog_translations", function ($join) {
                 $join->on('blog_post.id', '=', 'blog_translations.blog_id');
                 $join->where('blog_translations.locale', '=', 'ar');
