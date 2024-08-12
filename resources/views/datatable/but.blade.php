@@ -23,9 +23,7 @@
 @elseif($btype == 'CatName')
     @if($Config['TableCategory'])
         @foreach($row->categories as $Category )
-            <a href="{{route($PrefixRoute.'.ListCategory',$Category->id)}}">
-                <span class="cat_table_name">{{ print_h1($Category)}}</span>
-            </a>
+            <span class="cat_table_name">{{ print_h1($Category)}}</span>
         @endforeach
     @endif
 @elseif($btype == 'TagsName')

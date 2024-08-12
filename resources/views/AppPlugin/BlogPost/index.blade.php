@@ -60,7 +60,7 @@
                         }
                     },
                     {data: 'userName', name: 'userName.name' ,orderable: false, searchable: false,},
-                    {data: 'tablename.0.name', name: 'tablename.name'},
+                    {data: 'tablename.0.name', name: 'tablename.name',orderable: false },
 
                     {data: 'CatName', name: 'CatName', orderable: false, searchable: false},
                         @can($PrefixRole.'_edit')

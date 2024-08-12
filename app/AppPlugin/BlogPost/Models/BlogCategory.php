@@ -55,7 +55,7 @@ class BlogCategory extends Model implements TranslatableContract {
 
     public function homeBlog() {
         return $this->belongsToMany(Blog::class, 'blogcategory_blog', 'category_id', 'blog_id')
-            ->orderBy('created_at','desc');
+            ->where('is_active',1)->orderBy('created_at','desc');
     }
 
 }
