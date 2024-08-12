@@ -241,20 +241,20 @@ class BlogPostController extends AdminMainController {
             ->editColumn('userName', function ($row) {
                 return $row->userName->name ?? '';
             })
-            ->addColumn('photo', function ($row) use ($viewPhoto) {
-                if ($viewPhoto) {
-                    return TablePhoto($row);
-                }
-            })
+//            ->addColumn('photo', function ($row) use ($viewPhoto) {
+//                if ($viewPhoto) {
+//                    return TablePhoto($row);
+//                }
+//            })
             ->editColumn('published_at', function ($row) {
                 return [
                     'display' => date("Y-m-d", strtotime($row->published_at)),
                     'timestamp' => strtotime($row->published_at)
                 ];
             })
-            ->addColumn('CatName', function ($row) {
-                return view('datatable.but')->with(['btype' => 'CatName', 'row' => $row])->render();
-            })
+//            ->addColumn('CatName', function ($row) {
+//                return view('datatable.but')->with(['btype' => 'CatName', 'row' => $row])->render();
+//            })
             ->addColumn('Edit', function ($row) {
                 return view('datatable.but')->with(['btype' => 'Edit', 'row' => $row])->render();
             })

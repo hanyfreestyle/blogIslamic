@@ -34,7 +34,7 @@ class Blog extends Model implements TranslatableContract {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #|||||||||||||||||||||||||||||||||||||| #     tablename
     public function tablename(): HasMany {
-        return $this->hasMany(BlogTranslation::class)->select('id', 'blog_id', 'name');
+        return $this->hasMany(BlogTranslation::class)->select('id', 'blog_id', 'name','slug');
     }
 
 
