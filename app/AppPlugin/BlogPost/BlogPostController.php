@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminMainController;
 use App\Http\Requests\def\DefPostRequest;
 use App\Http\Traits\CrudPostTraits;
 use App\Http\Traits\CrudTraits;
+use App\Http\Traits\DefModelConfigTraits;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -154,15 +155,29 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function indexQuery($isActive) {
-        $data = Blog::query()->select(['blog_post.id', 'user_id', 'photo_thum_1', 'is_active', 'published_at'])
-            ->where('is_active', $isActive)
-            ->with('tablename')
-            ->with('userName');
+        $data = DB::table('blog_post')
+            ->leftJoin("blog_translations", function ($join) {
+                $join->on('blog_post.id', '=', 'blog_translations.blog_id');
+                $join->where('blog_translations.locale', '=', 'ar');
+            })
+            ->leftJoin("users", function ($join) {
+                $join->on('blog_post.user_id', '=', 'users.id');
+            })
+            ->select("blog_post.id as id",
+                "blog_post.published_at as published_at",
+                "blog_post.photo as photo",
+                "blog_translations.name as name",
+                "blog_translations.slug as slug",
+                "users.name as user_name",
+            );
 
+        $data->where('blog_post.is_active', $isActive);
         $teamleader = Auth::user()->can('Blog_teamleader');
         if (!$teamleader) {
-            $data->where('user_id', Auth::user()->id);
+            $data->where('blog_post.user_id', Auth::user()->id);
         }
+//        $session['name'] = "تفسير";
+//        $data->where('blog_translations.name', '%' . $session['name'] . '%');
         return $data;
     }
 
@@ -191,35 +206,36 @@ class BlogPostController extends AdminMainController {
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     static function BlogFilterQ($query, $session, $order = null) {
-        $query->where('id', '!=', 0);
-        if (isset($session['name']) and $session['name'] != null) {
-            $query->whereTranslationLike('name', '%' . $session['name'] . '%');
-        }
+        $query->where('blog_post.id', '!=', 0);
 
-        if (isset($session['des_text']) and $session['des_text'] != null) {
-            $query->whereTranslationLike('des_text', '%' . $session['des_text'] . '%');
-        }
-
-
-        if (isset($session['cat_id']) and $session['cat_id'] != null) {
-            $id = $session['cat_id'];
-            $query->whereHas('categories', function ($query) use ($id) {
-                $query->where('category_id', $id);
-            });
-        }
-
-        if (isset($session['user_id']) and $session['user_id'] != null) {
-            $users_id = $session['user_id'];
-            $query->wherein('user_id', $users_id);
-        }
-
-        if (isset($session['from_date']) and $session['from_date'] != null) {
-            $query->whereDate('published_at', '>=', Carbon::createFromFormat('Y-m-d', $session['from_date']));
-        }
-
-        if (isset($session['to_date']) and $session['to_date'] != null) {
-            $query->whereDate('published_at', '<=', Carbon::createFromFormat('Y-m-d', $session['to_date']));
-        }
+//        if (isset($session['name']) and $session['name'] != null) {
+//            $query->where('blog_translations.name', '%' . $session['name'] . '%');
+//        }
+//
+//        if (isset($session['des_text']) and $session['des_text'] != null) {
+//            $query->whereTranslationLike('des_text', '%' . $session['des_text'] . '%');
+//        }
+//
+//
+//        if (isset($session['cat_id']) and $session['cat_id'] != null) {
+//            $id = $session['cat_id'];
+//            $query->whereHas('categories', function ($query) use ($id) {
+//                $query->where('category_id', $id);
+//            });
+//        }
+//
+//        if (isset($session['user_id']) and $session['user_id'] != null) {
+//            $users_id = $session['user_id'];
+//            $query->wherein('user_id', $users_id);
+//        }
+//
+//        if (isset($session['from_date']) and $session['from_date'] != null) {
+//            $query->whereDate('published_at', '>=', Carbon::createFromFormat('Y-m-d', $session['from_date']));
+//        }
+//
+//        if (isset($session['to_date']) and $session['to_date'] != null) {
+//            $query->whereDate('published_at', '<=', Carbon::createFromFormat('Y-m-d', $session['to_date']));
+//        }
 
         return $query;
     }
@@ -230,20 +246,21 @@ class BlogPostController extends AdminMainController {
 
         $viewPhoto = AdminHelper::arrIsset($arr, 'Photo', true);
 
-        return DataTables::eloquent($data)
+        return DataTables::query($data)
             ->addIndexColumn()
-            ->editColumn('tablename.0.name', function ($row) {
-                return $row->tablename[0]->name ?? '';
-            })
-            ->editColumn('tablename.1.name', function ($row) {
-                return $row->tablename[1]->name ?? '';
-            })
-            ->editColumn('userName', function ($row) {
-                return $row->userName->name ?? '';
-            })
+
+//            ->editColumn('tablename.0.name', function ($row) {
+//                return $row->tablename[0]->name ?? '';
+//            })
+//            ->editColumn('tablename.1.name', function ($row) {
+//                return $row->tablename[1]->name ?? '';
+//            })
+//            ->editColumn('userName', function ($row) {
+//                return $row->userName->name ?? '';
+//            })
 //            ->addColumn('photo', function ($row) use ($viewPhoto) {
 //                if ($viewPhoto) {
-//                    return TablePhoto($row);
+//                    return TablePhoto($row, 'photo');
 //                }
 //            })
             ->editColumn('published_at', function ($row) {
@@ -410,7 +427,6 @@ class BlogPostController extends AdminMainController {
 
                 $saveData->categories()->sync($categories);
                 $saveData->tags()->sync($tags);
-
 
 
                 $addLang = json_decode($request->add_lang);

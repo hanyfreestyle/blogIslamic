@@ -52,6 +52,7 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     // {data: 'photo', name: 'photo', orderable: false, searchable: false, className: "text-center"},
+
                     {
                         'name': 'published_at',
                         'data': {
@@ -59,10 +60,12 @@
                             'sort': 'published_at.timestamp'
                         }
                     },
-                    {data: 'userName', name: 'userName.name' ,orderable: false, searchable: false,},
-                    {data: 'tablename.0.name', name: 'tablename.name',orderable: false },
-                    {data: 'tablename.0.slug', name: 'tablename.slug',orderable: false },
-                    // {data: 'CatName', name: 'CatName', orderable: false, searchable: false},
+                    {data: 'user_name', name: 'users.name' ,orderable: false, searchable: false,},
+
+                    {data: 'name', name: 'blog_translations.name'  },
+                    {data: 'slug', name: 'blog_translations.slug'  },
+
+                    {{--{data: 'CatName', name: 'CatName', orderable: false, searchable: false},--}}
                         @can($PrefixRole.'_edit')
                     {
                         data: 'Edit', name: 'Edit', orderable: false, searchable: false, className: "text-center"
