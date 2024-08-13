@@ -6,9 +6,10 @@ namespace App\AppPlugin\Pages\Traits;
 use App\Http\Traits\DefModelConfigTraits;
 
 trait PageConfigTraits {
+    use DefModelConfigTraits ;
 
     public function LoadConfig() {
-        $defConfig = DefModelConfigTraits::defConfig();
+        $defConfig = self::defConfig();
         $Config = [
             'DbCategory' => 'page_categories',
             'DbCategoryTrans' => 'page_category_translations',
@@ -52,7 +53,7 @@ trait PageConfigTraits {
             'postEditor' => true,
             'postDes' => true,
             'postSeo' => false,
-            'postSlug' => false,
+            'postSlug' => true,
             'postYoutube' => false,
             'postWebSlug' => null,
 
