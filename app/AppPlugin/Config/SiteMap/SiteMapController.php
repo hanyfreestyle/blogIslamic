@@ -10,6 +10,7 @@ use App\AppPlugin\Product\Models\Product;
 use App\Http\Controllers\AdminMainController;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\View;
 
@@ -55,6 +56,12 @@ class SiteMapController extends AdminMainController {
 
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    public function ClearCash() {
+        Cache::forget('CashGoogleCode');
+    }
+
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+#||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     public function index() {
         $pageData = $this->pageData;
         $pageData['ViewType'] = "List";
@@ -86,6 +93,7 @@ class SiteMapController extends AdminMainController {
         $googleCode = GoogleCode::query()->first();
         $googleCode->robots = $request->input('robots');
         $googleCode->save();
+        self::ClearCash();
         return back()->with('Update.Done', '');
     }
 
@@ -114,7 +122,7 @@ class SiteMapController extends AdminMainController {
         $googleCode->web_master_meta = $request->input('web_master_meta');
         $googleCode->google_api = $request->input('google_api');
         $googleCode->save();
-
+        self::ClearCash();
         return back()->with('Update.Done', '');
     }
 
@@ -147,7 +155,7 @@ class SiteMapController extends AdminMainController {
 
         SiteMapTools::updateIndexSiteMapXmlFile($this->config['singlePage']);
 
-
+        self::ClearCash();
         return redirect()->back();
     }
 
