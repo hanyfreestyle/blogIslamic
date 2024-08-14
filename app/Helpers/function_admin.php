@@ -452,6 +452,16 @@ if (!function_exists('dateDiff')) {
 
 }
 
+if (!function_exists('printMetaDate')) {
+    function printMetaDate($date) {
+        $sendDate = Carbon::parse($date)->format('Y-m-d\TH:i:s\Z');
+        return $sendDate ;
+//        dd($diff);
+    }
+}
+
+
+
 
 
 
