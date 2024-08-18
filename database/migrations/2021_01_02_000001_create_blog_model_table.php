@@ -44,6 +44,18 @@ return new class extends Migration {
         }
 
 
+        Schema::create('blog_post_slug', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('old_id')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('old_slug')->nullable();
+            $table->string('old_slug_utf')->nullable();
+            $table->integer('get_slug')->nullable();
+            $table->integer('err_slug')->nullable();
+        });
+
+
+
         Schema::create('blog_post', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('old_id')->nullable();
@@ -183,6 +195,7 @@ return new class extends Migration {
         Schema::dropIfExists('blogcategory_blog');
         Schema::dropIfExists('blog_post_review');
         Schema::dropIfExists('blog_translations');
+        Schema::dropIfExists('blog_post_slug');
         Schema::dropIfExists('blog_post');
         Schema::dropIfExists('blog_category_translations');
         Schema::dropIfExists('blog_categories');

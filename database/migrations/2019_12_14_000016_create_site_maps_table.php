@@ -30,7 +30,7 @@ return new class extends Migration {
     }
 
     public function down(): void {
-        Schema::dropIfExists('config_google_tags');
+        Schema::dropIfExists('config_site_robots');
         Schema::dropIfExists('config_site_maps');
     }
 

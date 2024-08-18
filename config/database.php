@@ -94,7 +94,7 @@ return [
         'wordpress' => [ // for WordPress database (used by Corcel)
             'driver'    => 'mysql',
             'host'      => 'localhost',
-            'database'  => 'islamic_sours',
+            'database'  => 'blog_islamic_sours',
             'username'  => 'root',
             'password'  => '',
             'charset'   => 'utf8',

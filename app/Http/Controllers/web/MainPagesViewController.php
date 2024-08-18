@@ -238,6 +238,7 @@ class MainPagesViewController extends WebMainController {
             'blogBody' => $blogBody,
             'contents' => $contents,
             'review' => $review,
+            'blogDate' => $blog,
         ]);
     }
 

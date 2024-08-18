@@ -12,8 +12,8 @@
     @endif
 
     @if(Route::currentRouteName() == "blog_view")
-        <meta property="article:published_time" content="{{printMetaDate($blog->published_at)}}">
-        <meta property="article:modified_time" content="{{printMetaDate($blog->updated_at)}}">
+        <meta property="article:published_time" content="{{printMetaDate($blogDate->published_at)}}">
+        <meta property="article:modified_time" content="{{printMetaDate($blogDate->updated_at)}}">
     @endif
 
     {!! SEO::generate() !!}
