@@ -172,10 +172,7 @@ class MainPagesViewController extends WebMainController {
     public function BlogView($slug, Contents $contents) {
         $pageView = $this->pageView;
         $pageView['SelMenu'] = 'HomePage';
-
         try {
-//            $slug = str_replace('.html', '', $slug);
-
             $slug = AdminHelper::Url_Slug($slug);
 
             if (Auth::user()) {
