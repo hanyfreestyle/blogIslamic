@@ -11,10 +11,10 @@
         <meta name="robots" content="index, follow">
     @endif
 
-    @if(Route::currentRouteName() == "blog_view")
-        <meta property="article:published_time" content="{{printMetaDate($blogDate->published_at)}}">
-        <meta property="article:modified_time" content="{{printMetaDate($blogDate->updated_at)}}">
-    @endif
+{{--    @if(Route::currentRouteName() == "blog_view")--}}
+{{--        <meta property="article:published_time" content="{{printMetaDate($blogDate->published_at)}}">--}}
+{{--        <meta property="article:modified_time" content="{{printMetaDate($blogDate->updated_at)}}">--}}
+{{--    @endif--}}
 
     {!! SEO::generate() !!}
     <x-site.def.fav-icon/>
